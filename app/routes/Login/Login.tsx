@@ -41,11 +41,13 @@ const Login = () => {
   }
 
   return (
-    <form method="post" onSubmit={fetchLogin}>
-      <input type="text" name="user_mail" id="mail" placeholder="Entrez votre adresse email" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" name="user_password" id="password" placeholder="Entrez votre mot de passe" onChange={(e) => setPassword(e.target.value)} />
-      <input type="submit" value="Se connecter" />
-    </form>
+    <div className="form__container">
+      <form method="post" onSubmit={fetchLogin}>
+        <input type="text" name="user_mail" id="mail" placeholder="Entrez votre adresse email" onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" name="user_password" id="password" placeholder="Entrez votre mot de passe" onChange={(e) => setPassword(e.target.value)} />
+        <input type="submit" value="Se connecter" />
+      </form>
+    </div>
   );
 };
 
