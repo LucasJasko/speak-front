@@ -27,3 +27,7 @@ Document: https://vite.dev/guide/
 # Tailwind
 
 Documentation: https://tailwindcss.com/docs/installation/using-vite
+
+# Ratchet
+
+Documentation: http://socketo.me/
