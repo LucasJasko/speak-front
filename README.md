@@ -19,3 +19,11 @@ si patch, git tag avant
 # React-router
 
 Documentation: https://reactrouter.com/home
+
+# Vite
+
+Document: https://vite.dev/guide/
+
+# Tailwind
+
+Documentation: https://tailwindcss.com/docs/installation/using-vite
