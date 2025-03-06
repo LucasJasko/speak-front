@@ -1,4 +1,10 @@
+import type { Route } from "../+types/group";
+
 import React, { useEffect, useState } from "react";
+
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "ALERT MNS - login" }, { name: "description", content: "Votre portail d'accès à Alert MNS" }];
+}
 
 const Login = () => {
   const [data, setData] = useState(null);

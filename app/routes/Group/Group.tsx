@@ -1,3 +1,9 @@
+import type { Route } from "../+types/group";
+
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "ALERT MNS - Groupes" }, { name: "description", content: "Ce sont vos groupes" }];
+}
+
 const Group = () => {
   return (
     <div className="group">

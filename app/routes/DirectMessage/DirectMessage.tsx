@@ -1,3 +1,9 @@
+import type { Route } from "../+types/group";
+
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
+}
+
 const DirectMessage = () => {
   return (
     <div className="dm">
