@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2] - 2025-03-06
+
+### 🐛 Bug Fixes
+
+- Correction des erreurs de routing (problèmes de chemin d'accès)
+
 ## [0.1.1] - 2025-03-06
 
 ### 🚜 Refactor
