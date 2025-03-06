@@ -1,4 +1,4 @@
-import type { Route } from "../+types/group";
+import type { Route } from "../Login/+types/login";
 
 import React, { useEffect, useState } from "react";
 
