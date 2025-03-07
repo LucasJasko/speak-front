@@ -42,7 +42,7 @@ const Login = () => {
 
   return (
     <div className="form__container">
-      <form className="login__form" method="post" onSubmit={fetchLogin}>
+      <form className="login__form" onSubmit={fetchLogin}>
         <div className="login__header__container">
           <h1 className="login__h1">Alert MNS</h1>
           <p className="login__p">Connexion à votre plateforme de discussion</p>
