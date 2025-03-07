@@ -4,6 +4,7 @@
 @import "./routes/Home/home.css";
 @import "./routes/Group/group.css";
 @import "./routes/DirectMessage/directMessage.css";
+@import "./routes/Loader/loader.css";
 
 @import "./components/AddGroup/AddGroup.css";
 @import "./components/Agenda/Agenda.css";

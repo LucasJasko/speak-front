@@ -1,12 +1,14 @@
 import type { Route } from "./+types/login";
 
 import React, { useEffect, useState } from "react";
+import { redirect, useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - login" }, { name: "description", content: "Votre portail d'accès à Alert MNS" }];
 }
 
 const Login = () => {
+  let navigate = useNavigate();
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,29 +16,33 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e?: any) => {
+  const handleSubmit = async (e?: any) => {
     e.preventDefault();
     setResponse(null);
     setLoading(true);
     setError(null);
 
-    setTimeout(() => {
-      try {
-        fetch("http://alert-mns-back/login.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_mail: email, user_password: password }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("Réponse du serveur:" + data), setResponse(data);
-          });
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
+    try {
+      await fetch("http://alert-mns-back/login.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_mail: email, user_password: password }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Réponse du serveur:" + data), setResponse(data);
+        });
+
+      navigate("/Home/home");
+
+      setLoading(false);
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setTimeout(() => {
         setLoading(false);
-      }
-    }, 1000);
+      }, 1000);
+    }
   };
 
   return (
