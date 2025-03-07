@@ -16,6 +16,7 @@ const Login = () => {
 
   const handleSubmit = (e?: any) => {
     e.preventDefault();
+    setResponse(null);
     setLoading(true);
     setError(null);
 
