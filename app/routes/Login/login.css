@@ -1,5 +1,0 @@
-@import "tailwindcss";
-
-.form__container {
-  @apply bg-red-500;
-}
