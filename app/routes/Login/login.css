@@ -1,0 +1,31 @@
+.form__container {
+  @apply h-screen flex justify-center items-center;
+}
+
+.login__form {
+  @apply border-1 h-1/2 min-h-130 rounded border-(--grey) p-10 flex flex-col justify-between shadow-2xl;
+}
+
+.login__header__container {
+  @apply text-center;
+}
+
+.login__h1 {
+  @apply font-bold text-4xl;
+}
+
+.login__p {
+  @apply mt-3;
+}
+
+.login__input__container {
+  @apply flex flex-col;
+}
+
+.login__input {
+  @apply border rounded border-(--grey) p-3 m-5 w-100;
+}
+
+.login__submit {
+  @apply bg-(--color3) cursor-pointer font-bold;
+}
