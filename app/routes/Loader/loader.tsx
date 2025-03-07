@@ -6,12 +6,20 @@ const loader = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      // navigate("/login");
+      navigate("/login");
     }, 2000);
   }, []);
   return (
     <div className="loader__container">
-      <span className="loader"></span>
+      <div className="honeycomb">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   );
 };
