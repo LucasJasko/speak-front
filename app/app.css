@@ -25,3 +25,7 @@
   --color5: rgb(219, 197, 157);
   --grey: rgb(161, 161, 161);
 }
+
+body {
+  @apply h-screen bg-(--color1);
+}

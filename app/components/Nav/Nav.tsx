@@ -1,7 +1,7 @@
 const Nav = () => {
   return (
-    <nav className="sidebar">
-      <section className="sidebar__top">
+    <nav className="nav">
+      <section className="nav__top">
         <button className="nav__link nav__link__direct">
           <i className="fa-regular fa-comments"></i>
         </button>
@@ -12,7 +12,7 @@ const Nav = () => {
           <i className="fa-solid fa-plus"></i>
         </button>
       </section>
-      <section className="sidebar__bottom">
+      <section className="nav__bottom">
         <button className="nav__link nav__link__agenda">
           <i className="fa-regular fa-calendar"></i>
         </button>

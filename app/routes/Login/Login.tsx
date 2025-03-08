@@ -9,9 +9,9 @@ export function meta({}: Route.MetaArgs) {
 
 const Login = () => {
   let navigate = useNavigate();
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [response, setResponse]: any = useState(null);
+  const [loading, setLoading]: any = useState(false);
+  const [error, setError]: any = useState(null);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,10 +31,8 @@ const Login = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log("Réponse du serveur:" + data), setResponse(data);
+          data["success"] ? navigate("/home") : "";
         });
-
-      navigate("/Home/home");
-
       setLoading(false);
     } catch (error: any) {
       setError(error.message);

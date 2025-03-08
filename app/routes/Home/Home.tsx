@@ -9,9 +9,11 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <div>
-      <Header />
+    <div className="home">
       <Nav />
+      <main className="main">
+        <Header />
+      </main>
     </div>
   );
 }

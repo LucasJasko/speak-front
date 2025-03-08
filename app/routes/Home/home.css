@@ -1,0 +1,7 @@
+.home {
+  @apply h-full w-screen flex;
+}
+
+.main {
+  @apply bg-(--color2) w-full;
+}
