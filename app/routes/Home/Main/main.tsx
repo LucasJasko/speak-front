@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import Header from "~/components/Header/Header";
 
-const main = () => {
+const Main = () => {
   return (
     <main className="main">
       <Header />
@@ -10,4 +10,4 @@ const main = () => {
   );
 };
 
-export default main;
+export default Main;

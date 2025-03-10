@@ -1,4 +1,4 @@
-import type { Route } from "./+types/login";
+import type { Route } from "./+types/Login";
 
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";

@@ -21,9 +21,11 @@ const Nav = () => {
         </NavButton>
       </section>
       <section className="nav__bottom">
-        <NavButton buttonClass="nav__link__agenda">
-          <i className="fa-regular fa-calendar"></i>
-        </NavButton>
+        <NavLink to="agenda">
+          <NavButton buttonClass="nav__link__agenda">
+            <i className="fa-regular fa-calendar"></i>
+          </NavButton>
+        </NavLink>
         <NavButton buttonClass="nav__link__profile">
           <i className="fa-solid fa-user"></i>
         </NavButton>
