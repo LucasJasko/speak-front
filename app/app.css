@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
+@import "./routes/Loader/loader.css";
 @import "./routes/Login/login.css";
 @import "./routes/Home/home.css";
-@import "./routes/Group/group.css";
-@import "./routes/DirectMessage/directMessage.css";
-@import "./routes/Loader/loader.css";
+
+@import "./routes/Home/Agenda/Agenda.css";
+@import "./routes/Home/Settings/Settings.css";
+@import "./routes/Home/Profile/Profile.css";
+@import "./routes/Home/Main/Main.css";
+
+@import "./routes/Home/Main/Group/group.css";
+@import "./routes/Home/Main/DirectMessage/directMessage.css";
 
 @import "./components/AddGroup/AddGroup.css";
-@import "./components/Agenda/Agenda.css";
 @import "./components/Header/Header.css";
 @import "./components/MessageInput/MessageInput.css";
 @import "./components/Nav/Nav.css";
 @import "./components/NavButton/NavButton.css";
-@import "./components/Profile/Profile.css";
-@import "./components/Settings/Settings.css";
 @import "./components/SideList/SideList.css";
 @import "./components/UserItem/UserItem.css";
 

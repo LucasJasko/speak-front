@@ -1,3 +1,8 @@
 .nav {
-  @apply bg-(--color1) w-25;
+  @apply bg-(--color1) w-25 flex flex-col justify-between;
+}
+
+.nav__top,
+.nav__bottom {
+  @apply flex flex-col items-center;
 }

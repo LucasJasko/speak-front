@@ -1,4 +1,4 @@
-import type { Route } from "./+types/directMessage";
+import type { Route } from "../+types/main";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -14,7 +14,7 @@ const DirectMessage = () => {
         <div className="contact__area__list">
           <div className="user__line">
             <div className="user__img__container">
-              <img src="./src/assets/img/user1.png" alt="utilisateur 1" />
+              <img src="/assets/img/user1.png" alt="utilisateur 1" />
               <span className="connection__dot"></span>
             </div>
             <p className="user__name">Utilisateur 1</p>

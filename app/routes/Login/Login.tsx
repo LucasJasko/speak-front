@@ -31,7 +31,7 @@ const Login = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log("Réponse du serveur:" + data), setResponse(data);
-          data["success"] ? navigate("/home") : "";
+          data["success"] ? navigate("/group") : "";
         });
       setLoading(false);
     } catch (error: any) {
