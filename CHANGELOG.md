@@ -2,11 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.2] - 2025-03-06
+## [0.2.1] - 2025-03-10
+
+### 🚀 Features
+
+- Intégration de la connexion au serveur distant via json sur la page login
+- Ajout d'un loader en tant qu'index du projet
 
 ### 🐛 Bug Fixes
 
 - Correction des erreurs de routing (problèmes de chemin d'accès)
+
+### 🎨 Styling
+
+- Création des fichiers de style pour chaque composants et pages + association au fichier root app.css
+- Mise en page de l'interface login
+- Choix d'un loader en ligne
+- Premier approche sur le style de la homepage + ajout d'une redirection conditionnelle sur la page login
+- Travail sur le composant agenda, work in progress
 
 ## [0.1.1] - 2025-03-06
 
