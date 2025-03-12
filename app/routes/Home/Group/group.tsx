@@ -16,9 +16,8 @@ const Group = () => {
           </div>
           <i className="fa-solid fa-angle-down"></i>
         </div>
-        <div className="group-area__list"></div>
+        <div className="groups-area__list"></div>
       </div>
-
       <MessageArea />
     </div>
   );

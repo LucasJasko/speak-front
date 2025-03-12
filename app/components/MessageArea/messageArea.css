@@ -1,5 +1,17 @@
 .message {
-  @apply bg-(--color5) rounded-tl-3xl;
+  @apply bg-(--color5) rounded-tl-xl relative;
   width: calc(100% - 240px);
   box-shadow: inset 5px 0 20px 5px #00000022;
+}
+
+.message__drag-bar {
+  @apply absolute h-full w-1 hover:w-3 hover:bg-amber-800 -translate-x-1/2;
+}
+
+.message__feed {
+  height: calc(100% - 100px);
+}
+
+.message__input-area {
+  @apply h-25 me-center p-2.5;
 }

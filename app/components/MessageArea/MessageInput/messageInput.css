@@ -1,0 +1,15 @@
+.message-container__input-container {
+  @apply w-full h-full bg-(--grey) rounded-lg px-4 py-2 shadow-lg;
+}
+
+.message-container__input {
+  @apply w-full h-1/2 mb-1;
+}
+
+.message-container__link-container {
+  @apply h-1/2 flex items-center;
+}
+
+.message-container__link-container > i {
+  @apply mr-5 cursor-pointer text-xl;
+}

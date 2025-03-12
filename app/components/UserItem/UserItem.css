@@ -10,3 +10,7 @@
 .user__img {
   @apply w-full rounded-full;
 }
+
+.connection__dot {
+  @apply size-4 absolute bottom-0 right-0 bg-green-500 rounded-full;
+}
