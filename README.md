@@ -10,6 +10,7 @@ Ce projet est réalisé dans le cadre de la formation MNS développeur web et we
 - [ ] Modularisation des utilisateurs de la direct message selon base de données (relié à utilisateur)
 - [ ] Intégration de l'API ratchet, premiers essaies de messagerie
 - [ ] Modularisation des sous menus sections profile et settings selons préférences utilisateurs (base de donnée)
+- [ ] Responsive mobile de l'app
 
 Liste des documentation utiles au projet:
 
