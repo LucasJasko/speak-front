@@ -2,6 +2,15 @@
 
 Ce projet est réalisé dans le cadre de la formation MNS développeur web et web mobile.
 
+**TO DO:**
+
+- [ ] Composant add group et son style
+- [ ] Sous menus des sections profile et settings
+- [ ] Intégration de l'agenda (année, mois, jours, heures) chercher pour une API
+- [ ] Modularisation des utilisateurs de la direct message selon base de données (relié à utilisateur)
+- [ ] Intégration de l'API ratchet, premiers essaies de messagerie
+- [ ] Modularisation des sous menus sections profile et settings selons préférences utilisateurs (base de donnée)
+
 Liste des documentation utiles au projet:
 
 # Git-cliff
