@@ -1,0 +1,8 @@
+.profile {
+  @apply absolute h-full w-full flex justify-center items-center;
+  background-color: rgb(0, 0, 0, 0.3);
+}
+
+.profile__window {
+  @apply relative bg-(--color1) max-w-350 w-full max-h-200 h-full;
+}

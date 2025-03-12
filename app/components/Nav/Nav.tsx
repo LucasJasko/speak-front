@@ -1,37 +1,39 @@
-import { useState } from "react";
-import NavButton from "../NavButton/NavButton";
+import React, { useState } from "react";
 import { NavLink } from "react-router";
 
-const Nav = () => {
+const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => {
+  const handleClick = (selected: string) => {
+    onClick(selected);
+  };
+
   return (
     <nav className="nav">
       <section className="nav__top">
-        <NavLink to="direct-message">
-          <NavButton buttonClass="nav__link__direct-message">
+        <NavLink to="/direct-message">
+          <button className="nav__link nav__link__direct-message">
             <i className="fa-regular fa-comments"></i>
-          </NavButton>
+          </button>
         </NavLink>
-        <NavLink to="group">
-          <NavButton buttonClass="nav__link__group">
+        <NavLink to="/group">
+          <button className="nav__link nav__link__group">
             <i className="fa-solid fa-user-group"></i>
-          </NavButton>
+          </button>
         </NavLink>
-        <NavButton buttonClass="nav__link__add">
+        <button className="nav__link nav__link__add" onClick={() => handleClick("addGroup")}>
           <i className="fa-solid fa-plus"></i>
-        </NavButton>
+        </button>
       </section>
+
       <section className="nav__bottom">
-        <NavLink to="agenda">
-          <NavButton buttonClass="nav__link__agenda">
-            <i className="fa-regular fa-calendar"></i>
-          </NavButton>
-        </NavLink>
-        <NavButton buttonClass="nav__link__profile">
+        <button className="nav__link nav__link__agenda" onClick={() => handleClick("agenda")}>
+          <i className="fa-regular fa-calendar"></i>
+        </button>
+        <button className="nav__link nav__link__agenda nav__link__profile" onClick={() => handleClick("profile")}>
           <i className="fa-solid fa-user"></i>
-        </NavButton>
-        <NavButton buttonClass="nav__link__settings">
+        </button>
+        <button className="nav__link nav__link__agenda nav__link__settings" onClick={() => handleClick("settings")}>
           <i className="fa-solid fa-gear"></i>
-        </NavButton>
+        </button>
       </section>
     </nav>
   );

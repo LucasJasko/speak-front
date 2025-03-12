@@ -1,17 +1,9 @@
-import { type RouteConfig, index, layout, route } from "@react-router/dev/routes";
+import { type RouteConfig, index, route, layout } from "@react-router/dev/routes";
 
 export default [
-  index("routes/Loader/Loader.tsx"),
+  index("routes/Loader/loader.tsx"),
 
-  route("login", "routes/Login/Login.tsx"),
+  route("login", "routes/Login/login.tsx"),
 
-  layout("./routes/Home/Home.tsx", [
-    layout("./routes/Home/Main/Main.tsx", [
-      route("group", "routes/Home/Main/Group/Group.tsx"),
-      route("direct-message", "routes/Home/Main/DirectMessage/DirectMessage.tsx"),
-    ]),
-    route("agenda", "routes/Home/Agenda/Agenda.tsx"),
-    route("settings", "routes/Home/Settings/Settings.tsx"),
-    route("profile", "routes/Home/Profile/Profile.tsx"),
-  ]),
+  layout("routes/Home/home.tsx", [route("group", "routes/Home/Group/group.tsx"), route("direct-message", "routes/Home/DirectMessage/directMessage.tsx")]),
 ] satisfies RouteConfig;

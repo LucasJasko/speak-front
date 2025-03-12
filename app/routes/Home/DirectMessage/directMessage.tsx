@@ -1,4 +1,6 @@
-import type { Route } from "../+types/Main";
+import type { Route } from "../+types/home";
+
+import MessageInput from "~/components/MessageInput/MessageInput";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -39,14 +41,7 @@ const DirectMessage = () => {
         <span className="dm__drag__bar"></span>
         <div className="message__feed"></div>
         <div className="message__input__area">
-          <div className="message__input">
-            <input type="text" name="message" placeholder="Entrez votre message..." />
-            <div className="message__link__container">
-              <i className="fa-solid fa-file-arrow-up"></i>
-              <i className="fa-solid fa-code"></i>
-              <i className="fa-solid fa-calendar-plus"></i>
-            </div>
-          </div>
+          <MessageInput />
         </div>
       </div>
     </div>

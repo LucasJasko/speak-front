@@ -1,8 +1,11 @@
-const Profile = () => {
+const Profile: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => {
+  const handleClick = (selected: string) => {
+    onClick(selected);
+  };
   return (
     <div className="profile">
       <div className="profile__window">
-        <button className="manage__button manage__button__close">
+        <button className="manage__button manage__button__close" onClick={() => handleClick("")}>
           <i className="fa-solid fa-xmark"></i>
         </button>
         <div className="profile__list">

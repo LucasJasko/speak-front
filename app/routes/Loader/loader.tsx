@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-const loader = () => {
+const Loader = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,4 +24,4 @@ const loader = () => {
   );
 };
 
-export default loader;
+export default Loader;

@@ -1,8 +1,11 @@
-const Settings = () => {
+const Settings: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => {
+  const handleClick = (selected: string) => {
+    onClick(selected);
+  };
   return (
     <div className="settings">
       <div className="settings__window">
-        <button className="manage__button manage__button__close">
+        <button className="manage__button manage__button__close" onClick={() => handleClick("")}>
           <i className="fa-solid fa-xmark"></i>
         </button>
         <div className="settings__list">

@@ -1,4 +1,4 @@
-import type { Route } from "../+types/Main";
+import type { Route } from "../+types/home";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Groupes" }, { name: "description", content: "Ce sont vos groupes" }];

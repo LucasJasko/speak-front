@@ -1,4 +1,7 @@
-const Agenda = () => {
+const Agenda: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => {
+  const handleClick = (selected: string) => {
+    onClick(selected);
+  };
   return (
     <div className="agenda">
       <div className="agenda__window">
@@ -26,7 +29,7 @@ const Agenda = () => {
               <i className="fa-solid fa-angles-right"></i>
             </button>
           </div>
-          <button className="manage__button manage__button__close">
+          <button className="manage__button manage__button__close" onClick={() => handleClick("")}>
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>

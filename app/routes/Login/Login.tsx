@@ -1,4 +1,4 @@
-import type { Route } from "./+types/Login";
+import type { Route } from "./+types/login";
 
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
@@ -31,7 +31,7 @@ const Login = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log("Réponse du serveur:" + data), setResponse(data);
-          data["success"] ? navigate("/group") : "";
+          data["success"] ? navigate("/direct-message") : "";
         });
       setLoading(false);
     } catch (error: any) {

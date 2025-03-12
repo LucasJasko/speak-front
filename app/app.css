@@ -4,21 +4,18 @@
 @import "./routes/Login/login.css";
 @import "./routes/Home/home.css";
 
-@import "./routes/Home/Agenda/Agenda.css";
-@import "./routes/Home/Settings/Settings.css";
-@import "./routes/Home/Profile/Profile.css";
-@import "./routes/Home/Main/Main.css";
+@import "./routes/Home/Group/group.css";
+@import "./routes/Home/DirectMessage/directMessage.css";
 
-@import "./routes/Home/Main/Group/group.css";
-@import "./routes/Home/Main/DirectMessage/directMessage.css";
-
-@import "./components/AddGroup/AddGroup.css";
-@import "./components/Header/Header.css";
-@import "./components/MessageInput/MessageInput.css";
-@import "./components/Nav/Nav.css";
-@import "./components/NavButton/NavButton.css";
-@import "./components/SideList/SideList.css";
-@import "./components/UserItem/UserItem.css";
+@import "./components/Agenda/agenda.css";
+@import "./components/Settings/settings.css";
+@import "./components/Profile/profile.css";
+@import "./components/AddGroup/addGroup.css";
+@import "./components/Header/header.css";
+@import "./components/MessageInput/messageInput.css";
+@import "./components/Nav/nav.css";
+@import "./components/SideList/sideList.css";
+@import "./components/UserItem/userItem.css";
 
 @theme {
   --color1: rgb(249, 239, 219);
