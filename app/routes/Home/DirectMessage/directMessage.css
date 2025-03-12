@@ -13,7 +13,7 @@
 }
 
 .contact-area__search input[type="search"] {
-  @apply p-2 m-3 rounded-lg bg-(--grey) shadow-lg;
+  @apply p-2 m-3 rounded-lg bg-(--grey) shadow-lg h-10;
   width: calc(100% - 20px);
 }
 

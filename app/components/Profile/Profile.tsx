@@ -5,15 +5,15 @@ const Profile: React.FC<{ onClick: (selected: string) => void }> = ({ onClick })
   return (
     <div className="profile">
       <div className="profile__window">
-        <button className="manage__button manage__button__close" onClick={() => handleClick("")}>
+        <button className="profile__manage-button manage__button-close" onClick={() => handleClick("")}>
           <i className="fa-solid fa-xmark"></i>
         </button>
-        <div className="profile__list">
-          <ul>
-            <li>Personnalisation</li>
-            <li>Informations personnelles</li>
-            <li>Sécurité</li>
-            <li>Message d'absence</li>
+        <div className="profile__list-container">
+          <ul className="profile__list">
+            <li className="profile__item">Personnalisation</li>
+            <li className="profile__item">Informations personnelles</li>
+            <li className="profile__item">Sécurité</li>
+            <li className="profile__item">Message d'absence</li>
           </ul>
         </div>
         <div className="profile__content"></div>

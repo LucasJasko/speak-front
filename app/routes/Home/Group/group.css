@@ -1,1 +1,41 @@
-@import "tailwindcss";
+.group {
+  @apply flex;
+  height: calc(100% - 48px);
+}
+
+.group-area {
+  @apply relative w-60;
+}
+
+.group-area__title-container {
+  @apply border-b border-b-(--grey) p-2.5 flex items-center justify-between;
+  height: 80px;
+}
+
+.group-area__title-container > i {
+  @apply p-2.5 cursor-pointer hover:bg-(--grey) rounded-lg;
+}
+
+.group__title-area {
+  @apply flex;
+}
+
+.group__title-area > i {
+  @apply flex items-center;
+}
+
+.group__title-area > * {
+  @apply px-2.5;
+}
+
+.group__title-area__text {
+  @apply text-lg p-0;
+}
+
+.group__title-area {
+}
+
+.group-area__list {
+  @apply pt-3;
+  height: calc(100% - 80px);
+}

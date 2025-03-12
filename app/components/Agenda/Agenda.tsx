@@ -9,7 +9,7 @@ const Agenda: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) 
           <button className="add__container">
             <i className="fa-solid fa-plus"></i>
           </button>
-          <div className="nav__container">
+          <div className="agenda__header__container">
             <button>
               <i className="fa-solid fa-angles-left"></i>
             </button>

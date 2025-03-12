@@ -4,21 +4,37 @@
 }
 
 .agenda__window {
-  @apply relative bg-(--color1) max-w-350 w-full max-h-200 h-full;
+  @apply relative bg-(--color1) max-w-350 w-full max-h-200 h-full rounded-lg shadow-xl border border-(--grey);
 }
 
 .agenda__header {
-  @apply bg-(--color2) flex justify-center items-center h-25;
+  @apply bg-(--color2) flex justify-center items-center h-25 rounded-t-lg;
 }
 
 .add__container {
-  @apply absolute top-4 left-4;
+  @apply absolute top-5 left-5 text-xl rounded-xl hover:bg-(--color1) p-2 size-10 cursor-pointer flex items-center justify-center;
 }
 
-.nav__container {
+.agenda__header__container {
   @apply flex;
 }
 
+.agenda__header__container > button {
+  @apply px-2.5 size-12.5 rounded-lg hover:bg-(--color1) cursor-pointer text-xl mx-2;
+}
+
+.times__container {
+  @apply border border-(--grey) rounded-xl flex justify-around items-center text-center overflow-hidden;
+}
+
+.times__container > button {
+  @apply px-2.5 h-12.5 min-w-12.5 hover:bg-(--color1) cursor-pointer text-xl border-r border-(--grey);
+}
+
+.times__container > :last-child {
+  @apply border-none;
+}
+
 .agenda__manage-button {
-  @apply absolute top-4 right-4;
+  @apply absolute top-5 right-5 text-xl rounded-xl hover:bg-(--color1) p-2 size-10 cursor-pointer flex items-center justify-center;
 }

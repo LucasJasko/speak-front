@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2025-03-12
+
+### 🚜 Refactor
+
+- Réagencement des routes et modification de l'arborescence pour simplifier l'accès aux channels + gestion de l'affichage des menus contextuels.
+
+### 🎨 Styling
+
+- Application et ajustements du style sur le header
+- Ajustement des fichiers, centralisation de certains composants et début du style direct-message
+- Création d'un module messageInput et style de la zone de message
+
 ## [0.2.1] - 2025-03-10
 
 ### 🚀 Features

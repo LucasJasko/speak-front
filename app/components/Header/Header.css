@@ -7,11 +7,11 @@
 }
 
 .search__container {
-  @apply border border-(--grey) bg-(--grey) rounded-xl w-158 shadow-lg;
+  @apply border border-(--grey) bg-(--grey) rounded-lg w-158 shadow-lg;
 }
 
 .main__search {
-  @apply p-2 bg-transparent border-0 w-full h-full text-base rounded-xl;
+  @apply p-2 bg-transparent border-0 w-full h-full text-base rounded-lg;
 }
 
 .header__manage-window {
@@ -19,5 +19,5 @@
 }
 
 .header__manage-button {
-  @apply text-lg rounded-xl hover:bg-amber-100 p-2 w-10 h-10;
+  @apply text-lg rounded-xl hover:bg-amber-100 p-2 w-10 h-10 cursor-pointer;
 }

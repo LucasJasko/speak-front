@@ -3,6 +3,5 @@
 }
 
 .main {
-  @apply bg-(--color2) w-full h-full rounded-tl-xl;
-  box-shadow: inset 5px 0 20px 5px #00000022;
+  @apply bg-(--color2) w-full h-full rounded-tl-xl section-shadow;
 }

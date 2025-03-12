@@ -10,13 +10,13 @@ const Group = () => {
     <div className="group">
       <div className="group-area">
         <div className="group-area__title-container">
-          <div className="group__title">
+          <div className="group__title-area">
             <i className="fa-solid fa-house"></i>
-            <p className="group__title__text">Titre du groupe</p>
+            <p className="group__title-area__text">Titre du groupe</p>
           </div>
           <i className="fa-solid fa-angle-down"></i>
         </div>
-        <div className="groups-area__list"></div>
+        <div className="group-area__list"></div>
       </div>
       <MessageArea />
     </div>
