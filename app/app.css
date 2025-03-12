@@ -29,3 +29,9 @@
 body {
   @apply h-screen bg-(--color1);
 }
+
+@utility me-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

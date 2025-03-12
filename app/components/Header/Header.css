@@ -1,1 +1,23 @@
+.header {
+  @apply h-20 flex justify-center relative;
+}
 
+.search__area {
+  @apply me-center;
+}
+
+.search__container {
+  @apply border border-(--grey) bg-(--grey) rounded-xl w-158 shadow-lg;
+}
+
+.main__search {
+  @apply p-3 bg-transparent border-0 w-full h-full text-base rounded-xl;
+}
+
+.header__manage-window {
+  @apply w-45 h-full flex justify-evenly items-center absolute right-0;
+}
+
+.header__manage-button {
+  @apply text-lg rounded-xl hover:bg-amber-100 p-2 w-10 h-10;
+}

@@ -19,6 +19,6 @@
   @apply flex;
 }
 
-.manage__button {
+.agenda__manage-button {
   @apply absolute top-4 right-4;
 }

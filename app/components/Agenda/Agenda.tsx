@@ -29,7 +29,7 @@ const Agenda: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) 
               <i className="fa-solid fa-angles-right"></i>
             </button>
           </div>
-          <button className="manage__button manage__button__close" onClick={() => handleClick("")}>
+          <button className="agenda__manage-button manage__button-close" onClick={() => handleClick("")}>
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
