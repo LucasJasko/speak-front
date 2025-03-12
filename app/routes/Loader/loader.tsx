@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const Loader = () => {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {

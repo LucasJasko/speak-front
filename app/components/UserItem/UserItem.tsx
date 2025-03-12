@@ -1,5 +1,19 @@
-const UserItem = () => {
-  return <div>User Item</div>;
+interface UserProps {
+  name: string;
+  pic: string;
+  status: boolean;
+}
+
+const UserItem: React.FC<UserProps> = ({ name, pic, status }) => {
+  return (
+    <div className="user">
+      <div className="user__img-container">
+        <img className="user__img" src={pic} alt="utilisateur 1" />
+        <span className={`connection__dot ${status ? "connected" : "disconnected"}`}></span>
+      </div>
+      <p className="user__name">{name}</p>
+    </div>
+  );
 };
 
 export default UserItem;

@@ -1,5 +1,5 @@
 .header {
-  @apply h-20 flex justify-center relative;
+  @apply h-12 flex justify-center relative;
 }
 
 .search__area {
@@ -11,7 +11,7 @@
 }
 
 .main__search {
-  @apply p-3 bg-transparent border-0 w-full h-full text-base rounded-xl;
+  @apply p-2 bg-transparent border-0 w-full h-full text-base rounded-xl;
 }
 
 .header__manage-window {

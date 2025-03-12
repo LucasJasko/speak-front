@@ -1,1 +1,23 @@
-@import "tailwindcss";
+.direct-message {
+  @apply flex;
+  height: calc(100% - 48px);
+}
+
+.contact-area {
+  @apply relative w-60;
+}
+
+.contact-area__search {
+  @apply border-b border-b-(--grey);
+  height: 150px;
+}
+
+.contact-area__search input[type="search"] {
+  @apply p-2 m-3 rounded-lg bg-(--grey) shadow-lg;
+  width: calc(100% - 20px);
+}
+
+.contact-area__list {
+  @apply pt-3;
+  height: calc(100% - 150px);
+}

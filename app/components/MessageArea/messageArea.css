@@ -1,0 +1,5 @@
+.message {
+  @apply bg-(--color5) rounded-tl-3xl;
+  width: calc(100% - 240px);
+  box-shadow: inset 5px 0 20px 5px #00000022;
+}

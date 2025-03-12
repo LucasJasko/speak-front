@@ -1,6 +1,7 @@
+import UserItem from "~/components/UserItem/UserItem";
 import type { Route } from "../+types/home";
 
-import MessageInput from "~/components/MessageInput/MessageInput";
+import MessageArea from "~/components/MessageArea/MessageArea";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -8,42 +9,19 @@ export function meta({}: Route.MetaArgs) {
 
 const DirectMessage = () => {
   return (
-    <div className="dm">
-      <div className="contact__area">
-        <div className="contact__area__search">
+    <div className="direct-message">
+      <div className="contact-area">
+        <div className="contact-area__search">
           <input type="search" placeholder="Rechercher un utilisateur..." />
         </div>
-        <div className="contact__area__list">
-          <div className="user__line">
-            <div className="user__img__container">
-              <img src="/assets/img/user1.png" alt="utilisateur 1" />
-              <span className="connection__dot"></span>
-            </div>
-            <p className="user__name">Utilisateur 1</p>
-          </div>
-          <div className="user__line">
-            <div className="user__img__container">
-              <img src="/assets/img/user2.jpg" alt="utilisateur 2" />
-              <span className="connection__dot"></span>
-            </div>
-            <p className="user__name">Utilisateur 2</p>
-          </div>
-          <div className="user__line">
-            <div className="user__img__container">
-              <img src="/assets/img/user3.jpg" alt="utilisateur 3" />
-              <span className="connection__dot"></span>
-            </div>
-            <p className="user__name">Utilisateur 3</p>
-          </div>
+        <div className="contact-area__list">
+          <UserItem name="Utilisateur 1" pic="/assets/img/user1.png" status={true} />
+          <UserItem name="Utilisateur 2" pic="/assets/img/user2.jpg" status={true} />
+          <UserItem name="Utilisateur 3" pic="/assets/img/user3.jpg" status={true} />
         </div>
       </div>
-      <div className="message__area">
-        <span className="dm__drag__bar"></span>
-        <div className="message__feed"></div>
-        <div className="message__input__area">
-          <MessageInput />
-        </div>
-      </div>
+
+      <MessageArea />
     </div>
   );
 };

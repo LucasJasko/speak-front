@@ -1,1 +1,12 @@
-@import "tailwindcss";
+.user {
+  @apply h-18 me-center justify-start border border-(--grey) bg-(--color3) p-2 rounded-lg mx-auto mb-3 cursor-pointer hover:bg-(--color4);
+  width: calc(100% - 20px);
+}
+
+.user__img-container {
+  @apply relative size-14 mr-3;
+}
+
+.user__img {
+  @apply w-full rounded-full;
+}
