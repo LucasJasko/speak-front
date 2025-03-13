@@ -1,0 +1,27 @@
+.message {
+  @apply flex items-start mt-6;
+}
+
+.message__author {
+  @apply size-12 rounded-full m-2;
+}
+
+.message__author img {
+  @apply rounded-full;
+}
+
+.message__container {
+  width: calc(100% - 48px);
+}
+
+.message__header {
+  @apply flex items-end;
+}
+
+.message__author-name {
+  @apply font-bold text-base h-5;
+}
+
+.message__date {
+  @apply text-(--grey) text-xs ml-2;
+}

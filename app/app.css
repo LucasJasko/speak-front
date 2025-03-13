@@ -9,6 +9,7 @@
 
 @import "./components/Agenda/agenda.css";
 @import "./components/MessageArea/messageArea.css";
+@import "./components/MessageArea/Message/message.css";
 @import "./components/MessageArea/MessageInput/messageInput.css";
 @import "./components/Settings/settings.css";
 @import "./components/Profile/profile.css";
@@ -23,7 +24,7 @@
   --color3: rgb(157, 188, 152);
   --color4: rgb(99, 136, 137);
   --color5: rgb(219, 197, 157);
-  --grey: rgba(175, 175, 175, 0.7);
+  --grey: rgba(125, 125, 125, 1);
 }
 
 body {
