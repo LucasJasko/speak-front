@@ -5,26 +5,43 @@
 }
 
 .add-group__window {
-  @apply relative bg-(--color1) max-w-150 w-full max-h-100 h-full rounded-lg shadow-xl border border-(--grey);
+  @apply relative bg-(--color1) max-w-150 w-full max-h-40 h-full rounded-lg shadow-xl border border-(--grey);
   animation: animate-window 0.1s ease;
 }
 
+.add-group__window > * {
+  transition: 0.2s ease;
+}
+
 .add-group__header {
-  @apply bg-(--color2) flex justify-center items-center h-20 rounded-t-lg;
+  @apply bg-(--color2) flex justify-center items-center h-15 rounded-t-lg;
 }
 
 .add-group__manage-button {
-  @apply absolute top-5 right-5 text-xl rounded-xl hover:bg-(--color1) p-2 size-10 cursor-pointer flex items-center justify-center;
-}
-
-.add-group__join {
-  @apply absolute top-5 left-5 text-xl rounded-xl hover:bg-(--color1) p-2 size-10 cursor-pointer flex items-center justify-center;
+  @apply absolute top-3 right-3 text-xl rounded-xl hover:bg-(--color1) p-2 size-10 cursor-pointer flex items-center justify-center;
 }
 
 .add-group__header__container {
   @apply flex;
 }
 
+.add-group__title {
+  @apply text-xl;
+}
+
 .add-group__header__container > button {
   @apply px-2.5 size-12.5 rounded-lg hover:bg-(--color1) cursor-pointer text-xl mx-2;
+}
+
+.add-group__content {
+  @apply flex justify-center items-center;
+  height: calc(100% - 60px);
+}
+
+.add-group__input {
+  @apply bg-(--color2) w-100 p-3 rounded-xl mr-3;
+}
+
+.add-group__join {
+  @apply text-xl rounded-xl hover:bg-(--color2) p-3 size-10 cursor-pointer flex items-center justify-center;
 }

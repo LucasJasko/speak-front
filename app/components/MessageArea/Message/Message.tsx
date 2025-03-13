@@ -30,7 +30,7 @@ const Message: React.FC<messageContent> = ({ authorLink, authorName, messageDate
           <h3 className="message__author-name">{authorName}</h3>
           <span className="message__date">{messageDate}</span>
         </div>
-        <p className="message__content">
+        <div className="message__content">
           {authorMessage.authorMessageText && <p className="message__text">{authorMessage.authorMessageText}</p>}
           {authorMessage.authorMessageCode && <pre className="message__code">{authorMessage.authorMessageCode}</pre>}
           {authorMessage.authorMessageFile && (
@@ -40,7 +40,7 @@ const Message: React.FC<messageContent> = ({ authorLink, authorName, messageDate
             </a>
           )}
           {authorMessage.authorMessageEvent && <p className="message__event">{authorMessage.authorMessageEvent}</p>}
-        </p>
+        </div>
       </div>
     </li>
   );
