@@ -7,7 +7,7 @@
 }
 
 .search__container {
-  @apply border border-(--grey) bg-(--grey) rounded-lg w-158 shadow-lg;
+  @apply border border-(--grey) bg-(--color1) rounded-lg w-158 shadow-lg;
 }
 
 .main__search {
@@ -19,5 +19,5 @@
 }
 
 .header__manage-button {
-  @apply text-lg rounded-xl hover:bg-amber-100 p-2 w-10 h-10 cursor-pointer;
+  @apply text-lg rounded-xl hover:bg-(--color1) p-2 w-10 h-10 cursor-pointer;
 }

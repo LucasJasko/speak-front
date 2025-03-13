@@ -1,10 +1,15 @@
 .user {
-  @apply h-18 me-center justify-start border border-(--grey) bg-(--color3) p-2 rounded-lg mx-auto mb-3 cursor-pointer hover:bg-(--color4);
+  @apply h-16 me-center justify-start p-2 rounded-lg mx-auto mb-3 cursor-pointer hover:bg-(--color4);
   width: calc(100% - 20px);
+  transition: 0.2s ease;
+}
+
+.user__active {
+  @apply bg-(--color4) border border-(--grey);
 }
 
 .user__img-container {
-  @apply relative size-14 mr-3;
+  @apply relative size-12 mr-3;
 }
 
 .user__img {

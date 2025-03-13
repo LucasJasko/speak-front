@@ -1,10 +1,12 @@
 .settings {
   @apply absolute h-full w-full flex justify-center items-center;
   background-color: rgb(0, 0, 0, 0.3);
+  animation: animate-area 0.3s ease;
 }
 
 .settings__window {
   @apply relative bg-(--color1) border border-(--grey) max-w-250 w-full max-h-200 h-full rounded-lg shadow-xl flex;
+  animation: animate-window 0.1s ease;
 }
 
 .settings__manage-button {

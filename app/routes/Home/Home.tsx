@@ -3,7 +3,7 @@ import type { Route } from "./+types/home";
 import Nav from "~/components/Nav/Nav";
 import { Outlet } from "react-router";
 import Header from "~/components/Header/Header";
-import React, { useState } from "react";
+import { useState } from "react";
 import Profile from "~/components/Profile/Profile";
 import Agenda from "~/components/Agenda/Agenda";
 import Settings from "~/components/Settings/Settings";
@@ -24,7 +24,7 @@ export default function Home() {
         <Outlet />
       </main>
       {active == "profile" && <Profile onClick={(selected) => setActive(selected)} />}
-      {active == "agenda" && <Agenda onClick={(selected) => setActive(selected)} />}
+      {active == "agenda" && <Agenda onClick={(selected) => setActive(selected)} active={active} />}
       {active == "settings" && <Settings onClick={(selected) => setActive(selected)} />}
       {active == "addGroup" && <AddGroup onClick={(selected) => setActive(selected)} />}
     </div>

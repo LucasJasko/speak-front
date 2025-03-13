@@ -30,9 +30,9 @@ body {
   @apply h-screen bg-(--color1);
 }
 
-* {
+/* * {
   transition: 0.2s ease;
-}
+} */
 
 @utility me-center {
   display: flex;
@@ -46,4 +46,24 @@ body {
 
 @utility section-shadow {
   box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes animate-area {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes animate-window {
+  0% {
+    transform: scale(60%);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(100%);
+    opacity: 1;
+  }
 }

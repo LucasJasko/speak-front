@@ -1,14 +1,16 @@
 .agenda {
   @apply absolute h-full w-full flex justify-center items-center;
   background-color: rgb(0, 0, 0, 0.3);
+  animation: animate-area 0.3s ease;
 }
 
 .agenda__window {
   @apply relative bg-(--color1) max-w-350 w-full max-h-200 h-full rounded-lg shadow-xl border border-(--grey);
+  animation: animate-window 0.1s ease;
 }
 
 .agenda__header {
-  @apply bg-(--color2) flex justify-center items-center h-25 rounded-t-lg;
+  @apply bg-(--color2) flex justify-center items-center h-20 rounded-t-lg;
 }
 
 .add__container {
