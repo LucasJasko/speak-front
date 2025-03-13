@@ -15,5 +15,5 @@
 }
 
 .message-area__input-area {
-  @apply h-25 me-center p-2.5;
+  @apply h-25 me-center px-2.5 pb-2.5;
 }

@@ -26,7 +26,7 @@ export default function Home() {
       {active == "profile" && <Profile onClick={(selected) => setActive(selected)} />}
       {active == "agenda" && <Agenda onClick={(selected) => setActive(selected)} active={active} />}
       {active == "settings" && <Settings onClick={(selected) => setActive(selected)} />}
-      {active == "addGroup" && <AddGroup onClick={(selected) => setActive(selected)} />}
+      {active == "addGroup" && <AddGroup onClick={(selected) => setActive(selected)} active={active} />}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 .message {
-  @apply flex items-start mt-6;
+  @apply flex items-start my-3;
 }
 
 .message__author {
