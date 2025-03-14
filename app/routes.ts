@@ -5,5 +5,8 @@ export default [
 
   route("login", "routes/Login/login.tsx"),
 
-  layout("routes/Home/home.tsx", [route("group", "routes/Home/Group/group.tsx"), route("direct-message", "routes/Home/DirectMessage/directMessage.tsx")]),
+  route("home", "routes/Home/home.tsx", [
+    route("group", "routes/Home/Group/group.tsx"),
+    route("direct-message", "routes/Home/DirectMessage/directMessage.tsx"),
+  ]),
 ] satisfies RouteConfig;

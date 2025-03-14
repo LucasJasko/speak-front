@@ -12,26 +12,28 @@ const Login = () => {
   const [response, setResponse]: any = useState(null);
   const [loading, setLoading]: any = useState(false);
   const [error, setError]: any = useState(null);
+  const [targetToken, setTargetToken]: any = useState("");
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail]: any = useState(null);
+  const [password, setPassword]: any = useState(null);
 
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
     setResponse(null);
     setLoading(true);
     setError(null);
+    setTargetToken("Ceci est un token");
 
     try {
       await fetch("http://alert-mns-back/login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_mail: email, user_password: password }),
+        body: JSON.stringify({ user_mail: email, user_password: password, target_token: targetToken }),
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("Réponse du serveur:" + data), setResponse(data);
-          data["success"] ? navigate("/direct-message") : "";
+          console.log("Réponse du serveur: " + data["data"]["user"] + " est connecté"), setResponse(data);
+          data["success"] ? navigate("/home") : "";
         });
       setLoading(false);
     } catch (error: any) {
