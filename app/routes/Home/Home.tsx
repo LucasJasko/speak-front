@@ -14,45 +14,29 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const [active, setActive] = useState<string>("");
+  const [active, setActive] = useState("");
 
   const [response, setResponse]: any = useState(null);
   const [error, setError]: any = useState(null);
 
-  const handleSession = async () => {
-    try {
-      await fetch("http://alert-mns-back/include/protect.php")
-        .then((res) => res.json())
-        .then((data) => {
-          setResponse(JSON.parse(data));
-        });
-    } catch (error: any) {
-      setError(JSON.stringify(error));
-    }
-  };
-
   useEffect(() => {
-    handleSession();
-  });
+    setResponse("Ceci est un token");
+  }, []);
 
-  if (response) {
-    if (response["token"] == "Ceci est un token") {
-      return (
-        <div className="home">
-          <Nav onClick={(selected) => setActive(selected)} />
-          <main className="main">
-            <Header />
-            <Outlet />
-          </main>
-          {active == "profile" && <Profile onClick={(selected) => setActive(selected)} />}
-          {active == "agenda" && <Agenda onClick={(selected) => setActive(selected)} active={active} />}
-          {active == "settings" && <Settings onClick={(selected) => setActive(selected)} />}
-          {active == "addGroup" && <AddGroup onClick={(selected) => setActive(selected)} active={active} />}
-        </div>
-      );
-    } else {
-      return <div>{error}</div>;
-    }
+  if (response && response == "Ceci est un token") {
+    return (
+      <div className="home">
+        <Nav onClick={(selected) => setActive(selected)} />
+        <main className="main">
+          <Header />
+          <Outlet />
+        </main>
+        {active == "profile" && <Profile onClick={(selected) => setActive(selected)} />}
+        {active == "agenda" && <Agenda onClick={(selected) => setActive(selected)} active={active} />}
+        {active == "settings" && <Settings onClick={(selected) => setActive(selected)} />}
+        {active == "addGroup" && <AddGroup onClick={(selected) => setActive(selected)} active={active} />}
+      </div>
+    );
   } else {
     return <div>{error}</div>;
   }

@@ -12,7 +12,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
   return (
     <nav className="nav">
       <section className="nav__top">
-        <NavLink to="/direct-message">
+        <NavLink to="direct-message">
           <motion.button
             whileHover={{
               scale: 1.1,
@@ -25,7 +25,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
             <i className="fa-regular fa-comments"></i>
           </motion.button>
         </NavLink>
-        <NavLink to="/group">
+        <NavLink to="group">
           <motion.button
             whileHover={{
               scale: 1.1,
