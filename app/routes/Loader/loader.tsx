@@ -6,7 +6,7 @@ const Loader = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      navigate("/login");
+      navigate("/auth");
     }, 2000);
   }, []);
   return (

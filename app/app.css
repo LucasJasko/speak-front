@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
 @import "./routes/Loader/loader.css";
-@import "./routes/Login/login.css";
 @import "./routes/Home/home.css";
+@import "./routes/Auth/auth.css";
 
 @import "./routes/Home/Group/group.css";
 @import "./routes/Home/DirectMessage/directMessage.css";
 
+@import "./components/Login/login.css";
+@import "./components/SignIn/signin.css";
 @import "./components/Agenda/agenda.css";
 @import "./components/MessageArea/messageArea.css";
 @import "./components/MessageArea/Message/message.css";
