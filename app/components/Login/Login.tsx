@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
 
-const Login = () => {
+const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
   let navigate = useNavigate();
   const [response, setResponse]: any = useState(null);
   const [loading, setLoading]: any = useState(false);
@@ -69,6 +69,9 @@ const Login = () => {
           {error && "Erreur: " + { error }}
         </p>
       </div>
+      <button className="login__switch" onClick={toggleSlide}>
+        S'inscrire <i className="fa-solid fa-arrow-right"></i>
+      </button>
     </form>
   );
 };

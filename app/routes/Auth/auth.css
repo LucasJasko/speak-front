@@ -1,3 +1,7 @@
 .auth__container {
   @apply h-screen flex justify-center items-center;
 }
+
+.auth__window {
+  @apply flex justify-center items-center relative w-120 h-131 overflow-x-hidden border-1 rounded border-(--grey) shadow-2xl;
+}

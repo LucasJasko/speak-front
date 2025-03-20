@@ -1,0 +1,38 @@
+.signin__form {
+  @apply h-130 min-h-130 p-10 flex flex-col justify-between;
+}
+
+.signin__header-container {
+  @apply text-center;
+}
+
+.signin__h1 {
+  @apply font-bold text-4xl;
+}
+
+.signin__p {
+  @apply mt-3;
+}
+
+.signin__input-container {
+  @apply flex flex-col h-50 justify-center;
+}
+.signin__submit-container {
+  @apply flex flex-col h-fit;
+}
+
+.signin__input {
+  @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100;
+}
+
+.signin__submit {
+  @apply bg-(--color3) cursor-pointer font-bold;
+}
+
+.signin__message {
+  @apply h-5;
+}
+
+.signin__switch {
+  @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100 bg-(--color1) cursor-pointer font-bold hover:bg-(--color2);
+}

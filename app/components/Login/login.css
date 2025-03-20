@@ -1,5 +1,5 @@
 .login__form {
-  @apply border-1 h-1/2 min-h-130 rounded border-(--grey) p-10 flex flex-col justify-between shadow-2xl;
+  @apply h-130 min-h-130 p-10 flex flex-col justify-between;
 }
 
 .login__header-container {
@@ -18,7 +18,7 @@
   @apply flex flex-col h-50 justify-center;
 }
 .login__submit-container {
-  @apply flex flex-col h-25;
+  @apply flex flex-col h-fit;
 }
 
 .login__input {
@@ -31,4 +31,8 @@
 
 .login__message {
   @apply h-5;
+}
+
+.login__switch {
+  @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100 bg-(--color1) cursor-pointer font-bold hover:bg-(--color2);
 }
