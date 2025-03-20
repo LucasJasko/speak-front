@@ -9,7 +9,7 @@
 
 .group-area__title-container {
   @apply border-b border-b-(--grey) p-2.5 flex items-center justify-between;
-  height: 80px;
+  height: 60px;
 }
 
 .group-area__title-container > i {

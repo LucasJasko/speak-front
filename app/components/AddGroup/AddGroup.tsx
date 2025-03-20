@@ -1,14 +1,13 @@
 interface AddGroupProps {
   onClick: (selected: string) => void;
-  active: string;
 }
 
-const AddGroup: React.FC<AddGroupProps> = ({ onClick, active }) => {
+const AddGroup: React.FC<AddGroupProps> = ({ onClick }) => {
   const handleClick = (selected: string) => {
     onClick(selected);
   };
   return (
-    <div className={`add-group ${active == "add-group" ? "active__add-group" : ""}`}>
+    <div className="add-group">
       <div className="add-group__window">
         <div className="add-group__header">
           <h3 className="add-group__title">Ajouter un groupe</h3>

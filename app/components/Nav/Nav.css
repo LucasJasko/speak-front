@@ -1,5 +1,5 @@
 .nav {
-  @apply bg-(--color1) w-25 flex flex-col justify-between my-3;
+  @apply bg-(--color1) w-21 flex flex-col justify-between my-3;
 }
 
 .nav__top,
@@ -8,7 +8,7 @@
 }
 
 .nav__link {
-  @apply size-18 my-2 bg-(--color3) hover:bg-(--color4) cursor-pointer hover:btn-shadow;
+  @apply size-15 my-1.5 bg-(--color3) hover:bg-(--color4) cursor-pointer hover:btn-shadow;
   transition: 0.2s ease;
   border-radius: 100px;
 }

@@ -1,14 +1,13 @@
 interface AgendaProps {
   onClick: (selected: string) => void;
-  active: string;
 }
 
-const Agenda: React.FC<AgendaProps> = ({ onClick, active }) => {
+const Agenda: React.FC<AgendaProps> = ({ onClick }) => {
   const handleClick = (selected: string) => {
     onClick(selected);
   };
   return (
-    <div className={`agenda ${active == "agenda" ? "active__agenda" : ""}`}>
+    <div className="agenda">
       <div className="agenda__window">
         <div className="agenda__header">
           <button className="add__container">

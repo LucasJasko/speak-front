@@ -3,7 +3,7 @@ import type { Route } from "./+types/home";
 import Nav from "~/components/Nav/Nav";
 import { Outlet } from "react-router";
 import Header from "~/components/Header/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type JSX } from "react";
 import Profile from "~/components/Profile/Profile";
 import Agenda from "~/components/Agenda/Agenda";
 import Settings from "~/components/Settings/Settings";
@@ -23,18 +23,22 @@ export default function Home() {
     setResponse("Ceci est un token");
   }, []);
 
+  const componentsMap: Record<string, JSX.Element> = {
+    profile: <Profile onClick={setActive} />,
+    agenda: <Agenda onClick={setActive} />,
+    settings: <Settings onClick={setActive} />,
+    addGroup: <AddGroup onClick={setActive} />,
+  };
+
   if (response && response == "Ceci est un token") {
     return (
       <div className="home">
-        <Nav onClick={(selected) => setActive(selected)} />
+        <Nav onClick={setActive} />
         <main className="main">
           <Header />
           <Outlet />
         </main>
-        {active == "profile" && <Profile onClick={(selected) => setActive(selected)} />}
-        {active == "agenda" && <Agenda onClick={(selected) => setActive(selected)} active={active} />}
-        {active == "settings" && <Settings onClick={(selected) => setActive(selected)} />}
-        {active == "addGroup" && <AddGroup onClick={(selected) => setActive(selected)} active={active} />}
+        {componentsMap[active]}
       </div>
     );
   } else {

@@ -18,5 +18,13 @@
 }
 
 .settings__item {
-  @apply cursor-pointer rounded-xl p-2.5 h-12.5 flex justify-start items-center hover:bg-(--grey);
+  @apply cursor-pointer rounded-xl p-2.5 my-1 h-12.5 flex justify-start items-center hover:bg-(--color1);
+}
+
+.settings__item-active {
+  @apply bg-(--color1);
+}
+
+.settings__content {
+  @apply p-5;
 }
