@@ -15,6 +15,7 @@
 @import "./components/MessageArea/MessageInput/messageInput.css";
 @import "./components/Settings/settings.css";
 @import "./components/Profile/profile.css";
+@import "./components/Profile/menu.css";
 @import "./components/AddGroup/addGroup.css";
 @import "./components/Header/header.css";
 @import "./components/Nav/nav.css";

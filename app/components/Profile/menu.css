@@ -1,0 +1,19 @@
+.menu__item {
+  @apply mb-4;
+}
+
+.menu__title {
+  @apply font-bold;
+}
+
+.menu__text {
+  @apply inline-block mr-3;
+}
+
+.menu__input {
+  @apply border-1 border-black rounded p-1 my-1;
+}
+
+.menu__wrapper {
+  @apply flex flex-col w-fit;
+}

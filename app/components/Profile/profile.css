@@ -17,6 +17,10 @@
   @apply bg-(--color2) rounded-l-lg p-2.5 w-62.5;
 }
 
+.profile__list {
+  @apply relative h-full;
+}
+
 .profile__item {
   @apply cursor-pointer rounded-xl p-2.5 my-1 h-12.5 flex justify-start items-center hover:bg-(--color1);
 }
@@ -27,4 +31,9 @@
 
 .profile__content {
   @apply p-5;
+  width: calc(100% - 250px);
+}
+
+.profile__item-disconnect {
+  @apply hover:text-red-500 border-2 border-transparent absolute bottom-0 left-0 w-full;
 }
