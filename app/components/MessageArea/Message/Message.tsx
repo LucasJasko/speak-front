@@ -1,6 +1,6 @@
 import type React from "react";
 
-interface messageContent {
+export interface messageContent {
   authorLink: string;
   authorName: string;
   messageDate: string;

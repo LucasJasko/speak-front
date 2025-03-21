@@ -1,131 +1,38 @@
-import Message from "./Message/Message";
+import { useEffect, useLayoutEffect, useState } from "react";
 import MessageInput from "./MessageInput/MessageInput";
+import Message from "./Message/Message";
+import type { messageContent } from "./Message/Message";
 
 const MessageArea = () => {
+  const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
+
+  useEffect(() => {
+    const data = async () => {
+      try {
+        const response = await fetch("/message.json");
+        const data = await response.json();
+        setMessageFeed(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement du fichier JSON :", error);
+      }
+    };
+
+    data();
+  }, []);
   return (
     <div className="message-area">
       <span className="message-area__drag-bar"></span>
       <ul className="message-area__feed">
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'autre"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user2.jpg"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
-        <Message
-          authorLink=""
-          authorName="L'un"
-          messageDate="10/05/2023"
-          authorImg="/assets/img/user1.png"
-          authorMessage={{
-            authorMessageText:
-              "C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.  C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier. C'est mon message qui est sacrément long et malheureusement pas assez car on ne peut pas faire de lorem ipsum dans une chaine de caractère alors je vais le multiplier.",
-          }}
-        />
+        {messageFeed.map((message, index) => (
+          <Message
+            key={index}
+            authorLink={message.authorLink}
+            authorName={message.authorName}
+            messageDate={message.messageDate}
+            authorImg={message.authorImg}
+            authorMessage={message.authorMessage}
+          />
+        ))}
       </ul>
       <div className="message-area__input-area">
         <MessageInput />
