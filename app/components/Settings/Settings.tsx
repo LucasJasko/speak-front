@@ -10,14 +10,16 @@ import Notifications from "./Notifications/Notifications";
 const Settings: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => {
   const [activeMenu, setActiveMenu] = useState("");
 
-  const menuMap: Record<string, JSX.Element> = {
-    accessibility: <Accessibility />,
-    appearance: <Appearance />,
-    audiovideo: <AudioVideo />,
-    blockedusers: <BlockedUsers />,
-    interface: <Interface />,
-    notifications: <Notifications />,
+  const menuMap: Record<string, JSX.Element | [string, JSX.Element]> = {
+    accessibility: ["Accessibilité", <Accessibility />],
+    appearance: ["Apparence", <Appearance />],
+    audiovideo: ["Audio et vidéo", <AudioVideo />],
+    blockedusers: ["Utilisateurs bloqués", <BlockedUsers />],
+    interface: ["Interface", <Interface />],
+    notifications: ["Notifications", <Notifications />],
   };
+  const activeList = menuMap[activeMenu];
+  const menuItem = Array.isArray(activeList) ? activeList[1] : activeList;
 
   const handleClick = (selected: string) => {
     onClick(selected);
@@ -30,57 +32,20 @@ const Settings: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }
         </button>
         <div className="settings__list-container">
           <ul className="settings__list">
-            <li
-              className={`settings__item ${activeMenu == "notifications" ? "settings__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("notifications");
-              }}
-            >
-              Notifications
-            </li>
-            <li
-              className={`settings__item ${activeMenu == "audiovideo" ? "settings__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("audiovideo");
-              }}
-            >
-              Audio et vidéo
-            </li>
-            <li
-              className={`settings__item ${activeMenu == "interface" ? "settings__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("interface");
-              }}
-            >
-              Interface
-            </li>
-            <li
-              className={`settings__item ${activeMenu == "accessibility" ? "settings__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("accessibility");
-              }}
-            >
-              Accessibilité
-            </li>
-            <li
-              className={`settings__item ${activeMenu == "appearance" ? "settings__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("appearance");
-              }}
-            >
-              Apparence
-            </li>
-            <li
-              className={`settings__item ${activeMenu == "blockedusers" ? "settings__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("blockedusers");
-              }}
-            >
-              Utilisateurs bloqués
-            </li>
+            {Object.entries(menuMap).map(([key, value]) => (
+              <li
+                key={key}
+                className={`settings__item ${activeMenu == `${key}` ? "settings__item-active" : ""}`}
+                onClick={() => {
+                  setActiveMenu(`${key}`);
+                }}
+              >
+                {Array.isArray(value) ? value[0] : ""}
+              </li>
+            ))}
           </ul>
         </div>
-        <div className="settings__content">{menuMap[activeMenu]}</div>
+        <div className="settings__content">{menuItem}</div>
       </div>
     </div>
   );

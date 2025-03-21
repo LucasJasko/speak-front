@@ -24,7 +24,7 @@ export default function Home() {
   }, []);
 
   const componentsMap: Record<string, JSX.Element> = {
-    profile: <Profile onClick={setActive} />,
+    profile: <Profile onClose={setActive} />,
     agenda: <Agenda onClick={setActive} />,
     settings: <Settings onClick={setActive} />,
     addGroup: <AddGroup onClick={setActive} />,

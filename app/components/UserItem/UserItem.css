@@ -1,5 +1,5 @@
 .user {
-  @apply h-16 me-center justify-start p-2 rounded-lg mx-auto mb-3 cursor-pointer hover:bg-(--color4);
+  @apply h-16 me-center justify-start p-2 rounded-lg mx-auto mb-3 cursor-pointer hover:bg-(--color1);
   width: calc(100% - 20px);
   transition: 0.2s ease;
 }

@@ -1,66 +1,63 @@
-import { useState, type JSX } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import Customisation from "./Customisation/Customisation";
 import PersonnalInfos from "./PersonnalInfos/PersonnalInfos";
 import Security from "./Security/Security";
-import AFKmessage from "./AFKmessage/AFKmessage";
+import { useNavigate } from "react-router";
+import { menu } from "motion/react-client";
 
-const Profile: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => {
+interface MenuMap {
+  key: string;
+  name: string;
+  element?: JSX.Element;
+}
+
+const Profile: React.FC<{ onClose: (activeTab: string) => void }> = ({ onClose }) => {
+  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("");
+  const contentRef = useRef<JSX.Element | string>(null);
 
-  const handleClick = (selected: string) => {
-    onClick(selected);
+  const menuMap: MenuMap[] = [
+    { key: "personnalisation", name: "Personnalisation", element: <Customisation /> },
+    { key: "personnalinfos", name: "Informations personnelles", element: <PersonnalInfos /> },
+    { key: "security", name: "Sécurité", element: <Security /> },
+    { key: "disconnect", name: "Déconnexion" },
+  ];
+
+  const handleClose = (activeTab: string) => {
+    onClose(activeTab);
   };
 
-  const menuMap: Record<string, JSX.Element> = {
-    personnalisation: <Customisation />,
-    personnalinfos: <PersonnalInfos />,
-    security: <Security />,
-    afkmessage: <AFKmessage />,
+  const handleActiveMenu = (key: string) => {
+    setActiveMenu(key);
+
+    const selectedItem = menuMap.find((item) => item.key == key);
+    contentRef.current = selectedItem?.element || null;
+
+    if (key === "disconnect") {
+      navigate("/auth");
+    }
   };
 
   return (
     <div className="profile">
       <div className="profile__window">
-        <button className="profile__manage-button manage__button-close" onClick={() => handleClick("")}>
+        <button className="profile__manage-button manage__button-close" onClick={() => handleClose("")}>
           <i className="fa-solid fa-xmark"></i>
         </button>
         <div className="profile__list-container">
           <ul className="profile__list">
-            <li
-              className={`profile__item ${activeMenu == "personnalisation" ? "profile__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("personnalisation");
-              }}
-            >
-              Personnalisation
-            </li>
-            <li
-              className={`profile__item ${activeMenu == "personnalinfos" ? "profile__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("personnalinfos");
-              }}
-            >
-              Informations personnelles
-            </li>
-            <li
-              className={`profile__item ${activeMenu == "security" ? "profile__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("security");
-              }}
-            >
-              Sécurité
-            </li>
-            <li
-              className={`profile__item ${activeMenu == "afkmessage" ? "profile__item-active" : ""}`}
-              onClick={() => {
-                setActiveMenu("afkmessage");
-              }}
-            >
-              Message d'absence
-            </li>
+            {menuMap.map(({ key, name }) => (
+              <li
+                key={key}
+                className={`profile__item ${activeMenu == `${key}` ? "profile__item-active" : ""} ${key == "disconnect" ? "profile__item-disconnect" : ""} `}
+                onClick={() => handleActiveMenu(key)}
+              >
+                {name}
+              </li>
+            ))}
           </ul>
         </div>
-        <div className="profile__content">{menuMap[activeMenu]}</div>
+        <div className="profile__content">{contentRef.current}</div>
       </div>
     </div>
   );

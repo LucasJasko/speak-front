@@ -20,7 +20,6 @@ const DirectMessage = () => {
           <UserItem name="Utilisateur 3" pic="/assets/img/user3.jpg" status={true} />
         </div>
       </div>
-
       <MessageArea />
     </div>
   );
