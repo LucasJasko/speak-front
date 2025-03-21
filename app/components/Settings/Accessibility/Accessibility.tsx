@@ -1,9 +1,7 @@
 const Accessibility = () => {
   return (
-    <ul>
-      <li>Accessibility 1</li>
-      <li>Accessibility 2</li>
-      <li>Accessibility 3</li>
+    <ul className="menu__list">
+      <li>Hello</li>
     </ul>
   );
 };

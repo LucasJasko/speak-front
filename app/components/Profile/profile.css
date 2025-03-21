@@ -30,7 +30,7 @@
 }
 
 .profile__content {
-  @apply p-15;
+  @apply p-10;
   width: calc(100% - 250px);
 }
 
