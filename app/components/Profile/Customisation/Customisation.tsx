@@ -26,7 +26,7 @@ const Customisation = () => {
       <li className="menu__item">
         <h3 className="menu__title">Biographie</h3>
         <p className="menu__text">Le message qui sera visible sur votre profil:</p>
-        <input className="menu__input" type="text" name="" id="" placeholder="Votre biographie" />
+        <input className="menu__input menu__input-full" type="text" name="" id="" placeholder="Votre biographie" />
       </li>
       <li className="menu__item">
         <h3 className="menu__title">Message d'absence</h3>
@@ -34,7 +34,7 @@ const Customisation = () => {
           Vous pouvez définir un message d'absence. Celui-ci sera envoyé à tout utilisateur souhaitant vous envoyer un message direct pendant la période
           définie:
         </p>
-        <input className="menu__input" type="text" name="" id="" placeholder="Votre message" />
+        <input className="menu__input menu__input-full" type="text" name="" id="" placeholder="Votre message" />
         <div className="menu__wrapper">
           <p className="menu__text">Du:</p>
           <input className="menu__input" type="date" name="" id="" />

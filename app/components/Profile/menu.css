@@ -7,13 +7,25 @@
 }
 
 .menu__text {
-  @apply inline-block mr-3;
+  @apply inline-block mr-3 text-sm;
 }
 
 .menu__input {
-  @apply border-1 border-black rounded p-1 my-1;
+  @apply border-1 border-(--grey) rounded p-2 my-1 mr-1 text-sm;
+}
+
+.menu__input-password {
+  @apply block w-1/2;
+}
+
+.menu__input-full {
+  @apply w-full;
+}
+
+.menu__input-half {
+  @apply w-1/2;
 }
 
 .menu__wrapper {
-  @apply flex flex-col w-fit;
+  @apply flex items-center w-full justify-center;
 }
