@@ -11,7 +11,11 @@
 }
 
 .menu__input {
-  @apply border-1 border-(--grey) rounded p-2 my-1 mr-1 text-sm;
+  @apply border-1 border-(--grey) bg-(--color2) rounded p-2 my-1 mr-1 text-sm;
+}
+
+select {
+  @apply bg-(--color2) mx-1 p-1 rounded border border-(--grey);
 }
 
 .menu__input-password {

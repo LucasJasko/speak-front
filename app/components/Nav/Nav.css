@@ -18,5 +18,5 @@
 }
 
 .nav__link-active {
-  @apply bg-(--color4) rounded-3xl btn-shadow;
+  @apply bg-(--color4) rounded-xl btn-shadow;
 }

@@ -1,5 +1,6 @@
 import MessageArea from "~/components/MessageArea/MessageArea";
 import type { Route } from "../+types/home";
+import Room from "~/components/Room/Room";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Groupes" }, { name: "description", content: "Ce sont vos groupes" }];
@@ -16,7 +17,13 @@ const Group = () => {
           </div>
           <i className="fa-solid fa-angle-down"></i>
         </div>
-        <div className="group-area__list"></div>
+        <div className="group-area__list">
+          <Room />
+          <Room />
+          <Room />
+          <Room />
+          <Room />
+        </div>
       </div>
       <MessageArea />
     </div>

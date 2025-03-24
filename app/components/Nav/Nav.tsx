@@ -15,10 +15,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
         <NavLink to="direct-message">
           <motion.button
             whileHover={{
-              scale: 1.1,
-              transition: { duration: 1 },
+              scale: 1.05,
+              transition: { duration: 0.1 },
             }}
-            whileTap={{ scale: 0.8 }}
+            whileTap={{ scale: 0.95 }}
             className={`nav__link ${active == "direct-message" ? "nav__link-active" : ""}`}
             onClick={() => handleClick("direct-message")}
           >
@@ -28,10 +28,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
         <NavLink to="group">
           <motion.button
             whileHover={{
-              scale: 1.1,
-              transition: { duration: 1 },
+              scale: 1.05,
+              transition: { duration: 0.1 },
             }}
-            whileTap={{ scale: 0.8 }}
+            whileTap={{ scale: 0.95 }}
             className={`nav__link ${active == "group" ? "nav__link-active" : ""}`}
             onClick={() => handleClick("group")}
           >
@@ -40,10 +40,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
         </NavLink>
         <motion.button
           whileHover={{
-            scale: 1.1,
-            transition: { duration: 1 },
+            scale: 1.05,
+            transition: { duration: 0.1 },
           }}
-          whileTap={{ scale: 0.8 }}
+          whileTap={{ scale: 0.95 }}
           className={`nav__link ${active == "addGroup" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleClick("addGroup");
@@ -56,10 +56,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
       <section className="nav__bottom">
         <motion.button
           whileHover={{
-            scale: 1.1,
-            transition: { duration: 1 },
+            scale: 1.05,
+            transition: { duration: 0.1 },
           }}
-          whileTap={{ scale: 0.8 }}
+          whileTap={{ scale: 0.95 }}
           className={`nav__link ${active == "agenda" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleClick("agenda");
@@ -69,10 +69,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
         </motion.button>
         <motion.button
           whileHover={{
-            scale: 1.1,
-            transition: { duration: 1 },
+            scale: 1.05,
+            transition: { duration: 0.1 },
           }}
-          whileTap={{ scale: 0.8 }}
+          whileTap={{ scale: 0.95 }}
           className={`nav__link ${active == "profile" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleClick("profile");
@@ -82,10 +82,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
         </motion.button>
         <motion.button
           whileHover={{
-            scale: 1.1,
-            transition: { duration: 1 },
+            scale: 1.05,
+            transition: { duration: 0.1 },
           }}
-          whileTap={{ scale: 0.8 }}
+          whileTap={{ scale: 0.95 }}
           className={`nav__link ${active == "settings" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleClick("settings");
