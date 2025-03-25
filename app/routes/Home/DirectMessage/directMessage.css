@@ -8,7 +8,7 @@
 }
 
 .contact-area__search {
-  @apply border-b border-b-(--grey);
+  @apply border-b border-b-(--grey) relative;
   height: 150px;
 }
 
@@ -20,4 +20,9 @@
 .contact-area__list {
   @apply pt-3;
   height: calc(100% - 150px);
+}
+
+.contact-area__drag-bar {
+  @apply absolute bottom-0 left-0 h-1 hover:h-1 hover:bg-blue-500 -translate-x-1/2 cursor-row-resize w-full;
+  transform: translateX(50%);
 }
