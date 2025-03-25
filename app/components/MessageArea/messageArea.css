@@ -10,7 +10,7 @@
 }
 
 .message-area__feed {
-  @apply flex flex-col px-4 overflow-y-scroll;
+  @apply flex flex-col-reverse px-4 overflow-y-scroll;
   height: calc(100% - 100px);
   scrollbar-width: none;
 }

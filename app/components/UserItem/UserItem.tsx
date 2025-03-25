@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface UserProps {
   name: string;
   pic: string;
@@ -5,8 +7,12 @@ interface UserProps {
 }
 
 const UserItem: React.FC<UserProps> = ({ name, pic, status }) => {
+  const [activeConversation, setActiveConversation] = useState("");
+
+  const handleActiveConversation = () => {};
+
   return (
-    <div className="user">
+    <div className="user" onClick={handleActiveConversation}>
       <div className="user__img-container">
         <img className="user__img" src={pic} alt="utilisateur 1" />
         <span className={`connection__dot ${status ? "connected" : "disconnected"}`}></span>

@@ -3,13 +3,17 @@ import MessageInput from "./MessageInput/MessageInput";
 import Message from "./Message/Message";
 import type { messageContent } from "./Message/Message";
 
-const MessageArea = () => {
+interface MessageAreaProps {
+  convID: string;
+}
+
+const MessageArea: React.FC<MessageAreaProps> = ({ convID }) => {
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
 
   useEffect(() => {
     const data = async () => {
       try {
-        const response = await fetch("/message.json");
+        const response = await fetch(`/${convID}.json`);
         const data = await response.json();
         setMessageFeed(data);
       } catch (error) {
