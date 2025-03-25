@@ -8,12 +8,12 @@
 }
 
 .group-area__title-container {
-  @apply border-b border-b-(--grey) p-2.5 flex items-center justify-between;
+  @apply border-b border-b-(--grey) p-1 flex items-center justify-between;
   height: 60px;
 }
 
 .group-area__title-container > i {
-  @apply p-2.5 cursor-pointer hover:bg-(--grey) rounded-lg;
+  @apply p-2.5 cursor-pointer hover:bg-(--color1) rounded-lg;
 }
 
 .group__title-area {

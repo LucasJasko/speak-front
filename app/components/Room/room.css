@@ -1,0 +1,13 @@
+.room {
+  @apply h-8 me-center justify-start p-2 rounded-lg mx-auto mb-1 cursor-pointer hover:bg-(--color1) text-sm;
+  width: calc(100% - 20px);
+  transition: 0.2s ease;
+}
+
+.room > i {
+  @apply mr-2 w-4;
+}
+
+.room__active {
+  @apply bg-(--color4) border border-(--grey);
+}

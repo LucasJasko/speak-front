@@ -18,14 +18,14 @@ const Group = () => {
           <i className="fa-solid fa-angle-down"></i>
         </div>
         <div className="group-area__list">
-          <Room />
-          <Room />
-          <Room />
-          <Room />
-          <Room />
+          <Room roomIcon={<i className="fa-solid fa-location-dot"></i>} roomName="Salon numéro 1" />
+          <Room roomIcon={<i className="fa-solid fa-magnifying-glass"></i>} roomName="Salon numéro 2" />
+          <Room roomIcon={<i className="fa-solid fa-video"></i>} roomName="Salon numéro 3" />
+          <Room roomIcon={<i className="fa-solid fa-lock"></i>} roomName="Salon numéro 4" />
+          <Room roomIcon={<i className="fa-solid fa-hand"></i>} roomName="Salon numéro 5" />
         </div>
       </div>
-      <MessageArea />
+      <MessageArea convID="group-message" />
     </div>
   );
 };
