@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MessageInput from "./MessageInput/MessageInput";
 import Message from "./Message/Message";
 import type { messageContent } from "./Message/Message";

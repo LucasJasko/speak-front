@@ -3,5 +3,18 @@
 }
 
 .main {
-  @apply bg-(--color2) w-full h-full rounded-tl-xl section-shadow;
+  @apply bg-(--color2) h-full rounded-tl-xl section-shadow;
+  width: calc(100% - 80px);
+}
+
+@media screen and (max-width: 700px) {
+  .home {
+    @apply flex-col relative;
+  }
+
+  .main {
+    @apply w-full rounded-tl-none rounded-b-xl;
+    height: calc(100% - 80px);
+    box-shadow: inset 0 -4px 4px rgba(0, 0, 0, 0.25);
+  }
 }

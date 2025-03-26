@@ -1,10 +1,11 @@
 .direct-message {
-  @apply flex;
-  height: calc(100% - 48px);
+  @apply grid;
+  grid-template-columns: 230px 1fr;
+  height: calc(100vh - 48px);
 }
 
 .contact-area {
-  @apply relative w-60;
+  @apply relative w-full;
 }
 
 .contact-area__search {
@@ -13,8 +14,8 @@
 }
 
 .contact-area__search input[type="search"] {
-  @apply p-2 m-3 rounded-lg bg-(--color1) shadow-lg h-10 border border-(--grey);
-  width: calc(100% - 20px);
+  @apply p-2 m-1 rounded-lg bg-(--color1) shadow-lg h-10 border border-(--grey);
+  width: calc(100% - 8px);
 }
 
 .contact-area__list {
@@ -25,4 +26,7 @@
 .contact-area__drag-bar {
   @apply absolute bottom-0 left-0 h-1 hover:h-1 hover:bg-blue-500 -translate-x-1/2 cursor-row-resize w-full;
   transform: translateX(50%);
+}
+
+@media screen and (max-width: 700px) {
 }

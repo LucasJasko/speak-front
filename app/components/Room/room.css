@@ -11,3 +11,14 @@
 .room__active {
   @apply bg-(--color4) border border-(--grey);
 }
+
+@media screen and (max-width: 700px) {
+  .room {
+    @apply flex justify-center items-center text-center m-1 p-0;
+    width: calc(100% - 8px);
+    height: 60px;
+  }
+  .room > i {
+    @apply text-[16px] m-0;
+  }
+}

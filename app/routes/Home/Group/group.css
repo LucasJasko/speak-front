@@ -1,10 +1,11 @@
 .group {
-  @apply flex;
-  height: calc(100% - 48px);
+  @apply grid;
+  grid-template-columns: 230px 1fr;
+  height: calc(100vh - 48px);
 }
 
 .group-area {
-  @apply relative w-60;
+  @apply relative w-full h-full;
 }
 
 .group-area__title-container {
@@ -17,7 +18,7 @@
 }
 
 .group__title-area {
-  @apply flex;
+  @apply flex rounded-lg;
 }
 
 .group__title-area > i {
@@ -32,10 +33,24 @@
   @apply text-lg p-0;
 }
 
-.group__title-area {
-}
-
 .group-area__list {
   @apply pt-3;
   height: calc(100% - 80px);
+}
+
+@media screen and (max-width: 700px) {
+  .group {
+    height: calc(100vh - 128px);
+    grid-template-columns: 60px 1fr;
+  }
+  .group-area {
+    height: calc(100% - 80px);
+  }
+
+  .group__title-area {
+    @apply text-center w-full h-full hover:bg-(--color1);
+  }
+  .group__title-area > i {
+    @apply m-auto;
+  }
 }

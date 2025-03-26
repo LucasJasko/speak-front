@@ -21,3 +21,20 @@
 .header__manage-button {
   @apply text-lg rounded-xl hover:bg-(--color1) p-2 w-10 h-10 cursor-pointer;
 }
+
+@media screen and (max-width: 1100px) {
+  .header__manage-window {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .search__area,
+  .search__container {
+    @apply w-full;
+  }
+
+  .search__container {
+    @apply mx-2;
+  }
+}
