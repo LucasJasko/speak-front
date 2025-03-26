@@ -3,6 +3,7 @@ import type { Route } from "../+types/home";
 
 import MessageArea from "~/components/MessageArea/MessageArea";
 import { useRef, useState } from "react";
+import { useMobileContext } from "~/context/MobileContext";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -13,6 +14,9 @@ const DirectMessage = () => {
   const isResizing = useRef(false);
   const [result, setResult] = useState<any>([]);
   const [searchError, setSearchError] = useState("");
+  const { isMobile } = useMobileContext();
+
+  console.log(isMobile);
 
   async function handleSearch(e: any) {
     const query = e.target.value;
@@ -40,11 +44,13 @@ const DirectMessage = () => {
   return (
     <div className="direct-message">
       <div className="contact-area">
-        <div className="contact-area__search">
-          <input type="search" placeholder="Rechercher un utilisateur..." onInput={handleSearch} />
-          <ul>{searchError ? <li>{searchError}</li> : result.map((user: any) => <li key={user["user_name"]}>{user["user_name"]}</li>)}</ul>
-          <div className="contact-area__drag-bar" onMouseDown={handleResize}></div>
-        </div>
+        {!isMobile && (
+          <div className="contact-area__search">
+            <input type="search" placeholder="Rechercher un utilisateur..." onInput={handleSearch} />
+            <ul>{searchError ? <li>{searchError}</li> : result.map((user: any) => <li key={user["user_name"]}>{user["user_name"]}</li>)}</ul>
+            <div className="contact-area__drag-bar" onMouseDown={handleResize}></div>
+          </div>
+        )}
         <div className="contact-area__list">
           <UserItem name="Utilisateur 1" pic="/assets/img/user1.png" status={true} />
           <UserItem name="Utilisateur 2" pic="/assets/img/user2.jpg" status={true} />

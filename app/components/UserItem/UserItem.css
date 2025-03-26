@@ -19,3 +19,16 @@
 .connection__dot {
   @apply size-4 absolute bottom-0 right-0 bg-green-500 rounded-full;
 }
+
+@media screen and (max-width: 700px) {
+  .user {
+    @apply mx-1 h-fit;
+    width: calc(100% - 8px);
+  }
+  .user__img-container {
+    @apply w-full m-0 h-fit;
+  }
+  .connection__dot {
+    @apply bottom-[-6px];
+  }
+}
