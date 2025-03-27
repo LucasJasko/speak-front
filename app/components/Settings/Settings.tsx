@@ -15,7 +15,7 @@ interface MenuMap {
   element?: JSX.Element;
 }
 
-const Settings: React.FC<{ onClose: (selected: string) => void }> = ({ onClose }) => {
+const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: string }> = ({ onClose, lastActive }) => {
   const [activeMenu, setActiveMenu] = useState("");
   const [activeSettingsList, setActiveSettingsList] = useState<boolean>(true);
   const contentRef = useRef<JSX.Element | string>(null);
@@ -29,8 +29,9 @@ const Settings: React.FC<{ onClose: (selected: string) => void }> = ({ onClose }
     { key: "interface", name: "Interface", element: <Interface /> },
     { key: "notifications", name: "Notifications", element: <Notifications /> },
   ];
-  const handleClose = (activeTab: string) => {
-    onClose(activeTab);
+
+  const handleClose = (lastActive: string) => {
+    onClose(lastActive);
   };
 
   const handleActiveMenu = (key: string) => {
@@ -42,7 +43,7 @@ const Settings: React.FC<{ onClose: (selected: string) => void }> = ({ onClose }
   return (
     <div className="settings">
       <div className="settings__window">
-        <button className="settings__manage-button manage__button__close" onClick={() => handleClose("")}>
+        <button className="settings__manage-button manage__button__close" onClick={() => handleClose(lastActive)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
         {isMobile ? (

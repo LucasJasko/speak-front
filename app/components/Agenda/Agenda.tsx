@@ -1,10 +1,11 @@
 interface AgendaProps {
-  onClick: (selected: string) => void;
+  onClose: (selected: string) => void;
+  lastActive: string;
 }
 
-const Agenda: React.FC<AgendaProps> = ({ onClick }) => {
+const Agenda: React.FC<AgendaProps> = ({ onClose, lastActive }) => {
   const handleClick = (selected: string) => {
-    onClick(selected);
+    onClose(selected);
   };
   return (
     <div className="agenda">
@@ -33,7 +34,7 @@ const Agenda: React.FC<AgendaProps> = ({ onClick }) => {
               <i className="fa-solid fa-angles-right"></i>
             </button>
           </div>
-          <button className="agenda__manage-button manage__button-close" onClick={() => handleClick("")}>
+          <button className="agenda__manage-button manage__button-close" onClick={() => handleClick(lastActive)}>
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>

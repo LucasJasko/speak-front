@@ -12,7 +12,7 @@ interface MenuMap {
   element?: JSX.Element;
 }
 
-const Profile: React.FC<{ onClose: (activeTab: string) => void }> = ({ onClose }) => {
+const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: string }> = ({ onClose, lastActive }) => {
   const navigate = useNavigate();
   const [activeProfileList, setActiveProfileList] = useState<boolean>(true);
   const [activeMenu, setActiveMenu] = useState<any>("");
@@ -26,8 +26,8 @@ const Profile: React.FC<{ onClose: (activeTab: string) => void }> = ({ onClose }
     { key: "disconnect", name: "Déconnexion" },
   ];
 
-  const handleClose = (activeTab: string) => {
-    onClose(activeTab);
+  const handleClose = (lastActive: string) => {
+    onClose(lastActive);
   };
 
   const handleActiveMenu = (key: string) => {
@@ -44,7 +44,7 @@ const Profile: React.FC<{ onClose: (activeTab: string) => void }> = ({ onClose }
   return (
     <div className="profile">
       <div className="profile__window">
-        <button className="profile__manage-button manage__button-close" onClick={() => handleClose("")}>
+        <button className="profile__manage-button manage__button-close" onClick={() => handleClose(lastActive)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
         {isMobile ? (

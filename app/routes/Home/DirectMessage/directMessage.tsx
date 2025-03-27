@@ -16,8 +16,6 @@ const DirectMessage = () => {
   const [searchError, setSearchError] = useState("");
   const { isMobile } = useMobileContext();
 
-  console.log(isMobile);
-
   async function handleSearch(e: any) {
     const query = e.target.value;
 

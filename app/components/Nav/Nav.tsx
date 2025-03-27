@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { NavLink } from "react-router";
 import { motion } from "motion/react";
 
-const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => {
-  const [active, setActive] = useState("");
-  const handleClick = (selected: string) => {
-    onClick(selected);
-    setActive(selected);
+const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> = ({ onClick, activeBtn }) => {
+  const handleClick = (selectedBtn: string) => {
+    onClick(selectedBtn);
   };
 
   return (
@@ -19,7 +17,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
               transition: { duration: 0.1 },
             }}
             whileTap={{ scale: 0.95 }}
-            className={`nav__link ${active == "direct-message" ? "nav__link-active" : ""}`}
+            className={`nav__link ${activeBtn == "direct-message" ? "nav__link-active" : ""}`}
             onClick={() => handleClick("direct-message")}
           >
             <i className="fa-regular fa-comments"></i>
@@ -32,7 +30,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
               transition: { duration: 0.1 },
             }}
             whileTap={{ scale: 0.95 }}
-            className={`nav__link ${active == "group" ? "nav__link-active" : ""}`}
+            className={`nav__link ${activeBtn == "group" ? "nav__link-active" : ""}`}
             onClick={() => handleClick("group")}
           >
             <i className="fa-solid fa-user-group"></i>
@@ -44,7 +42,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
             transition: { duration: 0.1 },
           }}
           whileTap={{ scale: 0.95 }}
-          className={`nav__link ${active == "addGroup" ? "nav__link-active" : ""}`}
+          className={`nav__link ${activeBtn == "addGroup" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleClick("addGroup");
           }}
@@ -60,7 +58,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
             transition: { duration: 0.1 },
           }}
           whileTap={{ scale: 0.95 }}
-          className={`nav__link ${active == "agenda" ? "nav__link-active" : ""}`}
+          className={`nav__link ${activeBtn == "agenda" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleClick("agenda");
           }}
@@ -73,7 +71,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
             transition: { duration: 0.1 },
           }}
           whileTap={{ scale: 0.95 }}
-          className={`nav__link ${active == "profile" ? "nav__link-active" : ""}`}
+          className={`nav__link ${activeBtn == "profile" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleClick("profile");
           }}
@@ -86,7 +84,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => 
             transition: { duration: 0.1 },
           }}
           whileTap={{ scale: 0.95 }}
-          className={`nav__link ${active == "settings" ? "nav__link-active" : ""}`}
+          className={`nav__link ${activeBtn == "settings" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleClick("settings");
           }}

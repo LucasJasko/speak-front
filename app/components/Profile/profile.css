@@ -32,6 +32,7 @@
 .profile__content {
   @apply p-10 overflow-y-scroll;
   width: calc(100% - 250px);
+  scrollbar-width: none;
 }
 
 .profile__item-disconnect {

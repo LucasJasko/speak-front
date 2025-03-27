@@ -14,7 +14,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const [active, setActive] = useState("");
+  const [activeLayout, setActiveLayout] = useState("direct-message");
+  const [lastActive, setLastActive] = useState("");
 
   const [response, setResponse]: any = useState(null);
   const [error, setError]: any = useState(null);
@@ -23,22 +24,29 @@ export default function Home() {
     setResponse("Ceci est un token");
   }, []);
 
+  const handleActive = (currentActive: string) => {
+    setActiveLayout(currentActive);
+    if (activeLayout == "direct-message" || activeLayout == "group") {
+      setLastActive(activeLayout);
+    }
+  };
+
   const componentsMap: Record<string, JSX.Element> = {
-    profile: <Profile onClose={setActive} />,
-    agenda: <Agenda onClick={setActive} />,
-    settings: <Settings onClose={setActive} />,
-    addGroup: <AddGroup onClick={setActive} />,
+    profile: <Profile onClose={handleActive} lastActive={lastActive} />,
+    agenda: <Agenda onClose={handleActive} lastActive={lastActive} />,
+    settings: <Settings onClose={handleActive} lastActive={lastActive} />,
+    addGroup: <AddGroup onClose={handleActive} lastActive={lastActive} />,
   };
 
   if (response && response == "Ceci est un token") {
     return (
       <div className="home">
-        <Nav onClick={setActive} />
+        <Nav onClick={handleActive} activeBtn={activeLayout} />
         <main className="main">
           <Header />
           <Outlet />
         </main>
-        {componentsMap[active]}
+        {componentsMap[activeLayout]}
       </div>
     );
   } else {
