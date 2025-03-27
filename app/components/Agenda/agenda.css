@@ -40,3 +40,12 @@
 .agenda__manage-button {
   @apply absolute top-5 right-5 text-xl rounded-xl hover:bg-(--color1) p-2 size-10 cursor-pointer flex items-center justify-center;
 }
+
+@media screen and (max-width: 700px) {
+  .agenda {
+    @apply items-start;
+  }
+  .agenda__window {
+    height: calc(100% - 80px);
+  }
+}

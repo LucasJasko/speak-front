@@ -1,17 +1,17 @@
 .menu__item {
-  @apply mb-4;
+  @apply mb-4 text-sm;
 }
 
 .menu__title {
-  @apply font-bold;
+  @apply font-bold text-base;
 }
 
 .menu__text {
-  @apply inline-block mr-3 text-sm;
+  @apply inline-block mr-3;
 }
 
 .menu__input {
-  @apply border-1 border-(--grey) bg-(--color2) rounded p-2 my-1 mr-1 text-sm;
+  @apply border-1 border-(--grey) bg-(--color2) rounded p-2 my-1 mr-1;
 }
 
 select {
@@ -32,4 +32,28 @@ select {
 
 .menu__wrapper {
   @apply flex items-center w-full justify-center;
+}
+
+.zoom-lvl {
+  @apply w-15 inline-block;
+}
+
+.notif-state-label {
+  @apply w-25 inline-block;
+}
+
+.blocked-user__item {
+  @apply my-3 p-2 rounded-lg hover:bg-(--color2) max-w-100 w-full flex items-center justify-between;
+}
+
+.blocked-user__item > i {
+  @apply hover:bg-(--color1) cursor-pointer p-2 rounded-lg;
+}
+
+.react-menu__text {
+  @apply mb-2;
+}
+
+.notif-mute-checkbox {
+  @apply m-0 ml-2;
 }

@@ -1,51 +1,89 @@
 import type React from "react";
-import { useState, type JSX } from "react";
+import { useRef, useState, type JSX } from "react";
 import Accessibility from "./Accessibility/Accessibility";
 import Appearance from "./Apprearance/Appearance";
 import AudioVideo from "./AudioVideo/AudioVideo";
 import BlockedUsers from "./BlockedUsers/BlockedUsers";
 import Interface from "./Interface/Interface";
 import Notifications from "./Notifications/Notifications";
+import { useMobileContext } from "~/context/MobileContext";
 
-const Settings: React.FC<{ onClick: (selected: string) => void }> = ({ onClick }) => {
+interface MenuMap {
+  key: string;
+  name: string;
+  element?: JSX.Element;
+}
+
+const Settings: React.FC<{ onClose: (selected: string) => void }> = ({ onClose }) => {
   const [activeMenu, setActiveMenu] = useState("");
+  const [activeSettingsList, setActiveSettingsList] = useState<boolean>(true);
+  const contentRef = useRef<JSX.Element | string>(null);
+  const { isMobile } = useMobileContext();
 
-  const menuMap: Record<string, JSX.Element | [string, JSX.Element]> = {
-    accessibility: ["Accessibilité", <Accessibility />],
-    appearance: ["Apparence", <Appearance />],
-    audiovideo: ["Audio et vidéo", <AudioVideo />],
-    blockedusers: ["Utilisateurs bloqués", <BlockedUsers />],
-    interface: ["Interface", <Interface />],
-    notifications: ["Notifications", <Notifications />],
+  const menuMap: MenuMap[] = [
+    { key: "accessibility", name: "Accessibilité", element: <Accessibility /> },
+    { key: "appearance", name: "Apparence", element: <Appearance /> },
+    { key: "audiovideo", name: "Audio et vidéo", element: <AudioVideo /> },
+    { key: "blockedusers", name: "Utilisateurs bloqués", element: <BlockedUsers /> },
+    { key: "interface", name: "Interface", element: <Interface /> },
+    { key: "notifications", name: "Notifications", element: <Notifications /> },
+  ];
+  const handleClose = (activeTab: string) => {
+    onClose(activeTab);
   };
-  const activeList = menuMap[activeMenu];
-  const menuItem = Array.isArray(activeList) ? activeList[1] : activeList;
 
-  const handleClick = (selected: string) => {
-    onClick(selected);
+  const handleActiveMenu = (key: string) => {
+    setActiveMenu(key);
+
+    const selectedItem = menuMap.find((item) => item.key == key);
+    contentRef.current = selectedItem?.element || null;
   };
   return (
     <div className="settings">
       <div className="settings__window">
-        <button className="settings__manage-button manage__button__close" onClick={() => handleClick("")}>
+        <button className="settings__manage-button manage__button__close" onClick={() => handleClose("")}>
           <i className="fa-solid fa-xmark"></i>
         </button>
-        <div className="settings__list-container">
-          <ul className="settings__list">
-            {Object.entries(menuMap).map(([key, value]) => (
-              <li
-                key={key}
-                className={`settings__item ${activeMenu == `${key}` ? "settings__item-active" : ""}`}
-                onClick={() => {
-                  setActiveMenu(`${key}`);
-                }}
-              >
-                {Array.isArray(value) ? value[0] : ""}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="settings__content">{menuItem}</div>
+        {isMobile ? (
+          activeSettingsList ? (
+            <div className="settings__list-container">
+              <ul className="settings__list">
+                {menuMap.map(({ key, name }) => (
+                  <li
+                    key={key}
+                    className={`settings__item ${activeMenu == `${key}` ? "settings__item-active" : ""}`}
+                    onClick={() => {
+                      handleActiveMenu(key), setActiveSettingsList(false);
+                    }}
+                  >
+                    {name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <span className="profile-burger" onClick={() => setActiveSettingsList(true)}>
+              <i className="fa-solid fa-bars"></i>
+            </span>
+          )
+        ) : (
+          <div className="settings__list-container">
+            <ul className="settings__list">
+              {menuMap.map(({ key, name }) => (
+                <li
+                  key={key}
+                  className={`settings__item ${activeMenu == `${key}` ? "settings__item-active" : ""}`}
+                  onClick={() => {
+                    setActiveMenu(`${key}`);
+                  }}
+                >
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <div className="settings__content">{contentRef.current}</div>
       </div>
     </div>
   );

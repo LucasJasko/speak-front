@@ -30,10 +30,29 @@
 }
 
 .profile__content {
-  @apply p-10;
+  @apply p-10 overflow-y-scroll;
   width: calc(100% - 250px);
 }
 
 .profile__item-disconnect {
   @apply hover:text-red-500 border-2 border-transparent absolute bottom-0 left-0 w-full;
+}
+
+.profile-burger {
+  @apply absolute top-5 left-5 text-xl rounded-xl hover:bg-(--color2) p-2 size-10 cursor-pointer flex items-center justify-center;
+}
+
+@media screen and (max-width: 700px) {
+  .profile {
+    @apply items-start;
+  }
+  .profile__list-container {
+    @apply absolute h-full shadow-2xl;
+  }
+  .profile__content {
+    @apply w-full pt-18;
+  }
+  .profile__window {
+    height: calc(100% - 80px);
+  }
 }

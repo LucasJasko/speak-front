@@ -14,7 +14,7 @@ const Interface = () => {
       </li>
       <li className="menu__item">
         <h3 className="menu__title">Réactions rapides</h3>
-        <p className="menu__text">Choisissez les réactions rapide disponibles sur les messages: </p>
+        <p className="menu__text react-menu__text">Choisissez les réactions rapide disponibles sur les messages: </p> <br />
         <select name="" id="">
           <option value="">Réaction 1</option>
           <option value="1">content</option>
