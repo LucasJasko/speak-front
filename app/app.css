@@ -34,10 +34,6 @@ body {
   @apply h-screen bg-(--color1);
 }
 
-/* * {
-  transition: 0.2s ease;
-} */
-
 @utility me-center {
   display: flex;
   justify-content: center;

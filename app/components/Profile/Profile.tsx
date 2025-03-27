@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState, type JSX } from "react";
-import Customisation from "./Customisation/Customisation";
-import PersonnalInfos from "./PersonnalInfos/PersonnalInfos";
-import Security from "./Security/Security";
-import { useNavigate } from "react-router";
+import { useRef, useState, type JSX } from "react";
 import { useMobileContext } from "~/context/MobileContext";
+import ProfileList from "./ProfileList/ProfileList";
+import { useNavigate } from "react-router";
+import Customisation from "~/components/Profile/Customisation/Customisation";
+import PersonnalInfos from "~/components/Profile/PersonnalInfos/PersonnalInfos";
+import Security from "~/components/Profile/Security/Security";
 
 interface MenuMap {
   key: string;
@@ -13,8 +14,8 @@ interface MenuMap {
 
 const Profile: React.FC<{ onClose: (activeTab: string) => void }> = ({ onClose }) => {
   const navigate = useNavigate();
-  const [activeMenu, setActiveMenu] = useState<any>(null);
   const [activeProfileList, setActiveProfileList] = useState<boolean>(true);
+  const [activeMenu, setActiveMenu] = useState<any>("");
   const contentRef = useRef<JSX.Element | string>(null);
   const { isMobile } = useMobileContext();
 
@@ -48,44 +49,27 @@ const Profile: React.FC<{ onClose: (activeTab: string) => void }> = ({ onClose }
         </button>
         {isMobile ? (
           activeProfileList ? (
-            <div className="profile__list-container">
-              <ul className="profile__list">
-                {menuMap.map(({ key, name }) => (
-                  <li
-                    key={key}
-                    className={`profile__item ${activeMenu == `${key}` ? "profile__item-active" : ""} ${
-                      key == "disconnect" ? "profile__item-disconnect" : ""
-                    } `}
-                    onClick={() => {
-                      handleActiveMenu(key), setActiveProfileList(false);
-                    }}
-                  >
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ProfileList
+              menuMap={menuMap}
+              activeMenu={activeMenu}
+              onSelect={(key) => {
+                handleActiveMenu(key);
+                setActiveProfileList(false);
+              }}
+            />
           ) : (
             <span className="profile-burger" onClick={() => setActiveProfileList(true)}>
               <i className="fa-solid fa-bars"></i>
             </span>
           )
         ) : (
-          <div className="profile__list-container">
-            <ul className="profile__list">
-              {menuMap.map(({ key, name }) => (
-                <li
-                  key={key}
-                  className={`profile__item ${activeMenu == `${key}` ? "profile__item-active" : ""} ${key == "disconnect" ? "profile__item-disconnect" : ""} `}
-                  onClick={() => {
-                    handleActiveMenu(key);
-                  }}
-                >
-                  {name}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ProfileList
+            menuMap={menuMap}
+            activeMenu={activeMenu}
+            onSelect={(key) => {
+              handleActiveMenu(key);
+            }}
+          />
         )}
         <div className="profile__content">{contentRef.current}</div>
       </div>

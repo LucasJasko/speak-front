@@ -7,6 +7,7 @@ import BlockedUsers from "./BlockedUsers/BlockedUsers";
 import Interface from "./Interface/Interface";
 import Notifications from "./Notifications/Notifications";
 import { useMobileContext } from "~/context/MobileContext";
+import SettingsList from "./SettingsList/SettingsList";
 
 interface MenuMap {
   key: string;
@@ -46,42 +47,28 @@ const Settings: React.FC<{ onClose: (selected: string) => void }> = ({ onClose }
         </button>
         {isMobile ? (
           activeSettingsList ? (
-            <div className="settings__list-container">
-              <ul className="settings__list">
-                {menuMap.map(({ key, name }) => (
-                  <li
-                    key={key}
-                    className={`settings__item ${activeMenu == `${key}` ? "settings__item-active" : ""}`}
-                    onClick={() => {
-                      handleActiveMenu(key), setActiveSettingsList(false);
-                    }}
-                  >
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <SettingsList
+              menuMap={menuMap}
+              activeMenu={activeMenu}
+              onSelect={(key) => {
+                handleActiveMenu(key);
+                setActiveSettingsList(false);
+              }}
+            />
           ) : (
             <span className="profile-burger" onClick={() => setActiveSettingsList(true)}>
               <i className="fa-solid fa-bars"></i>
             </span>
           )
         ) : (
-          <div className="settings__list-container">
-            <ul className="settings__list">
-              {menuMap.map(({ key, name }) => (
-                <li
-                  key={key}
-                  className={`settings__item ${activeMenu == `${key}` ? "settings__item-active" : ""}`}
-                  onClick={() => {
-                    setActiveMenu(`${key}`);
-                  }}
-                >
-                  {name}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <SettingsList
+            menuMap={menuMap}
+            activeMenu={activeMenu}
+            onSelect={(key) => {
+              handleActiveMenu(key);
+              setActiveSettingsList(false);
+            }}
+          />
         )}
         <div className="settings__content">{contentRef.current}</div>
       </div>
