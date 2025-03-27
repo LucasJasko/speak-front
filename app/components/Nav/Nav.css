@@ -22,6 +22,14 @@
   @apply bg-(--color4) rounded-xl btn-shadow;
 }
 
+.mobile-deploy-button {
+  @apply w-20 h-full text-3xl me-center cursor-pointer relative;
+}
+.nav__bottom-mobile {
+  @apply absolute flex flex-col-reverse top-0;
+  transform: translateY(-100%);
+}
+
 @media screen and (max-width: 700px) {
   .nav {
     @apply absolute bottom-0 z-1 my-0 flex-row;
@@ -35,5 +43,8 @@
 
   .nav__link {
     @apply my-0 mx-1.5;
+  }
+  .nav__bottom-mobile__link {
+    @apply mb-3 me-center;
   }
 }

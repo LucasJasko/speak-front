@@ -45,6 +45,9 @@
   .agenda {
     @apply items-start;
   }
+  .agenda__header {
+    @apply pt-15 pb-3 h-fit;
+  }
   .agenda__window {
     height: calc(100% - 80px);
   }
