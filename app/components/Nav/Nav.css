@@ -42,7 +42,7 @@
   }
 
   .nav__link {
-    @apply my-0 mx-1.5;
+    @apply my-0 mx-1.5 shadow-xl;
   }
   .nav__bottom-mobile__link {
     @apply mb-3 me-center;

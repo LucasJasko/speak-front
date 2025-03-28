@@ -1,9 +1,12 @@
+import { useMobileContext } from "~/context/MobileContext";
+
 interface AddGroupProps {
   onClose: (selected: string) => void;
   lastActive: string;
 }
 
 const AddGroup: React.FC<AddGroupProps> = ({ onClose, lastActive }) => {
+  const { isMobile } = useMobileContext();
   const handleClick = (selected: string) => {
     onClose(selected);
   };
@@ -18,9 +21,13 @@ const AddGroup: React.FC<AddGroupProps> = ({ onClose, lastActive }) => {
         </div>
         <div className="add-group__content">
           <input className="add-group__input" type="text" name="" id="" placeholder="Insérez l'url du groupe" />
-          <button className="add-group__join">
-            <i className="fa-solid fa-plus"></i>
-          </button>
+          {!isMobile ? (
+            <button className="add-group__join">
+              <i className="fa-solid fa-plus"></i>
+            </button>
+          ) : (
+            <button className="add-group__join-mobile">Ajouter</button>
+          )}
         </div>
       </div>
     </div>

@@ -45,3 +45,22 @@
 .add-group__join {
   @apply text-xl rounded-xl hover:bg-(--color2) p-3 size-10 cursor-pointer flex items-center justify-center;
 }
+
+.add-group__join-mobile {
+  @apply bg-(--color2) p-3 rounded-xl mt-3 shadow-sm;
+}
+
+@media screen and (max-width: 700px) {
+  .add-group__window {
+    @apply max-w-[95%];
+  }
+  .add-group__input {
+    @apply max-w-[95%] m-0;
+  }
+  .add-group__content {
+    @apply flex-col;
+  }
+  .add-group__window {
+    @apply max-h-60;
+  }
+}
