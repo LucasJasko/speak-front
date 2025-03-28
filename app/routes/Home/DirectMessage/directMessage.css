@@ -32,4 +32,7 @@
   .direct-message {
     grid-template-columns: 60px 1fr;
   }
+  .direct-message-full {
+    grid-template-columns: 1fr;
+  }
 }

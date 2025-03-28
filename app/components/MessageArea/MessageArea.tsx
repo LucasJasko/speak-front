@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import MessageInput from "./MessageInput/MessageInput";
 import Message from "./Message/Message";
 import type { messageContent } from "./Message/Message";
+import { useMobileContext } from "~/context/MobileContext";
 
 interface MessageAreaProps {
   convID: string;
+  MobileSideMenuState: boolean;
+  setMobileSideMenu: (MobileSideMenuState: boolean) => void;
 }
 
-const MessageArea: React.FC<MessageAreaProps> = ({ convID }) => {
+const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState, convID }) => {
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
+  const { isMobile } = useMobileContext();
 
   useEffect(() => {
     const data = async () => {
@@ -20,12 +24,21 @@ const MessageArea: React.FC<MessageAreaProps> = ({ convID }) => {
         console.error("Erreur lors du chargement du fichier JSON :", error);
       }
     };
-
     data();
   }, []);
+
+  const handleMobileSideMenu = (MobileSideMenuState: boolean) => {
+    MobileSideMenuState ? setMobileSideMenu(false) : setMobileSideMenu(true);
+  };
+
   return (
     <div className="message-area">
-      <span className="message-area__drag-bar"></span>
+      <span className="message-area__drag-bar" />
+      {isMobile && (
+        <div className="message-area__mobile-burger-button" onClick={() => handleMobileSideMenu(MobileSideMenuState)}>
+          <i className="fa-solid fa-bars" />
+        </div>
+      )}
       <ul className="message-area__feed">
         {messageFeed.map((message, index) => (
           <Message

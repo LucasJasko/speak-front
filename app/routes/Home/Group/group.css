@@ -43,6 +43,9 @@
     height: calc(100vh - 128px);
     grid-template-columns: 60px 1fr;
   }
+  .group-full {
+    grid-template-columns: 1fr;
+  }
   .group-area {
     height: calc(100% - 80px);
   }

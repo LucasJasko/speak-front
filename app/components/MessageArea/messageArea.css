@@ -18,6 +18,10 @@
   @apply h-25 me-center px-2.5 pb-2.5;
 }
 
+.message-area__mobile-burger-button {
+  @apply absolute top-5 left-5 cursor-pointer bg-(--color2) size-15 my-1.5 me-center p-5 rounded-full shadow-lg;
+}
+
 @media screen and (max-width: 700px) {
   .message-area {
     @apply rounded-br-xl;
