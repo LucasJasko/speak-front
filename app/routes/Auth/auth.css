@@ -5,3 +5,9 @@
 .auth__window {
   @apply flex justify-center items-center relative w-120 h-131 overflow-x-hidden border-1 rounded border-(--grey) shadow-2xl;
 }
+
+@media screen and (max-width: 700px) {
+  .auth__window {
+    @apply h-full border-0;
+  }
+}

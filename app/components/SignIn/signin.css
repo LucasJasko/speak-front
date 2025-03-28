@@ -36,3 +36,20 @@
 .signin__switch {
   @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100 bg-(--color1) cursor-pointer font-bold hover:bg-(--color2);
 }
+
+@media screen and (max-width: 700px) {
+  .signin__p {
+    @apply my-3;
+  }
+
+  .signin__form {
+    @apply w-full;
+  }
+
+  .signin__input {
+    @apply max-w-80 mx-auto;
+  }
+  .signin__switch {
+    @apply max-w-80 mx-auto;
+  }
+}
