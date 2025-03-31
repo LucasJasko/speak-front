@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "motion/react";
 interface ProfileListProps {
   menuMap: { key: string; name: string }[];
   activeMenu: string;

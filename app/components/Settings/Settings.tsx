@@ -8,7 +8,7 @@ import Interface from "./Interface/Interface";
 import Notifications from "./Notifications/Notifications";
 import { useMobileContext } from "~/context/MobileContext";
 import SettingsList from "./SettingsList/SettingsList";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 
 interface MenuMap {
   key: string;
@@ -17,8 +17,8 @@ interface MenuMap {
 }
 
 const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: string }> = ({ onClose, lastActive }) => {
-  const [activeMenu, setActiveMenu] = useState("");
-  const [activeSettingsList, setActiveSettingsList] = useState<boolean>(true);
+  const [activeMenu, setActiveMenu] = useState("accessibility");
+  const [activeSettingsList, setActiveSettingsList] = useState<boolean>(false);
   const contentRef = useRef<JSX.Element | string>(null);
   const { isMobile } = useMobileContext();
 
@@ -54,20 +54,24 @@ const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: stri
           <i className="fa-solid fa-xmark"></i>
         </button>
         {isMobile ? (
-          activeSettingsList ? (
-            <SettingsList
-              menuMap={menuMap}
-              activeMenu={activeMenu}
-              onSelect={(key) => {
-                handleActiveMenu(key);
-                setActiveSettingsList(false);
-              }}
-            />
-          ) : (
-            <span className="profile-burger" onClick={() => setActiveSettingsList(true)}>
-              <i className="fa-solid fa-bars"></i>
-            </span>
-          )
+          <AnimatePresence>
+            {activeSettingsList ? (
+              <motion.div key={activeMenu} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }} transition={{ duration: 0.2 }}>
+                <SettingsList
+                  menuMap={menuMap}
+                  activeMenu={activeMenu}
+                  onSelect={(key) => {
+                    handleActiveMenu(key);
+                    setActiveSettingsList(false);
+                  }}
+                />
+              </motion.div>
+            ) : (
+              <span className="profile-burger" onClick={() => setActiveSettingsList(true)}>
+                <i className="fa-solid fa-bars"></i>
+              </span>
+            )}
+          </AnimatePresence>
         ) : (
           <SettingsList
             menuMap={menuMap}
@@ -78,7 +82,7 @@ const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: stri
             }}
           />
         )}
-        <div className="settings__content">{contentRef.current}</div>
+        <div className="settings__content">{contentRef.current ? contentRef.current : <Notifications />}</div>
       </motion.div>
     </motion.div>
   );

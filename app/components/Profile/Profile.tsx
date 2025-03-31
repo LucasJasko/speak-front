@@ -15,8 +15,8 @@ interface MenuMap {
 
 const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: string }> = ({ onClose, lastActive }) => {
   const navigate = useNavigate();
-  const [activeProfileList, setActiveProfileList] = useState<boolean>(true);
-  const [activeMenu, setActiveMenu] = useState<any>("");
+  const [activeProfileList, setActiveProfileList] = useState<boolean>(false);
+  const [activeMenu, setActiveMenu] = useState<any>("personnalisation");
   const contentRef = useRef<JSX.Element | string>(null);
   const { isMobile } = useMobileContext();
 
@@ -55,20 +55,24 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
           <i className="fa-solid fa-xmark"></i>
         </button>
         {isMobile ? (
-          activeProfileList ? (
-            <ProfileList
-              menuMap={menuMap}
-              activeMenu={activeMenu}
-              onSelect={(key) => {
-                handleActiveMenu(key);
-                setActiveProfileList(false);
-              }}
-            />
-          ) : (
-            <span className="profile-burger" onClick={() => setActiveProfileList(true)}>
-              <i className="fa-solid fa-bars"></i>
-            </span>
-          )
+          <AnimatePresence>
+            {activeProfileList ? (
+              <motion.div key={activeMenu} initial={{ x: -500 }} animate={{ x: 0 }} exit={{ x: -500 }} transition={{ duration: 0.2 }}>
+                <ProfileList
+                  menuMap={menuMap}
+                  activeMenu={activeMenu}
+                  onSelect={(key) => {
+                    handleActiveMenu(key);
+                    setActiveProfileList(false);
+                  }}
+                />
+              </motion.div>
+            ) : (
+              <span className="profile-burger" onClick={() => setActiveProfileList(true)}>
+                <i className="fa-solid fa-bars"></i>
+              </span>
+            )}
+          </AnimatePresence>
         ) : (
           <ProfileList
             menuMap={menuMap}
@@ -78,7 +82,7 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
             }}
           />
         )}
-        <div className="profile__content">{contentRef.current}</div>
+        <div className="profile__content">{contentRef.current ? contentRef.current : <Customisation />}</div>
       </motion.div>
     </motion.div>
   );
