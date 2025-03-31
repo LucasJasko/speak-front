@@ -7,7 +7,7 @@
 }
 
 .search__container {
-  @apply border border-(--grey) bg-(--color1) rounded-lg w-158 shadow-lg;
+  @apply bg-(--color1) rounded-lg w-158 shadow;
 }
 
 .main__search {
