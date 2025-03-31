@@ -1,5 +1,6 @@
 .message-area {
   @apply bg-(--color5) rounded-tl-xl relative section-shadow w-full;
+  grid-area: b;
   height: calc(100vh - 48px);
 }
 

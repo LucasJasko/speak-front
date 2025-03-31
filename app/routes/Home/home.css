@@ -7,6 +7,10 @@
   width: calc(100% - 80px);
 }
 
+.animation-wrapper {
+  @apply absolute w-full h-full;
+}
+
 @media screen and (max-width: 700px) {
   .home {
     @apply flex-col relative;

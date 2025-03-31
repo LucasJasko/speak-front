@@ -8,7 +8,7 @@ import Profile from "~/components/Profile/Profile";
 import Agenda from "~/components/Agenda/Agenda";
 import Settings from "~/components/Settings/Settings";
 import AddGroup from "~/components/AddGroup/AddGroup";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil !" }];

@@ -17,7 +17,7 @@ const Group = () => {
   }, [isMobile]);
 
   return (
-    <div className={`group ${displayMobileSideMenu ? "" : "group-full"}`}>
+    <div className="group" style={isMobile ? { animation: `${displayMobileSideMenu ? "openMobileSideBar" : "closeMobileSideBar"} 0.2s ease forwards` } : {}}>
       {displayMobileSideMenu && (
         <div className="group-area">
           <div className="group-area__title-container">

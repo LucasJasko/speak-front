@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 interface AgendaProps {
   onClose: (selected: string) => void;
   lastActive: string;
@@ -8,8 +9,14 @@ const Agenda: React.FC<AgendaProps> = ({ onClose, lastActive }) => {
     onClose(selected);
   };
   return (
-    <div className="agenda">
-      <div className="agenda__window">
+    <motion.div className="agenda" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+      <motion.div
+        className="agenda__window"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+      >
         <div className="agenda__header">
           <button className="add__container">
             <i className="fa-solid fa-plus"></i>
@@ -39,8 +46,8 @@ const Agenda: React.FC<AgendaProps> = ({ onClose, lastActive }) => {
           </button>
         </div>
         <div className="agenda__content"></div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

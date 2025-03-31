@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import Customisation from "~/components/Profile/Customisation/Customisation";
 import PersonnalInfos from "~/components/Profile/PersonnalInfos/PersonnalInfos";
 import Security from "~/components/Profile/Security/Security";
+import { AnimatePresence, motion } from "motion/react";
 
 interface MenuMap {
   key: string;
@@ -42,8 +43,14 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
   };
 
   return (
-    <div className="profile">
-      <div className="profile__window">
+    <motion.div className="profile" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+      <motion.div
+        className="profile__window"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+      >
         <button className="profile__manage-button manage__button-close" onClick={() => handleClose(lastActive)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
@@ -72,8 +79,8 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
           />
         )}
         <div className="profile__content">{contentRef.current}</div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

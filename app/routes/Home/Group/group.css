@@ -1,11 +1,13 @@
 .group {
   @apply grid;
   grid-template-columns: 230px 1fr;
+  grid-template-areas: "a b";
   height: calc(100vh - 48px);
 }
 
 .group-area {
   @apply relative w-full h-full;
+  grid-area: a;
 }
 
 .group-area__title-container {

@@ -4,14 +4,13 @@ import type { Route } from "../+types/home";
 import MessageArea from "~/components/MessageArea/MessageArea";
 import { useEffect, useRef, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
+import { AnimatePresence, motion } from "motion/react";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
 }
 
 const DirectMessage = () => {
-  const [resizedWidth, setResizedWidth] = useState(0);
-  const isResizing = useRef(false);
   const [result, setResult] = useState<any>([]);
   const [searchError, setSearchError] = useState("");
   const { isMobile } = useMobileContext();
@@ -40,19 +39,17 @@ const DirectMessage = () => {
     }
   }
 
-  const handleResize = (e: any) => {
-    const mouseY = e.nativeEvent.clientY;
-  };
-
   return (
-    <div className={`direct-message ${displayMobileSideMenu ? "" : "direct-message-full"}`}>
+    <div
+      className="direct-message"
+      style={isMobile ? { animation: `${displayMobileSideMenu ? "openMobileSideBar" : "closeMobileSideBar"} 0.2s ease forwards` } : {}}
+    >
       {displayMobileSideMenu && (
         <div className="contact-area">
           {!isMobile && (
             <div className="contact-area__search">
               <input type="search" placeholder="Rechercher un utilisateur..." onInput={handleSearch} />
               <ul>{searchError ? <li>{searchError}</li> : result.map((user: any) => <li key={user["user_name"]}>{user["user_name"]}</li>)}</ul>
-              <div className="contact-area__drag-bar" onMouseDown={handleResize}></div>
             </div>
           )}
           <div className="contact-area__list">

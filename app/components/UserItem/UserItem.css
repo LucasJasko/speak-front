@@ -28,6 +28,9 @@
   .user__img-container {
     @apply w-full m-0 h-fit;
   }
+  .user__img {
+    @apply w-[30px];
+  }
   .connection__dot {
     @apply bottom-[-6px];
   }

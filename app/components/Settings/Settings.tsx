@@ -8,6 +8,7 @@ import Interface from "./Interface/Interface";
 import Notifications from "./Notifications/Notifications";
 import { useMobileContext } from "~/context/MobileContext";
 import SettingsList from "./SettingsList/SettingsList";
+import { motion } from "motion/react";
 
 interface MenuMap {
   key: string;
@@ -41,8 +42,14 @@ const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: stri
     contentRef.current = selectedItem?.element || null;
   };
   return (
-    <div className="settings">
-      <div className="settings__window">
+    <motion.div className="settings" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+      <motion.div
+        className="settings__window"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+      >
         <button className="settings__manage-button manage__button__close" onClick={() => handleClose(lastActive)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
@@ -72,8 +79,8 @@ const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: stri
           />
         )}
         <div className="settings__content">{contentRef.current}</div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

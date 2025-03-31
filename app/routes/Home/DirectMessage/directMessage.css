@@ -1,11 +1,13 @@
 .direct-message {
   @apply grid;
   grid-template-columns: 230px 1fr;
+  grid-template-areas: "a b";
   height: calc(100vh - 48px);
 }
 
 .contact-area {
-  @apply relative w-full;
+  @apply w-[230px];
+  grid-area: a;
 }
 
 .contact-area__search {
@@ -23,16 +25,11 @@
   height: calc(100% - 150px);
 }
 
-.contact-area__drag-bar {
-  @apply absolute bottom-0 left-0 h-1 hover:h-1 hover:bg-blue-500 -translate-x-1/2 cursor-row-resize w-full;
-  transform: translateX(50%);
-}
-
 @media screen and (max-width: 700px) {
   .direct-message {
     grid-template-columns: 60px 1fr;
   }
-  .direct-message-full {
-    grid-template-columns: 1fr;
+  .contact-area {
+    @apply w-[60px];
   }
 }
