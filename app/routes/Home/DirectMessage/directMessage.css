@@ -16,7 +16,7 @@
 }
 
 .contact-area__search input[type="search"] {
-  @apply p-2 m-1 rounded-lg bg-(--color1) shadow-lg h-10 border border-(--grey);
+  @apply p-2 mb-1 mx-1 rounded-lg bg-(--color1) shadow h-10;
   width: calc(100% - 8px);
 }
 

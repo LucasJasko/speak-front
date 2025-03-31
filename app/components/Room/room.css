@@ -1,15 +1,15 @@
 .room {
-  @apply h-8 me-center justify-start p-2 rounded-lg mx-auto mb-1 cursor-pointer hover:bg-(--color1) text-sm;
+  @apply h-10 me-center justify-start p-2 rounded-lg mx-auto mb-1 cursor-pointer hover:bg-(--color1) text-base;
   width: calc(100% - 20px);
   transition: 0.2s ease;
 }
 
 .room > i {
-  @apply mr-2 w-4;
+  @apply ml-1 mr-3 w-4;
 }
 
-.room__active {
-  @apply bg-(--color4) border border-(--grey);
+.active-room {
+  @apply bg-(--color1) shadow;
 }
 
 @media screen and (max-width: 700px) {

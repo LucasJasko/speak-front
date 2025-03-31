@@ -1,5 +1,5 @@
 .message-container__input-container {
-  @apply w-full h-full bg-(--color1) rounded-lg px-4 py-2 shadow-lg border border-(--grey);
+  @apply w-full h-full bg-(--color1) rounded-lg px-4 py-2 shadow;
 }
 
 .message-container__input {

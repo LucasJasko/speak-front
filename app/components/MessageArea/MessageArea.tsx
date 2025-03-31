@@ -33,7 +33,7 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
 
   return (
     <div className="message-area">
-      <span className="message-area__drag-bar" />
+      {!isMobile && <span className="message-area__drag-bar" />}
       {isMobile && (
         <div className="message-area__mobile-burger-button" onClick={() => handleMobileSideMenu(MobileSideMenuState)}>
           <i className="fa-solid fa-bars" />

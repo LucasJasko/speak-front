@@ -11,6 +11,7 @@ export function meta({}: Route.MetaArgs) {
 const Group = () => {
   const { isMobile } = useMobileContext();
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
+  const [activeRoom, setActiveRoom] = useState("");
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
@@ -28,11 +29,11 @@ const Group = () => {
             {!isMobile && <i className="fa-solid fa-angle-down" />}
           </div>
           <div className="group-area__list">
-            <Room roomIcon={<i className="fa-solid fa-location-dot" />} roomName="Salon numéro 1" />
-            <Room roomIcon={<i className="fa-solid fa-magnifying-glass" />} roomName="Salon numéro 2" />
-            <Room roomIcon={<i className="fa-solid fa-video" />} roomName="Salon numéro 3" />
-            <Room roomIcon={<i className="fa-solid fa-lock" />} roomName="Salon numéro 4" />
-            <Room roomIcon={<i className="fa-solid fa-hand" />} roomName="Salon numéro 5" />
+            <Room activeRoom={activeRoom} setActiveRoom={setActiveRoom} roomIcon={<i className="fa-solid fa-location-dot" />} roomName="Salon numéro 1" />
+            <Room activeRoom={activeRoom} setActiveRoom={setActiveRoom} roomIcon={<i className="fa-solid fa-magnifying-glass" />} roomName="Salon numéro 2" />
+            <Room activeRoom={activeRoom} setActiveRoom={setActiveRoom} roomIcon={<i className="fa-solid fa-video" />} roomName="Salon numéro 3" />
+            <Room activeRoom={activeRoom} setActiveRoom={setActiveRoom} roomIcon={<i className="fa-solid fa-lock" />} roomName="Salon numéro 4" />
+            <Room activeRoom={activeRoom} setActiveRoom={setActiveRoom} roomIcon={<i className="fa-solid fa-hand" />} roomName="Salon numéro 5" />
           </div>
         </div>
       )}

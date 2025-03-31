@@ -15,6 +15,11 @@ const DirectMessage = () => {
   const [searchError, setSearchError] = useState("");
   const { isMobile } = useMobileContext();
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
+  const [activeConversation, setActiveConversation] = useState("");
+
+  const handleActiveConversation = (selectedConversation: string) => {
+    setActiveConversation(selectedConversation);
+  };
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
@@ -53,9 +58,27 @@ const DirectMessage = () => {
             </div>
           )}
           <div className="contact-area__list">
-            <UserItem name="Utilisateur 1" pic="/assets/img/user1.png" status={true} />
-            <UserItem name="Utilisateur 2" pic="/assets/img/user2.jpg" status={true} />
-            <UserItem name="Utilisateur 3" pic="/assets/img/user3.jpg" status={true} />
+            <UserItem
+              activeConversation={activeConversation}
+              setActiveConversation={handleActiveConversation}
+              name="Utilisateur 1"
+              pic="/assets/img/user1.png"
+              status={true}
+            />
+            <UserItem
+              activeConversation={activeConversation}
+              setActiveConversation={handleActiveConversation}
+              name="Utilisateur 2"
+              pic="/assets/img/user2.jpg"
+              status={true}
+            />
+            <UserItem
+              activeConversation={activeConversation}
+              setActiveConversation={handleActiveConversation}
+              name="Utilisateur 3"
+              pic="/assets/img/user3.jpg"
+              status={true}
+            />
           </div>
         </div>
       )}

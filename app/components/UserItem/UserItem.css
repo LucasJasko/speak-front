@@ -4,8 +4,8 @@
   transition: 0.2s ease;
 }
 
-.user__active {
-  @apply bg-(--color4) border border-(--grey);
+.active-user {
+  @apply bg-(--color1) shadow;
 }
 
 .user__img-container {

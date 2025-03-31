@@ -1,29 +1,21 @@
 import type React from "react";
 import { useEffect, useState } from "react";
+import { useMobileContext } from "~/context/MobileContext";
 
 interface RoomProps {
   roomName: string;
   roomIcon: React.ReactElement;
+  activeRoom: string;
+  setActiveRoom: (roomName: string) => void;
 }
 
-const Room: React.FC<RoomProps> = ({ roomName, roomIcon }) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth > 700);
+const Room: React.FC<RoomProps> = ({ roomName, roomIcon, activeRoom, setActiveRoom }) => {
+  const { isMobile } = useMobileContext();
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth > 700);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   return (
-    <div className="room">
+    <div className={`room${activeRoom === roomName ? " active-room" : ""}`} onClick={() => setActiveRoom(roomName)}>
       {roomIcon}
-      {isMobile && roomName}
+      {!isMobile && roomName}
     </div>
   );
 };
