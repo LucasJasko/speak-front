@@ -25,7 +25,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
         .then((res) => res.json())
         .then((data) => {
           setResponse(data);
-          data["success"] ? navigate("/home/direct-message") : "";
+          data["success"] ? navigate("/home/dm-123/abc123") : "";
         });
       setLoading(false);
     } catch (error: any) {

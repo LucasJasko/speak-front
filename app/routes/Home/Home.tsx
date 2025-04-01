@@ -9,6 +9,7 @@ import Agenda from "~/components/Agenda/Agenda";
 import Settings from "~/components/Settings/Settings";
 import AddGroup from "~/components/AddGroup/AddGroup";
 import { AnimatePresence, motion } from "motion/react";
+import TypeRouter from "./TypeRouter";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil !" }];
@@ -45,7 +46,7 @@ export default function Home() {
         <Nav onClick={handleActive} activeBtn={activeLayout} />
         <main className="main">
           <Header />
-          <Outlet />
+          <TypeRouter />
         </main>
         <AnimatePresence>{componentsMap[activeLayout]}</AnimatePresence>
       </div>

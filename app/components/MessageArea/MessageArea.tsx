@@ -3,29 +3,36 @@ import MessageInput from "./MessageInput/MessageInput";
 import Message from "./Message/Message";
 import type { messageContent } from "./Message/Message";
 import { useMobileContext } from "~/context/MobileContext";
+import { useParams } from "react-router";
 
 interface MessageAreaProps {
-  convID: string;
+  activeConversation: string;
   MobileSideMenuState: boolean;
   setMobileSideMenu: (MobileSideMenuState: boolean) => void;
 }
 
-const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState, convID }) => {
+const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState, activeConversation }) => {
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
+  const { typeID, convID } = useParams();
+
   const { isMobile } = useMobileContext();
 
   useEffect(() => {
     const data = async () => {
       try {
-        const response = await fetch(`/${convID}.json`);
+        const response = await fetch("http://alert-mns-back/getConv.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ typeID, convID }),
+        });
         const data = await response.json();
-        setMessageFeed(data);
+        setMessageFeed(Array.from(JSON.parse(data)));
       } catch (error) {
         console.error("Erreur lors du chargement du fichier JSON :", error);
       }
     };
     data();
-  }, []);
+  }, [activeConversation]);
 
   const handleMobileSideMenu = (MobileSideMenuState: boolean) => {
     MobileSideMenuState ? setMobileSideMenu(false) : setMobileSideMenu(true);

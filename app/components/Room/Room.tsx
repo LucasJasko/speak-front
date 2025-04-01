@@ -1,5 +1,5 @@
 import type React from "react";
-import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { useMobileContext } from "~/context/MobileContext";
 
 interface RoomProps {
@@ -7,9 +7,11 @@ interface RoomProps {
   roomIcon: React.ReactElement;
   activeRoom: string;
   setActiveRoom: (roomName: string) => void;
+  setRoomId: (roomId: string) => void;
 }
 
 const Room: React.FC<RoomProps> = ({ roomName, roomIcon, activeRoom, setActiveRoom }) => {
+  const { roomId } = useParams();
   const { isMobile } = useMobileContext();
 
   return (

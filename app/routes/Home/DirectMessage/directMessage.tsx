@@ -2,28 +2,37 @@ import UserItem from "~/components/UserItem/UserItem";
 import type { Route } from "../+types/home";
 
 import MessageArea from "~/components/MessageArea/MessageArea";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
-import { AnimatePresence, motion } from "motion/react";
+import { useNavigate, useParams } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
 }
 
 const DirectMessage = () => {
-  const [result, setResult] = useState<any>([]);
-  const [searchError, setSearchError] = useState("");
+  const { typeID } = useParams();
   const { isMobile } = useMobileContext();
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
-  const [activeConversation, setActiveConversation] = useState("");
 
-  const handleActiveConversation = (selectedConversation: string) => {
-    setActiveConversation(selectedConversation);
-  };
+  const [result, setResult] = useState<any>([]);
+  const [searchError, setSearchError] = useState("");
+
+  const [activeConversation, setActiveConversation] = useState("abc123");
+  const [activePath, setActivePath] = useState<string>("dm-123/abc123");
+  const navigate = useNavigate();
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
   }, [isMobile]);
+
+  useEffect(() => {
+    setActivePath(typeID + "/" + activeConversation);
+  }, [activeConversation]);
+
+  useEffect(() => {
+    navigate(activePath);
+  }, [activePath]);
 
   async function handleSearch(e: any) {
     const query = e.target.value;
@@ -59,22 +68,25 @@ const DirectMessage = () => {
           )}
           <div className="contact-area__list">
             <UserItem
+              convID="abc123"
               activeConversation={activeConversation}
-              setActiveConversation={handleActiveConversation}
+              setActiveConversation={setActiveConversation}
               name="Utilisateur 1"
               pic="/assets/img/user1.png"
               status={true}
             />
             <UserItem
+              convID="def456"
               activeConversation={activeConversation}
-              setActiveConversation={handleActiveConversation}
+              setActiveConversation={setActiveConversation}
               name="Utilisateur 2"
               pic="/assets/img/user2.jpg"
               status={true}
             />
             <UserItem
+              convID="ghi789"
               activeConversation={activeConversation}
-              setActiveConversation={handleActiveConversation}
+              setActiveConversation={setActiveConversation}
               name="Utilisateur 3"
               pic="/assets/img/user3.jpg"
               status={true}
@@ -82,7 +94,7 @@ const DirectMessage = () => {
           </div>
         </div>
       )}
-      <MessageArea convID="direct-message" MobileSideMenuState={displayMobileSideMenu} setMobileSideMenu={setDisplayMobileSideMenu} />
+      <MessageArea activeConversation={activeConversation} MobileSideMenuState={displayMobileSideMenu} setMobileSideMenu={setDisplayMobileSideMenu} />
     </div>
   );
 };
