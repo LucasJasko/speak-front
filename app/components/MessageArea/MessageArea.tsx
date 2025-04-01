@@ -3,21 +3,23 @@ import MessageInput from "./MessageInput/MessageInput";
 import Message from "./Message/Message";
 import type { messageContent } from "./Message/Message";
 import { useMobileContext } from "~/context/MobileContext";
-import { useParams } from "react-router";
 
 interface MessageAreaProps {
+  typeID: string | undefined;
+  convID: string | undefined;
   activeConversation: string;
   MobileSideMenuState: boolean;
   setMobileSideMenu: (MobileSideMenuState: boolean) => void;
 }
 
-const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState, activeConversation }) => {
+const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState, activeConversation, typeID, convID }) => {
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
-  const { typeID, convID } = useParams();
 
   const { isMobile } = useMobileContext();
 
   useEffect(() => {
+    console.log(convID);
+
     const data = async () => {
       try {
         const response = await fetch("http://alert-mns-back/getConv.php", {

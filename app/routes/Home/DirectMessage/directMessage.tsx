@@ -4,14 +4,13 @@ import type { Route } from "../+types/home";
 import MessageArea from "~/components/MessageArea/MessageArea";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
 }
 
-const DirectMessage = () => {
-  const { typeID } = useParams();
+const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
   const { isMobile } = useMobileContext();
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
 
@@ -69,32 +68,38 @@ const DirectMessage = () => {
           <div className="contact-area__list">
             <UserItem
               convID="abc123"
+              convName="Utilisateur 1"
               activeConversation={activeConversation}
               setActiveConversation={setActiveConversation}
-              name="Utilisateur 1"
               pic="/assets/img/user1.png"
               status={true}
             />
             <UserItem
               convID="def456"
+              convName="Utilisateur 2"
               activeConversation={activeConversation}
               setActiveConversation={setActiveConversation}
-              name="Utilisateur 2"
               pic="/assets/img/user2.jpg"
               status={true}
             />
             <UserItem
               convID="ghi789"
+              convName="Utilisateur 3"
               activeConversation={activeConversation}
               setActiveConversation={setActiveConversation}
-              name="Utilisateur 3"
               pic="/assets/img/user3.jpg"
               status={true}
             />
           </div>
         </div>
       )}
-      <MessageArea activeConversation={activeConversation} MobileSideMenuState={displayMobileSideMenu} setMobileSideMenu={setDisplayMobileSideMenu} />
+      <MessageArea
+        typeID={typeID}
+        convID={activeConversation}
+        activeConversation={activeConversation}
+        MobileSideMenuState={displayMobileSideMenu}
+        setMobileSideMenu={setDisplayMobileSideMenu}
+      />
     </div>
   );
 };

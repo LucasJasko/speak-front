@@ -3,17 +3,27 @@ import type { Route } from "../+types/home";
 import Room from "~/components/Room/Room";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useParams } from "react-router";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Groupes" }, { name: "description", content: "Ce sont vos groupes" }];
 }
 
-const Group = () => {
+const Group = ({ typeID }: { typeID: string | undefined }) => {
   const { isMobile } = useMobileContext();
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
-  const [activeRoom, setActiveRoom] = useState("");
-  const [roomId, setRoomId] = useState("");
+  const [activeRoom, setActiveRoom] = useState("room1");
+
+  const [activePath, setActivePath] = useState<string>("group1/room1");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setActivePath(typeID + "/" + activeRoom);
+  }, [activeRoom]);
+
+  useEffect(() => {
+    navigate(activePath);
+  }, [activePath]);
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
@@ -32,36 +42,36 @@ const Group = () => {
           </div>
           <div className="group-area__list">
             <Room
+              roomID="room1"
               activeRoom={activeRoom}
-              setRoomId={setRoomId}
               setActiveRoom={setActiveRoom}
               roomIcon={<i className="fa-solid fa-location-dot" />}
               roomName="Salon numéro 1"
             />
             <Room
+              roomID="room2"
               activeRoom={activeRoom}
-              setRoomId={setRoomId}
               setActiveRoom={setActiveRoom}
               roomIcon={<i className="fa-solid fa-magnifying-glass" />}
               roomName="Salon numéro 2"
             />
             <Room
+              roomID="room3"
               activeRoom={activeRoom}
-              setRoomId={setRoomId}
               setActiveRoom={setActiveRoom}
               roomIcon={<i className="fa-solid fa-video" />}
               roomName="Salon numéro 3"
             />
             <Room
+              roomID="room4"
               activeRoom={activeRoom}
-              setRoomId={setRoomId}
               setActiveRoom={setActiveRoom}
               roomIcon={<i className="fa-solid fa-lock" />}
               roomName="Salon numéro 4"
             />
             <Room
+              roomID="room5"
               activeRoom={activeRoom}
-              setRoomId={setRoomId}
               setActiveRoom={setActiveRoom}
               roomIcon={<i className="fa-solid fa-hand" />}
               roomName="Salon numéro 5"
@@ -69,7 +79,13 @@ const Group = () => {
           </div>
         </div>
       )}
-      <MessageArea activeConversation="" MobileSideMenuState={displayMobileSideMenu} setMobileSideMenu={setDisplayMobileSideMenu} />
+      <MessageArea
+        typeID={typeID}
+        convID={activeRoom}
+        activeConversation={activeRoom}
+        MobileSideMenuState={displayMobileSideMenu}
+        setMobileSideMenu={setDisplayMobileSideMenu}
+      />
     </div>
   );
 };

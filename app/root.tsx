@@ -30,13 +30,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <MobileProvider>
-        <body>
-          {children}
-          <ScrollRestoration />
-          <Scripts />
-        </body>
-      </MobileProvider>
+      <body>
+        <MobileProvider>{children}</MobileProvider>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
     </html>
   );
 }

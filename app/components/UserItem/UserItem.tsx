@@ -1,16 +1,15 @@
-import { useParams } from "react-router";
 import { useMobileContext } from "~/context/MobileContext";
 
 interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
   convID: string;
-  name: string;
+  convName: string;
   pic: string;
   status: boolean;
   activeConversation: string;
-  setActiveConversation: (selectedConversation: string) => void;
+  setActiveConversation: (convID: string) => void;
 }
 
-const UserItem: React.FC<UserProps> = ({ name, pic, status, activeConversation, convID, setActiveConversation }) => {
+const UserItem: React.FC<UserProps> = ({ convName, pic, status, activeConversation, convID, setActiveConversation }) => {
   const { isMobile } = useMobileContext();
 
   return (
@@ -24,7 +23,7 @@ const UserItem: React.FC<UserProps> = ({ name, pic, status, activeConversation, 
         <img className="user__img" src={pic} alt="photo utilisateur" />
         <span className={`connection__dot ${status ? "connected" : "disconnected"}`}></span>
       </div>
-      {!isMobile && <p className="user__name">{name}</p>}
+      {!isMobile && <p className="user__name">{convName}</p>}
     </div>
   );
 };

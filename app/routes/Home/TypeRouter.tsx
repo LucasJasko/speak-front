@@ -3,10 +3,10 @@ import DirectMessage from "./DirectMessage/directMessage";
 import Group from "./Group/group";
 
 const TypeRouter = () => {
-  const { typeID, convID } = useParams();
+  const { typeID } = useParams();
 
-  if (typeID?.includes("dm")) return <DirectMessage />;
-  else return <Group />;
+  if (typeID?.includes("dm")) return <DirectMessage typeID={typeID} />;
+  else return <Group typeID={typeID} />;
 };
 
 export default TypeRouter;

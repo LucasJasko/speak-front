@@ -1,21 +1,19 @@
 import type React from "react";
-import { useParams } from "react-router";
 import { useMobileContext } from "~/context/MobileContext";
 
 interface RoomProps {
+  roomID: string;
   roomName: string;
   roomIcon: React.ReactElement;
   activeRoom: string;
-  setActiveRoom: (roomName: string) => void;
-  setRoomId: (roomId: string) => void;
+  setActiveRoom: (roomID: string) => void;
 }
 
-const Room: React.FC<RoomProps> = ({ roomName, roomIcon, activeRoom, setActiveRoom }) => {
-  const { roomId } = useParams();
+const Room: React.FC<RoomProps> = ({ roomID, roomName, roomIcon, activeRoom, setActiveRoom }) => {
   const { isMobile } = useMobileContext();
 
   return (
-    <div className={`room${activeRoom === roomName ? " active-room" : ""}`} onClick={() => setActiveRoom(roomName)}>
+    <div className={`room${activeRoom === roomID ? " active-room" : ""}`} onClick={() => setActiveRoom(roomID)}>
       {roomIcon}
       {!isMobile && roomName}
     </div>
