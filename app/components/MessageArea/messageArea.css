@@ -1,6 +1,7 @@
 .message-area {
-  @apply bg-(--color5) rounded-tl-lg relative section-shadow w-full;
+  @apply bg-(--color5) rounded-tl-lg relative w-full;
   grid-area: b;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.25);
   height: calc(100vh - 48px);
 }
 

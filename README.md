@@ -7,10 +7,13 @@ Ce projet est réalisé dans le cadre de la formation MNS développeur web et we
 - [x] Composant add group et son style
 - [x] Sous menus des sections profile et settings
 - [ ] Intégration de l'agenda (année, mois, jours, heures) chercher pour une API
-- [ ] Modularisation des utilisateurs de la direct message selon base de données (relié à utilisateur)
+- [ ] Affichage des utilisateurs de direct message selon base de données (relié à utilisateur et selon JSON)
 - [ ] Intégration de l'API ratchet, premiers essaies de messagerie
-- [ ] Modularisation des sous menus sections profile et settings selons préférences utilisateurs (base de donnée)
+- [ ] Pré-remplissage des sous menus sections profile et settings selons préférences utilisateurs (base de donnée)
 - [x] Responsive mobile de l'app
+- [ ] Ajustements du code pour accepter l'intégration de nouveau groupes plutôt que d'adapter un seul groupe à un URL dynamique comme actuellement
+- [ ] stockage et lecture des direct messages et groupes rejoins dans un JSON utilisateur
+- [ ] Pouvoir soumettre l'input de la zone de texte et écrire sur un JSON
 
 Liste des documentation utiles au projet:
 

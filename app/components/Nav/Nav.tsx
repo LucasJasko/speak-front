@@ -63,7 +63,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
 
       {isMobile ? (
         <div className="mobile-deploy-button" onClick={handleActiveArrow}>
-          <motion.i animate={{ rotate: activeArrow ? 180 : 0 }} transition={{ ease: "easeOut" }} className="fa-solid fa-angle-down" />
+          <motion.i animate={{ rotate: activeArrow ? 0 : 180 }} transition={{ ease: "easeOut" }} className="fa-solid fa-angle-down" />
           <AnimatePresence>
             {activeArrow ? (
               <section className="nav__bottom-mobile">

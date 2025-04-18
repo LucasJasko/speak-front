@@ -17,7 +17,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
     setError(null);
 
     try {
-      await fetch("http://alert-mns-back/login.php", {
+      await fetch("http://alert-mns-back/api/login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_mail: email, user_password: password }),
@@ -66,7 +66,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
         <p className="login__message">
           {response && response["message"]}
           {loading && "Chargement"}
-          {error && "Erreur: " + { error }}
+          {error && "Erreur: " + error}
         </p>
       </div>
       <button className="login__switch" onClick={toggleSlide}>
