@@ -17,10 +17,10 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
     setError(null);
 
     try {
-      await fetch("http://alert-mns-back/api/login.php", {
+      await fetch("http://alert-mns-back/index.php?api=login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_mail: email, user_password: password }),
+        body: JSON.stringify({ email, password }),
       })
         .then((res) => res.json())
         .then((data) => {
