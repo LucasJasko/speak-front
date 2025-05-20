@@ -23,12 +23,7 @@ export default function Home() {
   const [response, setResponse]: any = useState(null);
   const [error, setError]: any = useState(null);
 
-  const value = useAPI("super");
-  useEffect(() => {
-    console.log(value);
-
-    setResponse("Ceci est un token");
-  });
+  useAPI("http://alert-mns-back/api/profile/1");
 
   const handleActive = (currentActive: string) => {
     setActiveLayout(currentActive);
@@ -36,6 +31,10 @@ export default function Home() {
       setLastActive(activeLayout);
     }
   };
+
+  useEffect(() => {
+    setResponse("Ceci est un token");
+  });
 
   const componentsMap: Record<string, JSX.Element> = {
     profile: <Profile onClose={handleActive} lastActive={lastActive} />,

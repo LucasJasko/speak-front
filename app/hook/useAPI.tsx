@@ -22,7 +22,7 @@ export default function useAPI(path: string, payload?: object) {
 
   useEffect(() => {
     handleSubmit();
-  });
+  }, []);
 
   return response;
 }
