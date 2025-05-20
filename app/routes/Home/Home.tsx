@@ -10,6 +10,7 @@ import Settings from "~/components/Settings/Settings";
 import AddGroup from "~/components/AddGroup/AddGroup";
 import { AnimatePresence, motion } from "motion/react";
 import TypeRouter from "./TypeRouter";
+import useAPI from "~/hook/useAPI";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil !" }];
@@ -22,9 +23,12 @@ export default function Home() {
   const [response, setResponse]: any = useState(null);
   const [error, setError]: any = useState(null);
 
+  const value = useAPI("super");
   useEffect(() => {
+    console.log(value);
+
     setResponse("Ceci est un token");
-  }, []);
+  });
 
   const handleActive = (currentActive: string) => {
     setActiveLayout(currentActive);
