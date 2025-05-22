@@ -17,24 +17,22 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
 
   const { isMobile } = useMobileContext();
 
-  useEffect(() => {
-    console.log(convID);
-
-    const data = async () => {
-      try {
-        const response = await fetch("http://alert-mns-back/getConv.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ typeID, convID }),
-        });
-        const data = await response.json();
-        setMessageFeed(Array.from(JSON.parse(data)));
-      } catch (error) {
-        console.error("Erreur lors du chargement du fichier JSON :", error);
-      }
-    };
-    data();
-  }, [activeConversation]);
+  // useEffect(() => {
+  //   const data = async () => {
+  //     try {
+  //       const response = await fetch("http://alert-mns-back/getConv.php", {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ typeID, convID }),
+  //       });
+  //       const data = await response.json();
+  //       setMessageFeed(Array.from(JSON.parse(data)));
+  //     } catch (error) {
+  //       console.error("Erreur lors du chargement du fichier JSON :", error);
+  //     }
+  //   };
+  //   data();
+  // }, [activeConversation]);
 
   const handleMobileSideMenu = (MobileSideMenuState: boolean) => {
     MobileSideMenuState ? setMobileSideMenu(false) : setMobileSideMenu(true);

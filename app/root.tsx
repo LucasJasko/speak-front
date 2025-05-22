@@ -3,6 +3,7 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration }
 import type { Route } from "./+types/root";
 import "./app.css";
 import { MobileProvider } from "./context/MobileContext";
+import { AuthProvider } from "./context/AuthContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -31,7 +32,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <MobileProvider>{children}</MobileProvider>
+        <AuthProvider>
+          <MobileProvider>{children}</MobileProvider>
+        </AuthProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

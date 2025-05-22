@@ -10,7 +10,7 @@ import Settings from "~/components/Settings/Settings";
 import AddGroup from "~/components/AddGroup/AddGroup";
 import { AnimatePresence, motion } from "motion/react";
 import TypeRouter from "./TypeRouter";
-import useAPI from "~/hook/useAPI";
+import axios from "axios";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil !" }];
@@ -23,8 +23,6 @@ export default function Home() {
   const [response, setResponse]: any = useState(null);
   const [error, setError]: any = useState(null);
 
-  useAPI("http://alert-mns-back/api/profile/1");
-
   const handleActive = (currentActive: string) => {
     setActiveLayout(currentActive);
     if (activeLayout == "direct-message" || activeLayout == "group") {
@@ -35,6 +33,10 @@ export default function Home() {
   useEffect(() => {
     setResponse("Ceci est un token");
   });
+
+  useEffect(() => {
+    const res = axios.get("http://alert-mns-back/api/profile/1").then((res) => console.log(res.data));
+  }, []);
 
   const componentsMap: Record<string, JSX.Element> = {
     profile: <Profile onClose={handleActive} lastActive={lastActive} />,
