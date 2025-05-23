@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
+import { useAuthContext } from "~/context/AuthContext";
 
 const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
   let navigate = useNavigate();
@@ -9,6 +10,8 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
 
   const [email, setEmail]: any = useState(null);
   const [password, setPassword]: any = useState(null);
+
+  const { token, setToken, id, setId } = useAuthContext();
 
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
@@ -21,11 +24,19 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
         method: "POST",
         // headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        credentials: "include",
       })
         .then((res) => res.json())
-        .then((data) => {
-          setResponse(data);
-          data["success"] ? navigate("/home/dm-123/abc123") : "";
+        .then(async (data) => {
+          console.log(data);
+
+          // setResponse(data);
+          // setToken(data.data.accessToken);
+          // setId(data.data.UID);
+
+          setTimeout(() => {
+            data["success"] && navigate("/home/dm-123/abc123");
+          }, 0);
         });
       setLoading(false);
     } catch (error: any) {
@@ -36,6 +47,11 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
       }, 1000);
     }
   };
+
+  useEffect(() => {
+    console.log(token);
+    console.log(id);
+  }, [token]);
 
   return (
     <form className="login__form" onSubmit={handleSubmit}>

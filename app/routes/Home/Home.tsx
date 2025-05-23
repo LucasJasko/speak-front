@@ -1,27 +1,27 @@
 import type { Route } from "./+types/home";
 
 import Nav from "~/components/Nav/Nav";
-import { Outlet } from "react-router";
 import Header from "~/components/Header/Header";
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import Profile from "~/components/Profile/Profile";
 import Agenda from "~/components/Agenda/Agenda";
 import Settings from "~/components/Settings/Settings";
 import AddGroup from "~/components/AddGroup/AddGroup";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 import TypeRouter from "./TypeRouter";
 import axios from "axios";
+import { useAuthContext } from "~/context/AuthContext";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil !" }];
 }
 
 export default function Home() {
+  const { token, id } = useAuthContext();
+  const hasMounted = useRef(false);
+
   const [activeLayout, setActiveLayout] = useState("direct-message");
   const [lastActive, setLastActive] = useState("");
-
-  const [response, setResponse]: any = useState(null);
-  const [error, setError]: any = useState(null);
 
   const handleActive = (currentActive: string) => {
     setActiveLayout(currentActive);
@@ -31,12 +31,15 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setResponse("Ceci est un token");
-  });
+    if (hasMounted.current) {
+      console.log(token);
+      console.log(id);
 
-  useEffect(() => {
-    const res = axios.get("http://alert-mns-back/api/profile/1").then((res) => console.log(res.data));
-  }, []);
+      axios.get("http://alert-mns-back/api/profile/" + id).then((res) => console.log(res.data));
+    } else {
+      hasMounted.current = true;
+    }
+  }, [token, id]);
 
   const componentsMap: Record<string, JSX.Element> = {
     profile: <Profile onClose={handleActive} lastActive={lastActive} />,
@@ -45,7 +48,9 @@ export default function Home() {
     addGroup: <AddGroup onClose={handleActive} lastActive={lastActive} />,
   };
 
-  if (response && response == "Ceci est un token") {
+  if (!token || !id) {
+    return <div>Chargement...</div>;
+  } else {
     return (
       <div className="home">
         <Nav onClick={handleActive} activeBtn={activeLayout} />
@@ -56,7 +61,9 @@ export default function Home() {
         <AnimatePresence>{componentsMap[activeLayout]}</AnimatePresence>
       </div>
     );
-  } else {
-    return <div>{error}</div>;
   }
+
+  // } else {
+  //   return <div>{error}</div>;
+  // }
 }
