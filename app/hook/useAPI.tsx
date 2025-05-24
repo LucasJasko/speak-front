@@ -32,3 +32,5 @@ export type LoginResponse = {
     UID: number;
   };
 };
+
+export type AuthResponse = {};

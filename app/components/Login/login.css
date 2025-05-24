@@ -30,7 +30,7 @@
 }
 
 .login__message {
-  @apply h-5;
+  @apply absolute bottom-10 left-[50%] border rounded border-orange-900 text-orange-900 bg-(--color1) p-3 translate-x-[-50%] w-100;
 }
 
 .login__switch {

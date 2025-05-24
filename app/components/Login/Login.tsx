@@ -22,12 +22,8 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
 
     try {
       const data = await useAPI<LoginResponse>("/login", { json: { email, password } });
-      console.log(data);
 
       setResponse(data);
-
-      console.log(response);
-
       setToken(data.data.accessToken);
       setId(data.data.UID);
 
@@ -75,12 +71,14 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
       </div>
       <div className="login__submit-container">
         <input className="login__input login__submit" type="submit" value="Se connecter" />
+      </div>
+      {(response || loading || error) && (
         <p className="login__message">
           {response && response.message}
-          {loading && "Chargement"}
-          {error && "Erreur: " + error}
+          {loading && !response ? "Chargement" : ""}
+          {error && !response ? "Erreur: " + error : ""}
         </p>
-      </div>
+      )}
       <button className="login__switch" onClick={toggleSlide}>
         S'inscrire <i className="fa-solid fa-arrow-right"></i>
       </button>

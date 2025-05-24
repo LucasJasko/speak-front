@@ -9,7 +9,6 @@ import Settings from "~/components/Settings/Settings";
 import AddGroup from "~/components/AddGroup/AddGroup";
 import { AnimatePresence } from "motion/react";
 import TypeRouter from "./TypeRouter";
-import axios from "axios";
 import { useAuthContext } from "~/context/AuthContext";
 
 export function meta({}: Route.MetaArgs) {
@@ -18,7 +17,6 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const { token, id } = useAuthContext();
-  const hasMounted = useRef(false);
 
   const [activeLayout, setActiveLayout] = useState("direct-message");
   const [lastActive, setLastActive] = useState("");
@@ -31,15 +29,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (hasMounted.current) {
-      console.log(token);
-      console.log(id);
+    console.log(token);
+    console.log(id);
 
-      // axios.get("http://alert-mns-back/api/profile/" + id).then((res) => console.log(res.data));
-    } else {
-      hasMounted.current = true;
-    }
-  }, [token, id]);
+    // axios.get("http://alert-mns-back/api/profile/" + id).then((res) => console.log(res.data));
+  }, []);
 
   const componentsMap: Record<string, JSX.Element> = {
     profile: <Profile onClose={handleActive} lastActive={lastActive} />,
