@@ -1,31 +1,36 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import axios from "axios";
 
-const AuthContext = createContext<AuthContextContent>({ token: null, id: null, setToken: () => {}, setId: () => {} });
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-interface AuthContextContent {
-  id: any;
-  setId: Dispatch<SetStateAction<number | undefined | null>>;
-  token: any;
-  setToken: Dispatch<SetStateAction<string | undefined | null>>;
+interface AuthContextType {
+  token: string | null | undefined;
+  id: number | null | undefined;
+  login: (newId: number, newToken: string) => void;
+  logout: () => void;
 }
-export const useAuthContext = () => {
-  const authContext = useContext(AuthContext);
 
-  if (!authContext) {
-    throw new Error("useAuth doit être utilisé dans AuthProvider");
+export const useAuthContext = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuthContext must be used within an AuthProvider");
   }
-
-  return authContext;
+  return context;
 };
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // ici le accessToken de navigation coté front stocké dans la mémoire PC de l'utilisateur, plus safe que via cookies
   const [token, setToken] = useState<undefined | string | null>(undefined);
-  // Le token par défaut n'est pas définit donc une requête doit être envoyé pour déterminer son statut
   const [id, setId] = useState<undefined | number | null>();
 
-  const context: AuthContextContent = { id, setId, token, setToken };
+  const login = (newId: number, newToken: string) => {
+    setId(newId);
+    setToken(newToken);
+  };
+
+  const logout = () => {
+    setToken(null);
+    setId(null);
+  };
 
   useEffect(() => {
     // TODO IL FAUT QUAND MEME STOCKER LE TOKEN EN COOKIE HTTP ONLY
@@ -67,7 +72,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       async (err) => {
         const originalRequest = err.config;
 
-        if (err.response.status === 403 && err.response.data.message === "unauthorized") {
+        if (err.response.status === 401 && err.response.data.message === "unauthorized") {
           try {
             const res = await axios.get("api/refreshToken");
 
@@ -91,5 +96,5 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
   }, [token]);
 
-  return <AuthContext value={context}>{children}</AuthContext>;
+  return <AuthContext value={{ token, id, login, logout }}>{children}</AuthContext>;
 };

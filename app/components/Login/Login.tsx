@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { redirect, useNavigate } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { useMobileContext } from "~/context/MobileContext";
 import useAPI, { type LoginResponse } from "~/hook/useAPI";
 
 const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
   let navigate = useNavigate();
+
   const [response, setResponse]: any = useState(null);
   const [loading, setLoading]: any = useState(false);
   const [error, setError]: any = useState(null);
 
   const [email, setEmail]: any = useState(null);
   const [password, setPassword]: any = useState(null);
-  const { isMobile } = useMobileContext();
 
-  const { token, setToken, id, setId } = useAuthContext();
+  const { isMobile } = useMobileContext();
+  const { login } = useAuthContext();
 
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
@@ -26,8 +27,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
       const data = await useAPI<LoginResponse>("/login", { json: { email, password } });
 
       setResponse(data);
-      setToken(data.data.accessToken);
-      setId(data.data.UID);
+      login(data.data.UID, data.data.accessToken);
 
       if (data.success) {
         navigate("/home/dm-123/abc123");
@@ -41,11 +41,6 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
       }, 1000);
     }
   };
-
-  useEffect(() => {
-    console.log(token);
-    console.log(id);
-  }, [token]);
 
   return (
     <form className="login__form" onSubmit={handleSubmit}>
