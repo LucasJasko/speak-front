@@ -16,7 +16,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const { token, id } = useAuthContext();
+  const { accessToken, id } = useAuthContext();
 
   const [activeLayout, setActiveLayout] = useState("direct-message");
   const [lastActive, setLastActive] = useState("");
@@ -29,10 +29,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log(token);
-    console.log(id);
-
-    // axios.get("http://alert-mns-back/api/profile/" + id).then((res) => console.log(res.data));
+    // const log = useAPI("/auth");
+    // console.log(log);
   }, []);
 
   const componentsMap: Record<string, JSX.Element> = {
@@ -42,7 +40,7 @@ export default function Home() {
     addGroup: <AddGroup onClose={handleActive} lastActive={lastActive} />,
   };
 
-  if (!token || !id) {
+  if (!accessToken || !id) {
     return <div>Chargement...</div>;
   } else {
     return (

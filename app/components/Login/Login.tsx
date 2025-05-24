@@ -8,7 +8,6 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
   let navigate = useNavigate();
 
   const [response, setResponse]: any = useState(null);
-  const [loading, setLoading]: any = useState(false);
   const [error, setError]: any = useState(null);
 
   const [email, setEmail]: any = useState(null);
@@ -19,26 +18,24 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
 
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
-    setResponse(null);
-    setLoading(true);
-    setError(null);
 
     try {
       const data = await useAPI<LoginResponse>("/login", { json: { email, password } });
 
       setResponse(data);
-      login(data.data.UID, data.data.accessToken);
+      setTimeout(() => {
+        setResponse(null);
+      }, 4000);
 
       if (data.success) {
+        login(data.data.UID, data.data.accessToken);
         navigate("/home/dm-123/abc123");
       }
     } catch (error: any) {
       setError(error.message);
-      console.error(error.message);
-    } finally {
       setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+        setError(null);
+      }, 4000);
     }
   };
 
@@ -69,10 +66,9 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
       <div className="login__submit-container">
         <input className="login__input login__submit" type="submit" value="Se connecter" />
       </div>
-      {(response || loading || error) && (
+      {(response || error) && (
         <p className={!isMobile ? "login__message" : "login__message login__message-mobile"}>
-          {response && response.message}
-          {loading && !response ? "Chargement" : ""}
+          {response ? response.message : ""}
           {error && !response ? "Erreur: " + error : ""}
         </p>
       )}

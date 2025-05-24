@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import axios from "axios";
+import useAPI from "~/hook/useAPI";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthContextType {
-  token: string | null | undefined;
+  accessToken: string | null | undefined;
   id: number | null | undefined;
   login: (newId: number, newToken: string) => void;
   logout: () => void;
@@ -19,31 +20,29 @@ export const useAuthContext = (): AuthContextType => {
 };
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [token, setToken] = useState<undefined | string | null>(undefined);
+  const [accessToken, setAccessToken] = useState<undefined | string | null>(undefined);
   const [id, setId] = useState<undefined | number | null>();
 
   const login = (newId: number, newToken: string) => {
     setId(newId);
-    setToken(newToken);
+    setAccessToken(newToken);
   };
 
   const logout = () => {
-    setToken(null);
+    setAccessToken(null);
     setId(null);
   };
 
   useEffect(() => {
-    // TODO IL FAUT QUAND MEME STOCKER LE TOKEN EN COOKIE HTTP ONLY
+    console.log(id);
+    console.log(accessToken);
+    console.log(document.cookie);
+
     const fetchToken = async () => {
-      // const res = await axios
-      //   .get("http://alert-mns-back/api/auth", {
-      //     withCredentials: true,
-      //   })
-      //   .then((response) => console.log(response));
       try {
-        // La requête de récupération du token reste à écrire
-        // console.log(res);
-        // Si le token est défini alors l'utilisateur est authentifié
+        const res = await useAPI("/auth", { json: { access_key: accessToken, id } });
+        console.log(res);
+
         // setToken(res.data.accessToken);
       } catch {
         // Si le token est null, alors l'utilisateur n'est pas authentifié
@@ -52,49 +51,48 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     fetchToken();
-  }, []);
+  }, [accessToken]);
 
-  // LayoutEffect ici en tant qu'intercepteur bloque le reste du rendu si les conditions ne sont pas remplies
-  useLayoutEffect(() => {
-    const authInterceptor = axios.interceptors.request.use((config: any) => {
-      config.headers.Authorization = !config._retry && token ? `Bearer ${token}` : config.headers.Authorization;
-      return config;
-    });
+  // useLayoutEffect(() => {
+  //   const authInterceptor = axios.interceptors.request.use((config: any) => {
+  //     config.headers.Authorization = !config._retry && accessToken ? `Bearer ${accessToken}` : config.headers.Authorization;
+  //     return config;
+  //   });
 
-    return () => {
-      axios.interceptors.request.eject(authInterceptor);
-    };
-  }, [token]);
+  //   return () => {
+  //     axios.interceptors.request.eject(authInterceptor);
+  //   };
+  // }, [accessToken]);
 
-  useLayoutEffect(() => {
-    const refreshInterceptor = axios.interceptors.response.use(
-      (res) => res,
-      async (err) => {
-        const originalRequest = err.config;
+  // useLayoutEffect(() => {
+  //   const refreshInterceptor = axios.interceptors.response.use(
+  //     (res) => res,
+  //     async (err) => {
+  //       const originalRequest = err.config;
 
-        if (err.response.status === 401 && err.response.data.message === "unauthorized") {
-          try {
-            const res = await axios.get("api/refreshToken");
+  //       if (err.response.status === 401 && err.response.data.message === "unauthorized") {
+  //         try {
+  //           const res = await axios.get("api/refreshToken");
 
-            setToken(res.data.accessToken);
+  //           setAccessToken(res.data.accessToken);
 
-            originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`;
-            originalRequest._retry = true;
+  //           originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`;
+  //           originalRequest._retry = true;
 
-            return axios(originalRequest);
-          } catch {
-            setToken(null);
-          }
-        }
+  //           return axios(originalRequest);
+  //         } catch {
+  //           setAccessToken(null);
+  //         }
+  //       }
 
-        return Promise.reject(err);
-      }
-    );
+  //       return Promise.reject(err);
+  //     }
+  //   );
 
-    return () => {
-      axios.interceptors.response.eject(refreshInterceptor);
-    };
-  }, [token]);
+  //   return () => {
+  //     axios.interceptors.response.eject(refreshInterceptor);
+  //   };
+  // }, [accessToken]);
 
-  return <AuthContext value={{ token, id, login, logout }}>{children}</AuthContext>;
+  return <AuthContext value={{ accessToken, id, login, logout }}>{children}</AuthContext>;
 };
