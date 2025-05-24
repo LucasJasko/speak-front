@@ -35,7 +35,7 @@ export default function Home() {
       console.log(token);
       console.log(id);
 
-      axios.get("http://alert-mns-back/api/profile/" + id).then((res) => console.log(res.data));
+      // axios.get("http://alert-mns-back/api/profile/" + id).then((res) => console.log(res.data));
     } else {
       hasMounted.current = true;
     }

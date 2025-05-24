@@ -1,33 +1,34 @@
-import { useEffect, useState } from "react";
+export default async function useAPI<T>(url: string, { json, method }: { json?: Record<string, unknown>; method?: string } = {}): Promise<T> {
+  method ??= json ? "POST" : "GET";
+  const body = json ? JSON.stringify(json) : undefined;
 
-export default function useAPI(path: string, payload?: object) {
-  const [response, setResponse] = useState("");
+  const req = await fetch("http://alert-mns-back/api" + url, {
+    method,
+    body,
+    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+    },
+  });
 
-  const handleSubmit = async () => {
-    try {
-      const options = {
-        method: payload ? "POST" : "GET",
-        body: payload ? JSON.stringify(payload) : undefined,
-      };
+  if (req.ok) {
+    return req.json() as Promise<T>;
+  }
 
-      await fetch(path, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setResponse(data);
-        });
-    } catch (error: any) {
-      setResponse(error.message);
-    }
-  };
-
-  useEffect(() => {
-    handleSubmit();
-  }, []);
-
-  return response;
+  throw new ApiError(req.status, await req.json());
 }
 
-// payload exemple: {
-//         method: "POST",
-//         body: JSON.stringify({ email, password }),
-//       }
+class ApiError extends Error {
+  constructor(public status: number, public data: Record<string, unknown>) {
+    super();
+  }
+}
+
+export type LoginResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    accessToken: string;
+    UID: number;
+  };
+};

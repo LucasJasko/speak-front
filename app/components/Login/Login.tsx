@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
+import useAPI, { type LoginResponse } from "~/hook/useAPI";
 
 const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
   let navigate = useNavigate();
@@ -20,27 +21,22 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
     setError(null);
 
     try {
-      await fetch("http://alert-mns-back/api/login", {
-        method: "POST",
-        // headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then(async (data) => {
-          console.log(data);
+      const data = await useAPI<LoginResponse>("/login", { json: { email, password } });
+      console.log(data);
 
-          // setResponse(data);
-          // setToken(data.data.accessToken);
-          // setId(data.data.UID);
+      setResponse(data);
 
-          setTimeout(() => {
-            data["success"] && navigate("/home/dm-123/abc123");
-          }, 0);
-        });
-      setLoading(false);
+      console.log(response);
+
+      setToken(data.data.accessToken);
+      setId(data.data.UID);
+
+      if (data.success) {
+        navigate("/home/dm-123/abc123");
+      }
     } catch (error: any) {
       setError(error.message);
+      console.error(error.message);
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -80,7 +76,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
       <div className="login__submit-container">
         <input className="login__input login__submit" type="submit" value="Se connecter" />
         <p className="login__message">
-          {response && response["message"]}
+          {response && response.message}
           {loading && "Chargement"}
           {error && "Erreur: " + error}
         </p>

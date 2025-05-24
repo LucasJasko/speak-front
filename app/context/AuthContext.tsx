@@ -30,11 +30,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     // TODO IL FAUT QUAND MEME STOCKER LE TOKEN EN COOKIE HTTP ONLY
     const fetchToken = async () => {
-      const res = await axios
-        .get("http://alert-mns-back/api/auth", {
-          withCredentials: true,
-        })
-        .then((response) => console.log(response));
+      // const res = await axios
+      //   .get("http://alert-mns-back/api/auth", {
+      //     withCredentials: true,
+      //   })
+      //   .then((response) => console.log(response));
       try {
         // La requête de récupération du token reste à écrire
         // console.log(res);
