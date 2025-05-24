@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
+import { useMobileContext } from "~/context/MobileContext";
 import useAPI, { type LoginResponse } from "~/hook/useAPI";
 
 const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
@@ -11,6 +12,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
 
   const [email, setEmail]: any = useState(null);
   const [password, setPassword]: any = useState(null);
+  const { isMobile } = useMobileContext();
 
   const { token, setToken, id, setId } = useAuthContext();
 
@@ -73,7 +75,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
         <input className="login__input login__submit" type="submit" value="Se connecter" />
       </div>
       {(response || loading || error) && (
-        <p className="login__message">
+        <p className={!isMobile ? "login__message" : "login__message login__message-mobile"}>
           {response && response.message}
           {loading && !response ? "Chargement" : ""}
           {error && !response ? "Erreur: " + error : ""}

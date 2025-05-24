@@ -30,7 +30,11 @@
 }
 
 .login__message {
-  @apply absolute bottom-10 left-[50%] border rounded border-orange-900 text-orange-900 bg-(--color1) p-3 translate-x-[-50%] w-100;
+  @apply border rounded border-orange-900 text-orange-900 bg-(--color1) p-3 w-100 mt-3;
+}
+
+.login__message-mobile {
+  @apply absolute bottom-10 translate-x-[-50%] left-[50%];
 }
 
 .login__switch {
