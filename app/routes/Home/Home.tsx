@@ -11,6 +11,7 @@ import { AnimatePresence } from "motion/react";
 import TypeRouter from "./TypeRouter";
 import { useAuthContext } from "~/context/AuthContext";
 import { useNavigate } from "react-router";
+import Loader from "../Loader/loader";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil !" }];
@@ -48,7 +49,7 @@ export default function Home() {
   };
 
   if (isLoading) {
-    return <div>Chargement...</div>;
+    return <Loader path="/" />;
   }
 
   if (error) return <div className="error">{error}</div>;

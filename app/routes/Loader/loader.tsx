@@ -1,14 +1,23 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-const Loader = () => {
+interface LoaderProps {
+  path?: string;
+}
+
+const Loader: React.FC<LoaderProps> = ({ path }) => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      navigate("/auth");
-    }, 2000);
-  }, []);
+    if (path && path !== "/") {
+      const timer = setTimeout(() => {
+        navigate(path ? path : "/auth");
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [path, navigate]);
+
   return (
     <div className="loader__container">
       <div className="honeycomb">
