@@ -4,6 +4,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { MobileProvider } from "./context/MobileContext";
 import { AuthProvider } from "./context/AuthContext";
+import { SettingsProvider } from "./context/SettingsContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,7 +34,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <AuthProvider>
-          <MobileProvider>{children}</MobileProvider>
+          <SettingsProvider>
+            <MobileProvider>{children}</MobileProvider>
+          </SettingsProvider>
         </AuthProvider>
         <ScrollRestoration />
         <Scripts />

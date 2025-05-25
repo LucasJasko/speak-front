@@ -31,16 +31,6 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    fetchToken();
-  }, []);
-
-  useEffect(() => {
-    if (accessToken === null && !isLoading) {
-      navigate("/auth");
-    }
-  }, [accessToken, isLoading]);
-
   const componentsMap: Record<string, JSX.Element> = {
     profile: <Profile onClose={handleActive} lastActive={lastActive} />,
     agenda: <Agenda onClose={handleActive} lastActive={lastActive} />,
@@ -64,8 +54,4 @@ export default function Home() {
       <AnimatePresence>{componentsMap[activeLayout]}</AnimatePresence>
     </div>
   );
-
-  // } else {
-  //   return <div>{error}</div>;
-  // }
 }

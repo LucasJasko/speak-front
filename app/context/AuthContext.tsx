@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { useNavigate } from "react-router";
 import useAPI from "~/hook/useAPI";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,6 +23,7 @@ export const useAuthContext = (): AuthContextType => {
 };
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState<undefined | string | null>(undefined);
   const [id, setId] = useState<undefined | number | null>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +53,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  // TODO définir message d'erreur et interpréter selon réponse
+  useEffect(() => {
+    fetchToken();
+  }, []);
+
+  useEffect(() => {
+    if (accessToken === null && !isLoading) {
+      navigate("/auth");
+    }
+  }, [accessToken, isLoading]);
 
   return (
     <AuthContext
