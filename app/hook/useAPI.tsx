@@ -21,7 +21,6 @@ export default async function useAPI<T>(url: string, { json, method }: { json?: 
 class ApiError extends Error {
   constructor(public status: number, public data: Record<string, unknown>) {
     if (status === 401) {
-      localStorage.removeItem("auth_key");
       window.location.reload();
     }
     super();
