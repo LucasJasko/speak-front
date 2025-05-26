@@ -58,6 +58,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   useEffect(() => {
+    // TODO Vérifier si le refresh token corrspond bien à celui stocké en bae
+    // TODO vérifier lors de l'accès à l'appli si il y a un refresh token. Si oui alors le comparer à celui stocké en base, et donc connecter directement.
     if (accessToken === null && !isLoading) {
       navigate("/auth");
     }
