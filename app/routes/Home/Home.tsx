@@ -14,7 +14,7 @@ import { useNavigate } from "react-router";
 import Loader from "../Loader/loader";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "ALERT MNS - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil !" }];
+  return [{ title: "SPEAK - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil de la plateforme de chatting speak !" }];
 }
 
 export default function Home() {

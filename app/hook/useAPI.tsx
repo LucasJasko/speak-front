@@ -2,7 +2,7 @@ export default async function useAPI<T>(url: string, { json, method }: { json?: 
   method ??= json ? "POST" : "GET";
   const body = json ? JSON.stringify(json) : undefined;
 
-  const req = await fetch("http://alert-mns-back/api" + url, {
+  const req = await fetch("http://speak/api" + url, {
     method,
     body,
     credentials: "include",

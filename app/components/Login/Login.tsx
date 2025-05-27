@@ -42,8 +42,13 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
   return (
     <form className="login__form" onSubmit={handleSubmit}>
       <div className="login__header-container">
-        <h1 className="login__h1">Alert MNS</h1>
-        <p className="login__p">Connexion à votre plateforme de discussion</p>
+        <div className="login__header-container-left">
+          <img className="login-logo" src="../assets/img/Speak_64x64.png" alt="" />
+        </div>
+        <div className="login__header-container-right">
+          <h1 className="login__h1">Speak</h1>
+          <p className="login__p">Connexion à votre plateforme de discussion</p>
+        </div>
       </div>
       <div className="login__input-container">
         <input

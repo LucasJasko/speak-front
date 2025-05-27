@@ -21,6 +21,11 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css",
   },
+
+  {
+    rel: "icon",
+    href: "../public/assets/img/Speak_32x32.png",
+  },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {

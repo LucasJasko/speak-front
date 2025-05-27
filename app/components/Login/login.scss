@@ -3,15 +3,25 @@
 }
 
 .login__header-container {
-  @apply text-center;
-}
+  @apply flex;
 
-.login__h1 {
-  @apply font-bold text-4xl;
-}
+  .login__header-container-left {
+    @apply flex items-center;
 
-.login__p {
-  @apply mt-3;
+    .login-logo {
+      @apply h-[64px] w-[64px];
+    }
+  }
+  .login__header-container-right {
+    @apply pl-2;
+    .login__h1 {
+      @apply font-bold text-4xl;
+    }
+
+    .login__p {
+      @apply flex;
+    }
+  }
 }
 
 .login__input-container {

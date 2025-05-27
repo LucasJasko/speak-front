@@ -6,7 +6,7 @@ import Signin from "~/components/SignIn/Signin";
 import { useEffect, useState } from "react";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "ALERT MNS - login" }, { name: "description", content: "Votre portail d'accès à Alert MNS" }];
+  return [{ title: "Speak - login" }, { name: "description", content: "Votre portail d'accès à Speak" }];
 }
 
 const auth = () => {

@@ -7,7 +7,7 @@
 @import "./routes/Home/Group/group.css";
 @import "./routes/Home/DirectMessage/directMessage.css";
 
-@import "./components/Login/login.css";
+@import "./components/Login/login.scss";
 @import "./components/SignIn/signin.css";
 @import "./components/Agenda/agenda.css";
 @import "./components/MessageArea/messageArea.css";
