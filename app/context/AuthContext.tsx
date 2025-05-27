@@ -12,6 +12,7 @@ interface AuthContextType {
   login: (newId: number, newToken: string) => void;
   logout: () => void;
   fetchToken: () => Promise<void>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const useAuthContext = (): AuthContextType => {
@@ -75,6 +76,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         fetchToken,
         login,
         logout,
+        setIsLoading,
       }}
     >
       {children}
