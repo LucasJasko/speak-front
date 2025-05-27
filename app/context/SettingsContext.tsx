@@ -27,9 +27,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     setIsLoading(true);
     try {
       const res: any = await useAPI("/profile/" + id, { json: { aceessToken: accessToken } });
-
       setTheme(res.theme_id);
-      console.log(res);
     } catch (err: any) {
     } finally {
       setIsLoading(false);
@@ -37,14 +35,17 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   useEffect(() => {
-    fetch(`../../app/styles/${theme}.css`)
-      .then((res) => {
-        res.json();
-        console.log(res);
-      })
-      .then((data) => {
-        console.log(data);
-      });
+    if (theme != null) {
+      console.log(theme);
+
+      const fetchStyle = async () => {
+        let res = await fetch(`/assets/themes/${theme}.txt`);
+        let data = await res.text();
+        document.body.style = data;
+      };
+
+      fetchStyle();
+    }
   }, [theme]);
 
   useEffect(() => {

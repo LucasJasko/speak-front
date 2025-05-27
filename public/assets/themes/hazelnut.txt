@@ -1,0 +1,8 @@
+--color1: rgb(231, 232, 216);
+--color2: rgb(202, 218, 191);
+--color3: rgb(181, 207, 183);
+--color4: rgb(188, 159, 139);
+--color5: rgb(219, 197, 157);
+--inkdark: rgb(34, 34, 34);
+--grey: rgba(125, 125, 125, 1);
+color: var(--inkdark);
