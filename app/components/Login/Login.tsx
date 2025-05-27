@@ -46,7 +46,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
           <img className="login-logo" src="../assets/img/Speak_64x64.png" alt="" />
         </div>
         <div className="login__header-container-right">
-          <h1 className="login__h1">Speak</h1>
+          <h1 className="login__h1">SPEAK</h1>
           <p className="login__p">Connexion à votre plateforme de discussion</p>
         </div>
       </div>

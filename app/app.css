@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
-@import "./routes/Loader/loader.css";
-@import "./routes/Home/home.css";
-@import "./routes/Auth/auth.css";
+@import "./routes/Loader/loader.scss";
+@import "./routes/Home/home.scss";
+@import "./routes/Auth/auth.scss";
 
-@import "./routes/Home/Group/group.css";
-@import "./routes/Home/DirectMessage/directMessage.css";
+@import "./routes/Home/Group/group.scss";
+@import "./routes/Home/DirectMessage/directMessage.scss";
 
 @import "./components/Login/login.scss";
-@import "./components/SignIn/signin.css";
-@import "./components/Agenda/agenda.css";
-@import "./components/MessageArea/messageArea.css";
-@import "./components/MessageArea/Message/message.css";
-@import "./components/MessageArea/MessageInput/messageInput.css";
-@import "./components/Settings/settings.css";
-@import "./components/Profile/profile.css";
-@import "./components/Profile/menu.css";
-@import "./components/AddGroup/addGroup.css";
-@import "./components/Header/header.css";
-@import "./components/Nav/nav.css";
-@import "./components/UserItem/userItem.css";
-@import "./components/Room/room.css";
+@import "./components/SignIn/signin.scss";
+@import "./components/Agenda/agenda.scss";
+@import "./components/MessageArea/messageArea.scss";
+@import "./components/MessageArea/Message/message.scss";
+@import "./components/MessageArea/MessageInput/messageInput.scss";
+@import "./components/Settings/settings.scss";
+@import "./components/Profile/profile.scss";
+@import "./components/Profile/menu.scss";
+@import "./components/AddGroup/addGroup.scss";
+@import "./components/Header/header.scss";
+@import "./components/Nav/nav.scss";
+@import "./components/UserItem/userItem.scss";
+@import "./components/Room/room.scss";
 
 @theme {
   --color1: rgb(249, 239, 219);
