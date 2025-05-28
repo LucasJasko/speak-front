@@ -5,7 +5,7 @@ import { useAuthContext } from "./AuthContext";
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 interface SettingsContextType {
-  theme: string | null;
+  theme: string;
   error: string | null;
   fetchSettings: () => Promise<void>;
 }
@@ -20,13 +20,19 @@ export const useSettingsContext = (): SettingsContextType => {
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id, isLoading, setIsLoading } = useAuthContext();
+  const [userData, setUserData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  const [theme, setTheme] = useState(null);
+  const [theme, setTheme] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [surname, setSurname] = useState<string>("");
 
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
       const res: any = await useAPI("/profile/" + id, { json: { aceessToken: accessToken } });
+      setUserData(res);
+      setName(res.profile_name);
+      setSurname(res.profile_surname);
       setTheme(res.theme_id);
     } catch (err: any) {
     } finally {
@@ -35,9 +41,19 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   useEffect(() => {
-    if (theme != null) {
-      console.log(theme);
+    if (id != undefined) {
+      fetchSettings();
+    }
+  }, [id]);
 
+  useEffect(() => {
+    if (userData != undefined) {
+      console.log(userData);
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (theme != null) {
       const fetchStyle = async () => {
         let res = await fetch(`/assets/themes/${theme}.txt`);
         let data = await res.text();
@@ -49,10 +65,13 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   }, [theme]);
 
   useEffect(() => {
-    if (id != undefined) {
-      fetchSettings();
+    const fetchProfilePicture = async () => {
+      const res: any = await useAPI(`/image/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${userData.profile_picture}`);
+    };
+    if (surname != "" && name != "" && userData != null) {
+      fetchProfilePicture();
     }
-  }, [id]);
+  }, [surname, name, userData]);
 
   return (
     <SettingsContext
