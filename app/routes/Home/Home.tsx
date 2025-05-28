@@ -20,7 +20,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const { accessToken, id, error, isLoading, fetchToken } = useAuthContext();
-  const { theme } = useSettingsContext();
+  // const { theme } = useSettingsContext();
   const navigate = useNavigate();
 
   const [activeLayout, setActiveLayout] = useState("direct-message");

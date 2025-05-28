@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
+import { useSettingsContext } from "~/context/SettingsContext";
+import { useAuthContext } from "~/context/AuthContext";
 
 const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> = ({ onClick, activeBtn }) => {
   const navigate = useNavigate();
+  const { picture } = useSettingsContext();
   const { isMobile } = useMobileContext();
   const [activeArrow, setActiveArrow] = useState(false);
   const handleActiveBtn = (selectedBtn: string) => {
@@ -153,7 +156,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
               handleActiveBtn("profile");
             }}
           >
-            <i className="fa-solid fa-user" />
+            {picture ? <img src={`data:image/jpeg;base64,${picture}`} /> : <i className="fa-solid fa-user" />}
           </motion.button>
           <motion.button
             whileHover={{

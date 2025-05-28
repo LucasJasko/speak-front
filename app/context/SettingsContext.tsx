@@ -5,6 +5,7 @@ import { useAuthContext } from "./AuthContext";
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 interface SettingsContextType {
+  picture: string;
   theme: string;
   error: string | null;
   fetchSettings: () => Promise<void>;
@@ -25,6 +26,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [theme, setTheme] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
+  const [picture, setPicture] = useState<string>("");
 
   const fetchSettings = async () => {
     setIsLoading(true);
@@ -47,12 +49,6 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   }, [id]);
 
   useEffect(() => {
-    if (userData != undefined) {
-      console.log(userData);
-    }
-  }, [userData]);
-
-  useEffect(() => {
     if (theme != null) {
       const fetchStyle = async () => {
         let res = await fetch(`/assets/themes/${theme}.txt`);
@@ -67,6 +63,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   useEffect(() => {
     const fetchProfilePicture = async () => {
       const res: any = await useAPI(`/image/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${userData.profile_picture}`);
+      setPicture(res);
     };
     if (surname != "" && name != "" && userData != null) {
       fetchProfilePicture();
@@ -78,6 +75,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
       value={{
         theme,
         error,
+        picture,
         fetchSettings,
       }}
     >
