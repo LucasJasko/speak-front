@@ -62,7 +62,9 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   useEffect(() => {
     const fetchProfilePicture = async () => {
-      const res: any = await useAPI(`/image/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${userData.profile_picture}`);
+      const res: any = await useAPI(
+        `/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${userData.profile_picture}`
+      );
       setPicture(res);
     };
     if (surname != "" && name != "" && userData != null) {

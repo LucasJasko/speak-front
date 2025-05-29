@@ -5,6 +5,7 @@ import MessageArea from "~/components/MessageArea/MessageArea";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
+import useAPI from "~/hook/useAPI";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -37,15 +38,13 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
     const query = e.target.value;
 
     try {
-      const res = await fetch("http://alert-mns-back/search.php", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await useAPI("/search", {
+        json: {
+          search: query,
         },
-        body: JSON.stringify({ search: query }),
       });
-      const data = await res.json();
-      Array.isArray(data) ? (setResult(data), setSearchError("")) : (setSearchError(data), setResult([]));
+      const data: any = res;
+      // Array.isArray(data) ? (setResult(data), setSearchError("")) : (setSearchError(data), setResult([]));
     } catch (e: any) {
       setSearchError(e.message);
       setResult([]);
