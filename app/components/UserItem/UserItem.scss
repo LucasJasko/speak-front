@@ -20,6 +20,10 @@
   @apply size-4 absolute bottom-0 right-0 bg-green-500 rounded-full;
 }
 
+.disconnected {
+  @apply bg-red-500;
+}
+
 @media screen and (max-width: 700px) {
   .user {
     @apply mx-1 h-fit;

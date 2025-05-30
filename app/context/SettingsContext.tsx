@@ -4,11 +4,19 @@ import { useAuthContext } from "./AuthContext";
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
+export interface pictureSettings {
+  id: any;
+  surname: string;
+  name: string;
+  profilePicture: string;
+}
+
 interface SettingsContextType {
-  picture: string;
+  picture: string | undefined | Promise<string | undefined>;
   theme: string;
   error: string | null;
   fetchSettings: () => Promise<void>;
+  fetchProfilePicture: ({ id, surname, name, profilePicture }: pictureSettings) => Promise<string | undefined>;
 }
 
 export const useSettingsContext = (): SettingsContextType => {
@@ -26,12 +34,12 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [theme, setTheme] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
-  const [picture, setPicture] = useState<string>("");
+  const [picture, setPicture] = useState<string | undefined | Promise<string | undefined>>("");
 
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      const res: any = await useAPI("/profile/" + id, { json: { aceessToken: accessToken } });
+      const res: any = await useAPI("/profile/" + id, { json: { accessToken } });
       setUserData(res);
       setName(res.profile_name);
       setSurname(res.profile_surname);
@@ -60,15 +68,27 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, [theme]);
 
+  const fetchProfilePicture = async ({ id, surname, name, profilePicture }: pictureSettings): Promise<string | undefined> => {
+    try {
+      const res: string = await useAPI(`/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${profilePicture}`, {
+        json: { accessToken: accessToken },
+      });
+      return res;
+    } catch {
+      return "";
+    }
+  };
+
   useEffect(() => {
-    const fetchProfilePicture = async () => {
-      const res: any = await useAPI(
-        `/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${userData.profile_picture}`
-      );
-      setPicture(res);
-    };
     if (surname != "" && name != "" && userData != null) {
-      fetchProfilePicture();
+      fetchProfilePicture({
+        id,
+        surname,
+        name,
+        profilePicture: userData.profile_picture,
+      }).then((fetchedPicture) => {
+        setPicture(fetchedPicture);
+      });
     }
   }, [surname, name, userData]);
 
@@ -79,6 +99,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         error,
         picture,
         fetchSettings,
+        fetchProfilePicture,
       }}
     >
       {children}

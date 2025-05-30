@@ -6,13 +6,30 @@
 }
 
 .contact-area {
-  @apply w-[230px];
+  @apply w-[230px] relative;
   grid-area: a;
 }
 
 .contact-area__search {
-  @apply border-b border-b-(--grey) relative;
-  height: 150px;
+  @apply relative h-fit min-h-[50px];
+}
+
+.contact-area__results {
+  @apply border-b border-b-(--grey) max-h-[300px] overflow-y-scroll;
+  scrollbar-width: 0;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--color2);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color5);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--grey);
+  }
 }
 
 .contact-area__search input[type="search"] {
@@ -21,8 +38,8 @@
 }
 
 .contact-area__list {
-  @apply pt-3;
-  height: calc(100% - 150px);
+  @apply pt-3 absolute bottom-0 w-[100%];
+  max-height: calc(100% - 50px);
 }
 
 @media screen and (max-width: 700px) {

@@ -9,7 +9,7 @@
 }
 
 .nav__link {
-  @apply size-15 my-1.5 bg-(--color3) hover:bg-(--color4) cursor-pointer hover:btn-shadow overflow-hidden;
+  @apply size-15 my-1.5 bg-(--color3) hover:bg-(--color4) cursor-pointer hover:btn-shadow overflow-hidden text-(--color2);
   transition: 0.2s ease;
   border-radius: 100px;
 }

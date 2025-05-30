@@ -1,16 +1,26 @@
+import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
+import { useSettingsContext, type pictureSettings } from "~/context/SettingsContext";
 
 interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
   convID: string;
   convName: string;
-  pic: string;
-  status: boolean;
+  pictureSetings: pictureSettings;
+  status: string;
   activeConversation: string;
   setActiveConversation: (convID: string) => void;
 }
 
-const UserItem: React.FC<UserProps> = ({ convName, pic, status, activeConversation, convID, setActiveConversation }) => {
+const UserItem: React.FC<UserProps> = ({ convName, pictureSetings, status, activeConversation, convID, setActiveConversation }) => {
+  const { fetchProfilePicture } = useSettingsContext();
+  const [pic, setPic] = useState<string>();
   const { isMobile } = useMobileContext();
+
+  useEffect(() => {
+    fetchProfilePicture(pictureSetings).then((picture) => {
+      setPic(picture);
+    });
+  }, []);
 
   return (
     <div
@@ -20,8 +30,8 @@ const UserItem: React.FC<UserProps> = ({ convName, pic, status, activeConversati
       }}
     >
       <div className="user__img-container">
-        <img className="user__img" src={pic} alt="photo utilisateur" />
-        <span className={`connection__dot ${status ? "connected" : "disconnected"}`}></span>
+        <img className="user__img" src={pic == "" ? "/public/assets/img/Speak_64x64.png" : "data:image/jpeg;base64," + pic} alt="photo utilisateur" />
+        <span className={`connection__dot ${status == "1" ? "connected" : "disconnected"}`}></span>
       </div>
       {!isMobile && <p className="user__name">{convName}</p>}
     </div>

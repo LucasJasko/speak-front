@@ -6,17 +6,18 @@ import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
 import useAPI from "~/hook/useAPI";
+import { useAuthContext } from "~/context/AuthContext";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
 }
 
 const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
+  const { accessToken } = useAuthContext();
   const { isMobile } = useMobileContext();
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
 
   const [result, setResult] = useState<any>([]);
-  const [searchError, setSearchError] = useState("");
 
   const [activeConversation, setActiveConversation] = useState("abc123");
   const [activePath, setActivePath] = useState<string>("dm-123/abc123");
@@ -38,18 +39,28 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
     const query = e.target.value;
 
     try {
-      const res = await useAPI("/search", {
+      // TODO temporiser l'envoie de la requête avec stockage de la query avant envoie pour limiter les requêtes
+      const response: Array<string> = await useAPI("/search", {
         json: {
-          search: query,
+          accessToken,
+          query,
         },
       });
-      const data: any = res;
-      // Array.isArray(data) ? (setResult(data), setSearchError("")) : (setSearchError(data), setResult([]));
+      if (query == "") {
+        setResult([]);
+      } else {
+        response.length > 0 ? setResult(response) : setResult([]);
+      }
     } catch (e: any) {
-      setSearchError(e.message);
       setResult([]);
     }
   }
+
+  useEffect(() => {
+    const resultsArea = document.querySelector(".contact-area__results") as HTMLElement;
+    const listArea = document.querySelector(".contact-area__list") as HTMLElement;
+    listArea.style.height = `calc(100% - ${resultsArea.clientHeight}px - 50px)`;
+  }, [result]);
 
   return (
     <div
@@ -61,7 +72,28 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
           {!isMobile && (
             <div className="contact-area__search">
               <input type="search" placeholder="Rechercher un utilisateur..." onInput={handleSearch} />
-              <ul>{searchError ? <li>{searchError}</li> : result.map((user: any) => <li key={user["user_name"]}>{user["user_name"]}</li>)}</ul>
+            </div>
+          )}
+          {!isMobile && (
+            <div className="contact-area__results">
+              <ul>
+                {result.map((user: any) => (
+                  <UserItem
+                    key={user.profile_id}
+                    convID="abc1234"
+                    convName={user.profile_name + " " + user.profile_surname}
+                    activeConversation={activeConversation}
+                    setActiveConversation={setActiveConversation}
+                    pictureSetings={{
+                      id: user.profile_id,
+                      surname: user.profile_surname,
+                      name: user.profile_name,
+                      profilePicture: user.profile_picture,
+                    }}
+                    status={user.status_id}
+                  />
+                ))}
+              </ul>
             </div>
           )}
           <div className="contact-area__list">
@@ -70,24 +102,39 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
               convName="Utilisateur 1"
               activeConversation={activeConversation}
               setActiveConversation={setActiveConversation}
-              pic="/assets/img/user1.png"
-              status={true}
+              pictureSetings={{
+                id: 1,
+                surname: "Jaskowiak",
+                name: "Lucas",
+                profilePicture: "yes",
+              }}
+              status={"2"}
             />
             <UserItem
               convID="def456"
               convName="Utilisateur 2"
               activeConversation={activeConversation}
               setActiveConversation={setActiveConversation}
-              pic="/assets/img/user2.jpg"
-              status={true}
+              pictureSetings={{
+                id: 1,
+                surname: "Jaskowiak",
+                name: "Lucas",
+                profilePicture: "yes",
+              }}
+              status={"2"}
             />
             <UserItem
               convID="ghi789"
               convName="Utilisateur 3"
               activeConversation={activeConversation}
               setActiveConversation={setActiveConversation}
-              pic="/assets/img/user3.jpg"
-              status={true}
+              pictureSetings={{
+                id: 1,
+                surname: "Jaskowiak",
+                name: "Lucas",
+                profilePicture: "yes",
+              }}
+              status={"1"}
             />
           </div>
         </div>

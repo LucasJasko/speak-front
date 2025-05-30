@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useLayoutEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
-import { useNavigate } from "react-router";
+import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { useLocation, useNavigate } from "react-router";
 import useAPI from "~/hook/useAPI";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -11,7 +11,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (newId: number, newToken: string) => void;
   logout: () => void;
-  fetchToken: () => Promise<void>;
+  fetchAccessToken: () => Promise<void>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -24,6 +24,7 @@ export const useAuthContext = (): AuthContextType => {
 };
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  let location = useLocation();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState<undefined | string | null>(undefined);
   const [id, setId] = useState<undefined | number | null>(undefined);
@@ -41,10 +42,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setId(null);
   };
 
-  const fetchToken = async () => {
+  const fetchAccessToken = async () => {
     setIsLoading(true);
     try {
-      const res: any = await useAPI("/auth");
+      const res: any = await useAPI("/auth", { json: {} });
       login(res.UID, res.accessToken);
     } catch (err: any) {
       setError(err.response?.data?.error || "Erreur d’authentification.");
@@ -55,12 +56,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   useEffect(() => {
-    fetchToken();
+    if (location.pathname != "/auth") {
+      fetchAccessToken();
+    }
   }, []);
 
   useEffect(() => {
-    // TODO Vérifier si le refresh token corrspond bien à celui stocké en bae
-    // TODO vérifier lors de l'accès à l'appli si il y a un refresh token. Si oui alors le comparer à celui stocké en base, et donc connecter directement.
     if (accessToken === null && !isLoading) {
       navigate("/auth");
     }
@@ -73,7 +74,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         id,
         error,
         isLoading,
-        fetchToken,
+        fetchAccessToken,
         login,
         logout,
         setIsLoading,
