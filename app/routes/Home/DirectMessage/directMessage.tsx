@@ -7,6 +7,7 @@ import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
 import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "~/context/AuthContext";
+import { motion } from "motion/react";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -25,7 +26,16 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
+    const contactAreaList = document.querySelector(".contact-area__list") as HTMLElement;
+    contactAreaList.style.height = "calc(100% - 50px)";
   }, [isMobile]);
+
+  useEffect(() => {
+    if (displayMobileSideMenu) {
+      const contactAreaList = document.querySelector(".contact-area__list") as HTMLElement;
+      contactAreaList.style.height = "calc(100% - 50px)";
+    }
+  }, [displayMobileSideMenu]);
 
   useEffect(() => {
     setActivePath(typeID + "/" + activeConversation);
@@ -56,6 +66,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
     }
   }
 
+  // TODO problème de boucle de rendu au format mobile lors du refresh de page, probablement absence de area-result au format mobile
   useEffect(() => {
     const resultsArea = document.querySelector(".contact-area__results") as HTMLElement;
     const listArea = document.querySelector(".contact-area__list") as HTMLElement;
@@ -69,11 +80,22 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
     >
       {displayMobileSideMenu && (
         <div className="contact-area">
-          {!isMobile && (
-            <div className="contact-area__search">
-              <input type="search" placeholder="Rechercher un utilisateur..." onInput={handleSearch} />
-            </div>
-          )}
+          <div className="contact-area__search">
+            {!isMobile ? (
+              <input className="contact-area__search-input" type="search" placeholder="Rechercher un utilisateur..." onInput={handleSearch} />
+            ) : (
+              <motion.button
+                whileHover={{
+                  transition: { duration: 0.1 },
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="contact-area__search-input contact-area__search-input__button"
+                onClick={() => {}}
+              >
+                <i className="fa-solid fa-magnifying-glass"></i>
+              </motion.button>
+            )}
+          </div>
           {!isMobile && (
             <div className="contact-area__results">
               <ul>

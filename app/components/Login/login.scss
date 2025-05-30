@@ -6,7 +6,7 @@
   @apply flex;
 
   .login__header-container-left {
-    @apply flex items-center;
+    @apply flex items-start w-[64px];
 
     .login-logo {
       @apply h-[64px] w-[64px];
@@ -14,6 +14,7 @@
   }
   .login__header-container-right {
     @apply pl-2;
+    width: calc(100% - 64px);
     .login__h1 {
       @apply font-bold text-4xl tracking-wide;
     }

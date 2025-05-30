@@ -17,6 +17,7 @@
 .contact-area__results {
   @apply border-b border-b-(--grey) max-h-[300px] overflow-y-scroll;
   scrollbar-width: 0;
+
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -32,9 +33,17 @@
   }
 }
 
-.contact-area__search input[type="search"] {
+.contact-area__search-input {
   @apply p-2 mb-1 mx-1 rounded-lg bg-(--color1) shadow h-10;
   width: calc(100% - 8px);
+}
+
+.contact-area__search-input__button {
+  @apply cursor-pointer h-[52px];
+
+  &:hover {
+    @apply text-(--color1) bg-(--color4) transition;
+  }
 }
 
 .contact-area__list {

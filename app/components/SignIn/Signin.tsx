@@ -1,5 +1,3 @@
-import React from "react";
-
 const Signin = ({ toggleSlide }: { toggleSlide: () => void }) => {
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
@@ -8,8 +6,13 @@ const Signin = ({ toggleSlide }: { toggleSlide: () => void }) => {
   return (
     <form className="signin__form" onSubmit={handleSubmit}>
       <div className="signin__header-container">
-        <h1 className="signin__h1">Alert MNS</h1>
-        <p className="signin__p">Inscription à votre plateforme de discussion</p>
+        <div className="signin__header-container-left">
+          <img className="signin-logo" src="../assets/img/Speak_64x64.png" alt="" />
+        </div>
+        <div className="signin__header-container-right">
+          <h1 className="signin__h1">SPEAK</h1>
+          <p className="signin__p">Inscription à votre plateforme de discussion</p>
+        </div>
       </div>
       <div className="signin__input-container">
         <input className="signin__input" type="text" name="user_mail" id="mail" placeholder="Entrez votre adresse email" />

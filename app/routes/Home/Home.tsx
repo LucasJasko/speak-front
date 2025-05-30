@@ -2,7 +2,7 @@ import type { Route } from "./+types/home";
 
 import Nav from "~/components/Nav/Nav";
 import Header from "~/components/Header/Header";
-import { useEffect, useLayoutEffect, useRef, useState, type JSX } from "react";
+import { useState, type JSX } from "react";
 import Profile from "~/components/Profile/Profile";
 import Agenda from "~/components/Agenda/Agenda";
 import Settings from "~/components/Settings/Settings";
@@ -10,18 +10,14 @@ import AddGroup from "~/components/AddGroup/AddGroup";
 import { AnimatePresence } from "motion/react";
 import TypeRouter from "./TypeRouter";
 import { useAuthContext } from "~/context/AuthContext";
-import { useNavigate } from "react-router";
 import Loader from "../Loader/loader";
-import { useSettingsContext } from "~/context/SettingsContext";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "SPEAK - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil de la plateforme de chatting speak !" }];
 }
 
 export default function Home() {
-  const { accessToken, id, error, isLoading, fetchToken } = useAuthContext();
-  // const { theme } = useSettingsContext();
-  const navigate = useNavigate();
+  const { error, isLoading } = useAuthContext();
 
   const [activeLayout, setActiveLayout] = useState("direct-message");
   const [lastActive, setLastActive] = useState("");

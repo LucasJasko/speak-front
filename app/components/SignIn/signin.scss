@@ -3,15 +3,26 @@
 }
 
 .signin__header-container {
-  @apply text-center;
-}
+  @apply flex;
 
-.signin__h1 {
-  @apply font-bold text-4xl;
-}
+  .signin__header-container-left {
+    @apply flex items-start w-[64px];
 
-.signin__p {
-  @apply mt-3;
+    .signin-logo {
+      @apply h-[64px] w-[64px];
+    }
+  }
+  .signin__header-container-right {
+    @apply pl-2;
+    width: calc(100% - 64px);
+    .signin__h1 {
+      @apply font-bold text-4xl tracking-wide;
+    }
+
+    .signin__p {
+      @apply flex;
+    }
+  }
 }
 
 .signin__input-container {

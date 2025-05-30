@@ -24,7 +24,7 @@ export const links: Route.LinksFunction = () => [
 
   {
     rel: "icon",
-    href: "../public/assets/img/Speak_32x32.png",
+    href: "/assets/img/Speak_32x32.png",
   },
 ];
 
