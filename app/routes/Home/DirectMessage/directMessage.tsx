@@ -26,8 +26,10 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
-    const contactAreaList = document.querySelector(".contact-area__list") as HTMLElement;
-    contactAreaList.style.height = "calc(100% - 50px)";
+    if (displayMobileSideMenu) {
+      const contactAreaList = document.querySelector(".contact-area__list") as HTMLElement;
+      contactAreaList.style.height = "calc(100% - 50px)";
+    }
   }, [isMobile]);
 
   useEffect(() => {
@@ -66,11 +68,12 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
     }
   }
 
-  // TODO problème de boucle de rendu au format mobile lors du refresh de page, probablement absence de area-result au format mobile
   useEffect(() => {
-    const resultsArea = document.querySelector(".contact-area__results") as HTMLElement;
-    const listArea = document.querySelector(".contact-area__list") as HTMLElement;
-    listArea.style.height = `calc(100% - ${resultsArea.clientHeight}px - 50px)`;
+    if (!isMobile) {
+      const resultsArea = document.querySelector(".contact-area__results") as HTMLElement;
+      const listArea = document.querySelector(".contact-area__list") as HTMLElement;
+      listArea.style.height = `calc(100% - ${resultsArea.clientHeight}px - 50px)`;
+    }
   }, [result]);
 
   return (
