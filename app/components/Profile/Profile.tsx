@@ -6,6 +6,8 @@ import Customisation from "~/components/Profile/Customisation/Customisation";
 import PersonnalInfos from "~/components/Profile/PersonnalInfos/PersonnalInfos";
 import Security from "~/components/Profile/Security/Security";
 import { AnimatePresence, motion } from "motion/react";
+import useAPI from "~/hook/useAPI";
+import { useAuthContext } from "~/context/AuthContext";
 
 interface MenuMap {
   key: string;
@@ -15,6 +17,7 @@ interface MenuMap {
 
 const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: string }> = ({ onClose, lastActive }) => {
   const navigate = useNavigate();
+  const { id, accessToken } = useAuthContext();
   const [activeProfileList, setActiveProfileList] = useState<boolean>(false);
   const [activeMenu, setActiveMenu] = useState<any>("personnalisation");
   const contentRef = useRef<JSX.Element | string>(null);
@@ -38,6 +41,7 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
     contentRef.current = selectedItem?.element || null;
 
     if (key === "disconnect") {
+      useAPI("/logout/" + id, { json: { accessToken: accessToken } });
       navigate("/auth");
     }
   };
