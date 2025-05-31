@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
-import { useAuthContext } from "~/context/AuthContext";
 
 const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> = ({ onClick, activeBtn }) => {
   const navigate = useNavigate();

@@ -1,66 +1,97 @@
 .signin__form {
-  @apply h-130 min-h-130 p-10 flex flex-col justify-between;
-}
+  @apply h-fit min-h-130 p-10 flex flex-col justify-between;
 
-.signin__header-container {
-  @apply flex;
+  .signin__header-container {
+    @apply flex;
 
-  .signin__header-container-left {
-    @apply flex items-start w-[64px];
+    .signin__header-container-left {
+      @apply flex items-start w-[64px];
 
-    .signin-logo {
-      @apply h-[64px] w-[64px];
+      .signin-logo {
+        @apply h-[64px] w-[64px];
+      }
+    }
+    .signin__header-container-right {
+      @apply pl-2;
+      width: calc(100% - 64px);
+      .signin__h1 {
+        @apply font-bold text-4xl tracking-wide;
+      }
+
+      .signin__p {
+        @apply flex;
+      }
     }
   }
-  .signin__header-container-right {
-    @apply pl-2;
-    width: calc(100% - 64px);
-    .signin__h1 {
-      @apply font-bold text-4xl tracking-wide;
-    }
 
-    .signin__p {
-      @apply flex;
+  .signin__input-container {
+    @apply flex flex-col h-fit justify-center;
+
+    .progress-bar__container {
+      .progress-bar {
+        .progress-bar__info {
+          @apply mt-2;
+        }
+
+        .progress-bar__value {
+          @apply block h-3 my-2 rounded-2xl;
+          transition: 0.2s ease;
+        }
+        .empty {
+          @apply h-0;
+        }
+        .weak {
+          @apply w-[33%] bg-red-500;
+        }
+
+        .good {
+          @apply w-[66%] bg-orange-500;
+        }
+
+        .strong {
+          @apply w-[100%] bg-green-500;
+        }
+      }
     }
   }
-}
-
-.signin__input-container {
-  @apply flex flex-col h-50 justify-center;
-}
-.signin__submit-container {
-  @apply flex flex-col h-fit;
-}
-
-.signin__input {
-  @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100;
-}
-
-.signin__submit {
-  @apply bg-(--color3) cursor-pointer font-bold;
-}
-
-.signin__message {
-  @apply h-5;
-}
-
-.signin__switch {
-  @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100 bg-(--color1) cursor-pointer font-bold hover:bg-(--color2);
-}
-
-@media screen and (max-width: 700px) {
-  .signin__p {
-    @apply my-3;
-  }
-
-  .signin__form {
-    @apply w-full;
+  .signin__submit-container {
+    @apply flex flex-col h-fit;
   }
 
   .signin__input {
-    @apply max-w-80 mx-auto;
+    @apply border rounded border-(--grey) bg-(--color5) p-3 my-5 mt-5 mb-0 w-100;
   }
+
+  .signin__submit {
+    @apply bg-(--color3) text-(--color1) cursor-pointer font-bold;
+  }
+
   .signin__switch {
-    @apply max-w-80 mx-auto;
+    @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100 bg-(--color1) cursor-pointer font-bold hover:bg-(--color2);
+  }
+
+  .signin__message {
+    @apply border rounded border-red-600 text-red-600 bg-(--color1=2) p-3 w-100 mt-3;
+  }
+
+  @media screen and (max-width: 700px) {
+    .signin__p {
+      @apply my-3;
+    }
+
+    .progress-bar__container {
+      @apply max-w-80 m-auto;
+    }
+
+    .signin__form {
+      @apply w-full;
+    }
+
+    .signin__input {
+      @apply max-w-80 mx-auto;
+    }
+    .signin__switch {
+      @apply max-w-80 mx-auto;
+    }
   }
 }

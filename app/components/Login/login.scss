@@ -33,11 +33,11 @@
 }
 
 .login__input {
-  @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100;
+  @apply border rounded border-(--grey) bg-(--color5) p-3 my-5 mt-5 mb-0 w-100;
 }
 
 .login__submit {
-  @apply bg-(--color3) cursor-pointer font-bold;
+  @apply bg-(--color3) text-(--color1) cursor-pointer font-bold;
 }
 
 .login__message {

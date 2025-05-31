@@ -57,6 +57,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
           name="user_mail"
           id="mail"
           placeholder="Entrez votre adresse email"
+          autoComplete="mail"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
@@ -65,6 +66,7 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
           name="user_password"
           id="password"
           placeholder="Entrez votre mot de passe"
+          autoComplete="password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
