@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
+import { useSettingsContext } from "~/context/SettingsContext";
 import useAPI from "~/hook/useAPI";
 
 const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
-  const [email, setEmail] = useState<string>("");
-  const [pwd, setPwd] = useState<string>("");
-  const [confirmPwd, setConfirmPwd] = useState<string>("");
+  const { password, setPassword, mail, setMail } = useSettingsContext();
+
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const progressBar = document.querySelector(".progress-bar__value") as HTMLElement;
     const progressBarInfo = document.querySelector(".progress-bar__info") as HTMLElement;
-    if (pwd.match("") || pwd.length < 8) {
+    if (password.match("") || password.length < 8) {
       progressBar.classList = "progress-bar__value empty";
       progressBarInfo.textContent = "";
-      if (pwd.length >= 8) {
+      if (password.length >= 8) {
         progressBar.classList = "progress-bar__value weak";
         progressBarInfo.textContent = "Sécurité: faible (ajoutez une majuscule et un chiffre)";
         progressBarInfo.style.color = "#fb2c36";
-        if (pwd.match(/^(?=.*[A-Z])(?=.*\d).+$/) || pwd.length >= 20) {
+        if (password.match(/^(?=.*[A-Z])(?=.*\d).+$/) || password.length >= 20) {
           progressBar.classList = "progress-bar__value good";
           progressBarInfo.textContent = "Sécurité: moyenne (entrez 16 caractères et un spécial)";
           progressBarInfo.style.color = "oklch(70.5% 0.213 47.604)";
-          if (pwd.match(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/) && pwd.length >= 16) {
+          if (password.match(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/) && password.length >= 16) {
             progressBar.classList = "progress-bar__value strong";
             progressBarInfo.textContent = "Sécurité: forte";
             progressBarInfo.style.color = "oklch(72.3% 0.219 149.579)";
@@ -29,7 +30,7 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
         }
       }
     }
-  }, [pwd]);
+  }, [password]);
 
   const isMailUsed = async (query: string) => {
     try {
@@ -38,7 +39,6 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
           query,
         },
       });
-      console.log(response);
 
       return response;
     } catch (e: any) {
@@ -53,29 +53,31 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
       setError(undefined);
     }, 4000);
 
-    if (email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/) && pwd.length >= 8 && pwd === confirmPwd) {
-      const isUsed = await isMailUsed(email);
+    if (mail.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/) && password.length >= 8 && password === confirmPassword) {
+      const isUsed = await isMailUsed(mail);
 
       if (!isUsed) {
+        setMail(mail);
+        setPassword(password);
         toggleSlide("inscription");
         return console.log("good !");
       } else {
         return setError("Cet email est déjà utilisé");
       }
     }
-    if (email === "") {
+    if (mail === "") {
       return setError("Veuillez renseigner votre email");
     }
-    if (!email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/)) {
+    if (!mail.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/)) {
       return setError("L'email renseigné n'est pas au bon format (monemail@exemple.com)");
     }
-    if (pwd === "") {
+    if (password === "") {
       return setError("Veuillez renseigner un mot de passe");
     }
-    if (pwd.length < 8) {
+    if (password.length < 8) {
       return setError("Le mot de passe renseigné fait moins de 8 caractères");
     }
-    if (pwd != confirmPwd) {
+    if (password != confirmPassword) {
       return setError("La confirmation du mot de passe ne correspond pas au mot de passe renseigné");
     }
   };
@@ -95,20 +97,20 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
         <input
           className="signin__input"
           type="text"
-          name="user_mail"
+          name="profile_mail"
           id="mail"
           placeholder="Adresse email (monemail@exemple.com)"
           autoComplete="new-email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setMail(e.target.value)}
         />
         <input
           className="signin__input"
           type="password"
-          name="user_password"
+          name="profile_password"
           id="password"
           placeholder="Mot de passe (8 caractères minimum)"
           autoComplete="new-password"
-          onChange={(e) => setPwd(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <div className="progress-bar__container">
           <div className="progress-bar">
@@ -119,11 +121,11 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
         <input
           className="signin__input"
           type="password"
-          name="user_password"
+          name="profile_password"
           id="confirm-password"
           placeholder="Confirmez votre mot de passe"
           autoComplete="confirm-password"
-          onChange={(e) => setConfirmPwd(e.target.value)}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </div>
       <div className="signin__submit-container">

@@ -1,9 +1,9 @@
 .auth__container {
-  @apply h-screen flex justify-center items-center bg-(--colo1);
+  @apply min-h-screen flex justify-center items-center bg-(--colo1);
 }
 
 .auth__window {
-  @apply flex justify-center items-center relative w-120 min-h-131 overflow-x-hidden border-1 rounded border-(--grey) shadow-2xl bg-(--color2);
+  @apply flex justify-center items-center relative w-120 min-h-131 overflow-x-hidden border-1 rounded border-(--grey) shadow-2xl bg-(--color2) my-10;
 }
 
 @media screen and (max-width: 700px) {

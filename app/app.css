@@ -9,6 +9,7 @@
 
 @import "./components/Login/login.scss";
 @import "./components/SignIn/signin.scss";
+@import "./components/SignIn/Inscription/inscription.scss";
 @import "./components/Agenda/agenda.scss";
 @import "./components/MessageArea/messageArea.scss";
 @import "./components/MessageArea/Message/message.scss";
@@ -34,6 +35,7 @@
 
 body {
   @apply h-screen bg-(--color1) text-(--inkdark);
+  transition: 0.2s ease;
 }
 
 @utility me-center {

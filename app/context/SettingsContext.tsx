@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useLayoutEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "./AuthContext";
 
@@ -12,9 +12,25 @@ export interface pictureSettings {
 }
 
 interface SettingsContextType {
-  picture: string | undefined | Promise<string | undefined>;
+  name: string;
+  surname: string;
+  mail: string;
+  password: string;
   theme: string;
+  picture: string | undefined | Promise<string | undefined>;
+  status: string;
+  role: string;
+  language: string;
   error: string | null;
+  setName: Dispatch<SetStateAction<string>>;
+  setSurname: Dispatch<SetStateAction<string>>;
+  setMail: Dispatch<SetStateAction<string>>;
+  setPassword: Dispatch<SetStateAction<string>>;
+  setTheme: Dispatch<SetStateAction<string>>;
+  setPicture: Dispatch<SetStateAction<string | undefined | Promise<string | undefined>>>;
+  setStatus: Dispatch<SetStateAction<string>>;
+  setRole: Dispatch<SetStateAction<string>>;
+  setLanguage: Dispatch<SetStateAction<string>>;
   fetchSettings: () => Promise<void>;
   fetchProfilePicture: ({ id, surname, name, profilePicture }: pictureSettings) => Promise<string | undefined>;
 }
@@ -29,12 +45,22 @@ export const useSettingsContext = (): SettingsContextType => {
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id, isLoading, setIsLoading } = useAuthContext();
+
   const [userData, setUserData] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [theme, setTheme] = useState<string>("");
+
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
+  const [mail, setMail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const [theme, setTheme] = useState<string>("");
   const [picture, setPicture] = useState<string | undefined | Promise<string | undefined>>("");
+
+  const [status, setStatus] = useState<string>("");
+  const [role, setRole] = useState<string>("");
+  const [language, setLanguage] = useState<string>("");
+
+  const [error, setError] = useState<string | null>(null);
 
   const fetchSettings = async () => {
     setIsLoading(true);
@@ -95,9 +121,25 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   return (
     <SettingsContext
       value={{
+        name,
+        surname,
+        mail,
+        password,
         theme,
-        error,
+        status,
+        role,
+        language,
         picture,
+        error,
+        setName,
+        setSurname,
+        setMail,
+        setPassword,
+        setTheme,
+        setPicture,
+        setStatus,
+        setRole,
+        setLanguage,
         fetchSettings,
         fetchProfilePicture,
       }}
