@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
+import useAPI from "~/hook/useAPI";
 
-const Signin = ({ toggleSlide }: { toggleSlide: () => void }) => {
+const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   const [email, setEmail] = useState<string>("");
   const [pwd, setPwd] = useState<string>("");
   const [confirmPwd, setConfirmPwd] = useState<string>("");
   const [error, setError] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    console.log(!email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/));
-
-    if (email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/)) {
-      console.log(email);
-    }
-  }, [email]);
 
   useEffect(() => {
     const progressBar = document.querySelector(".progress-bar__value") as HTMLElement;
@@ -38,23 +31,52 @@ const Signin = ({ toggleSlide }: { toggleSlide: () => void }) => {
     }
   }, [pwd]);
 
+  const isMailUsed = async (query: string) => {
+    try {
+      const response: Array<string> = await useAPI("/search/email", {
+        json: {
+          query,
+        },
+      });
+      console.log(response);
+
+      return response;
+    } catch (e: any) {
+      return e;
+    }
+  };
+
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
 
+    setTimeout(() => {
+      setError(undefined);
+    }, 4000);
+
     if (email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/) && pwd.length >= 8 && pwd === confirmPwd) {
-      console.log("good !");
+      const isUsed = await isMailUsed(email);
+
+      if (!isUsed) {
+        toggleSlide("inscription");
+        return console.log("good !");
+      } else {
+        return setError("Cet email est déjà utilisé");
+      }
+    }
+    if (email === "") {
+      return setError("Veuillez renseigner votre email");
     }
     if (!email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/)) {
-      setError("L'email renseigné n'est pas au bon format (monemail@exemple.com)");
-      return;
+      return setError("L'email renseigné n'est pas au bon format (monemail@exemple.com)");
+    }
+    if (pwd === "") {
+      return setError("Veuillez renseigner un mot de passe");
     }
     if (pwd.length < 8) {
-      setError("Le mot de passe renseigné fait moins de 8 caractères");
-      return;
+      return setError("Le mot de passe renseigné fait moins de 8 caractères");
     }
     if (pwd != confirmPwd) {
-      setError("La confirmation du mot de passe ne correspond pas au mot de passe renseigné");
-      return;
+      return setError("La confirmation du mot de passe ne correspond pas au mot de passe renseigné");
     }
   };
 
@@ -108,9 +130,14 @@ const Signin = ({ toggleSlide }: { toggleSlide: () => void }) => {
         <input className="signin__input signin__submit" type="submit" value="Créer mon compte" />
         {error && <p className="signin__message">{error}</p>}
       </div>
-      <button className="login__switch" onClick={toggleSlide}>
+      <div
+        className="login__switch"
+        onClick={() => {
+          toggleSlide("login");
+        }}
+      >
         <i className="fa-solid fa-arrow-left"></i> Se connecter
-      </button>
+      </div>
     </form>
   );
 };

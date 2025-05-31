@@ -4,52 +4,45 @@ import type { Route } from "./+types/auth";
 import Login from "~/components/Login/Login";
 import Signin from "~/components/SignIn/Signin";
 import { useEffect, useState } from "react";
+import Inscription from "~/components/SignIn/Inscription/Inscription";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Speak - login" }, { name: "description", content: "Votre portail d'accès à Speak" }];
 }
 
 const auth = () => {
-  const [active, setActive] = useState(true);
+  const [activePannel, setActivePannel] = useState<string>("login");
+  const [previousPannel, setPreviousPannel] = useState<string>("login");
+  const [nextPannel, setNextPannel] = useState<string>("");
 
-  const toggleSlide = () => {
-    setActive((prev) => !prev);
-  };
-
-  const slideVariants = {
-    enter: () => ({
-      x: "-100%",
-      opacity: 0,
-    }),
-    center: { x: "0%", opacity: 1 },
-    exit: () => ({
-      x: "-100%",
-      opacity: 0,
-    }),
-  };
-  const slideVariants2 = {
-    enter: () => ({
-      x: "100%",
-      opacity: 0,
-    }),
-    center: { x: "0%", opacity: 1 },
-    exit: () => ({
-      x: "100%",
-      opacity: 0,
-    }),
+  const toggleSlide = (pannel: string) => {
+    setPreviousPannel(activePannel);
+    setNextPannel(pannel);
+    setActivePannel(pannel);
   };
 
   return (
     <div className="auth__container">
       <div className="auth__window">
         <AnimatePresence mode="wait">
-          {active ? (
-            <motion.div key="first" variants={slideVariants} initial="enter" animate="center" exit="exit">
+          {activePannel == "login" && (
+            <motion.div key="first" initial={{ x: "-100%" }} animate={{ x: "0%" }} exit={{ x: "-100%" }}>
               <Login toggleSlide={toggleSlide} />
             </motion.div>
-          ) : (
-            <motion.div key="second" variants={slideVariants2} initial="enter" animate="center" exit="exit">
+          )}
+          {activePannel == "signin" && (
+            <motion.div
+              key="second"
+              initial={{ x: previousPannel === "login" ? "100%" : "-100%" }}
+              animate={{ x: "0%" }}
+              exit={{ x: nextPannel === "login" ? "100%" : "-100%" }}
+            >
               <Signin toggleSlide={toggleSlide} />
+            </motion.div>
+          )}
+          {activePannel == "inscription" && (
+            <motion.div key="third" initial={{ x: "100%" }} animate={{ x: "0%" }} exit={{ x: "100%" }}>
+              <Inscription toggleSlide={toggleSlide} />
             </motion.div>
           )}
         </AnimatePresence>

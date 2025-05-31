@@ -1,5 +1,5 @@
 .login__form {
-  @apply h-130 min-h-130 p-10 flex flex-col justify-between;
+  @apply h-fit min-h-130 p-10 flex flex-col justify-between;
 }
 
 .login__header-container {
@@ -38,10 +38,14 @@
 
 .login__submit {
   @apply bg-(--color3) text-(--color1) cursor-pointer font-bold;
+  transition: 0.2s ease;
+  &:hover {
+    @apply bg-(--color4);
+  }
 }
 
 .login__message {
-  @apply border rounded border-orange-900 text-orange-900 bg-(--color1) p-3 w-100 mt-3;
+  @apply border rounded border-red-600 text-red-600 bg-(--color1) p-3 w-100 mt-3;
 }
 
 .login__message-mobile {
@@ -49,7 +53,7 @@
 }
 
 .login__switch {
-  @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100 bg-(--color1) cursor-pointer font-bold hover:bg-(--color2);
+  @apply border rounded border-(--grey) p-3 my-5 mt-5 mb-0 w-100 bg-(--color1) cursor-pointer font-bold hover:bg-(--color2) text-center;
 }
 
 @media screen and (max-width: 700px) {

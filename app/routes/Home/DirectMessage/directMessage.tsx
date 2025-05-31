@@ -52,7 +52,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
 
     try {
       // TODO temporiser l'envoie de la requête avec stockage de la query avant envoie pour limiter les requêtes
-      const response: Array<string> = await useAPI("/search", {
+      const response: Array<string> = await useAPI("/search/users", {
         json: {
           accessToken,
           query,

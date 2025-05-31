@@ -4,14 +4,14 @@ import { useAuthContext } from "~/context/AuthContext";
 import { useMobileContext } from "~/context/MobileContext";
 import useAPI, { type LoginResponse } from "~/hook/useAPI";
 
-const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
+const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   let navigate = useNavigate();
 
   const [response, setResponse]: any = useState(null);
   const [error, setError]: any = useState(null);
 
-  const [email, setEmail]: any = useState(null);
-  const [password, setPassword]: any = useState(null);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const { isMobile } = useMobileContext();
   const { login } = useAuthContext();
@@ -19,23 +19,33 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
 
-    try {
-      const data = await useAPI<LoginResponse>("/login", { json: { email, password } });
+    if (email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/) && password != "") {
+      try {
+        const data = await useAPI<LoginResponse>("/login", { json: { email, password } });
 
-      setResponse(data);
-      setTimeout(() => {
-        setResponse(null);
-      }, 4000);
+        setResponse(data);
 
-      if (data.success) {
-        login(data.data.UID, data.data.accessToken);
-        navigate("/home/dm-123/abc123");
+        if (data.success) {
+          login(data.data.UID, data.data.accessToken);
+          navigate("/home/dm-123/abc123");
+        }
+      } catch (error: any) {
+        setError(error.message);
       }
-    } catch (error: any) {
-      setError(error.message);
-      setTimeout(() => {
-        setError(null);
-      }, 4000);
+    }
+
+    if (email === "") {
+      setError("Veuillez renseigner votre email");
+      return;
+    }
+    if (!email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/)) {
+      setError("L'email renseigné n'est pas au bon format (monemail@exemple.com)");
+      return;
+    }
+
+    if (password === "") {
+      setError("Veuillez renseigner votre mot de passe");
+      return;
     }
   };
 
@@ -76,12 +86,17 @@ const Login = ({ toggleSlide }: { toggleSlide: () => void }) => {
       {(response || error) && (
         <p className={!isMobile ? "login__message" : "login__message login__message-mobile"}>
           {response ? response.message : ""}
-          {error && !response ? "Erreur: " + error : ""}
+          {error && !response ? "" + error : ""}
         </p>
       )}
-      <button className="login__switch" onClick={toggleSlide}>
+      <div
+        className="login__switch"
+        onClick={() => {
+          toggleSlide("signin");
+        }}
+      >
         S'inscrire <i className="fa-solid fa-arrow-right"></i>
-      </button>
+      </div>
     </form>
   );
 };
