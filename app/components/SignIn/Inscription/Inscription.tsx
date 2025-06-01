@@ -1,40 +1,98 @@
-import type { aN } from "node_modules/react-router/dist/development/route-data-B9_30zbP";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
+import useAPI from "~/hook/useAPI";
 
 const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
-  const { mail, password, surname, setSurname, picture, setPicture, theme, setTheme, name, setName, setLanguage, setStatus, setRole } = useSettingsContext();
+  const { mail, password, surname, setSurname, picture, setPicture, theme, setTheme, name, setName, language, setLanguage, status, setStatus, role, setRole } =
+    useSettingsContext();
+  let navigate = useNavigate();
 
   const [error, setError] = useState<string | undefined>(undefined);
   const [picturePreview, setPicturePreview] = useState<string>("");
+  const pictureContent = useRef<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e?: any) => {
+  const handleSubmit = async (e?: any) => {
     e.preventDefault();
+
+    if (name === "") {
+      return setError("Veuillez renseigner votre prénom");
+    }
+
+    if (surname === "") {
+      return setError("Veuillez renseigner votre nom de famille");
+    }
+
+    if (theme === "") {
+      return setError("Veuillez choisir un thème d'application");
+    }
+
+    processInscription();
   };
 
-  useEffect(() => {
-    const pictureInput = document.querySelector("input[type='file']") as HTMLInputElement;
+  const processInscription = async () => {
+    if (typeof picture == "string") {
+      setPicture(picture);
+    }
+    if (picture === "") {
+      setPicture("default.webp");
+    }
 
-    if (pictureInput.files) {
-      const img = pictureInput.files[0];
-      const reader = new FileReader();
-      reader.addEventListener(
-        "load",
-        () => {
-          const b64Img = reader.result;
-          if (typeof b64Img == "string") {
-            setPicture(b64Img);
-            setPicturePreview(b64Img);
-          }
-        },
-        false
-      );
+    setLanguage("1");
+    setStatus("1");
+    setRole("1");
 
-      if (img) {
-        reader.readAsDataURL(img);
+    const userProfile = {
+      mail,
+      password,
+      name,
+      surname,
+      picture_name: picture,
+      picture_content: pictureContent.current,
+      language,
+      status,
+      theme,
+      role,
+      secure: "client-speak",
+    };
+
+    const res = await useAPI("/profile/0", { json: { userProfile } });
+
+    if (res.data === "201") {
+      navigate("/auth");
+    } else {
+      console.log(res.status);
+    }
+  };
+
+  const handleLabelClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (picture === "") {
+      fileInputRef.current?.click();
+    } else {
+      setPicture("");
+      setPicturePreview("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
       }
     }
-  }, [picture]);
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPicture(file.name);
+        setPicturePreview(reader.result as string);
+        // TODO Ici pictureContent ne prends pas la valeur de file, probablement à cause de l'asynchrone entre l'import du fichier et la ligne suivante
+        pictureContent.current = file;
+      };
+      return reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <form className="signin__form" onSubmit={handleSubmit}>
@@ -69,38 +127,48 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
 
         <p className="signin__theme-card__title">Thème</p>
         <div className="signin__theme-card__container">
-          <button className={theme === "amazon" ? "signin__theme-card amazon selected" : "signin__theme-card amazon"} onClick={() => setTheme("amazon")}>
+          <button
+            type="button"
+            className={theme === "amazon" ? "signin__theme-card amazon selected" : "signin__theme-card amazon"}
+            onClick={() => setTheme("amazon")}
+          >
             <div className="signin__theme-card__name">Amazon</div>
           </button>
-          <button className={theme === "azur" ? "signin__theme-card azur selected" : "signin__theme-card azur"} onClick={() => setTheme("azur")}>
+          <button type="button" className={theme === "azur" ? "signin__theme-card azur selected" : "signin__theme-card azur"} onClick={() => setTheme("azur")}>
             <div className="signin__theme-card__name">Azur</div>
           </button>
           <button
+            type="button"
             className={theme === "grapefruit" ? "signin__theme-card grapefruit selected" : "signin__theme-card grapefruit"}
             onClick={() => setTheme("grapefruit")}
           >
             <div className="signin__theme-card__name">Grapefruit</div>
           </button>
           <button
+            type="button"
             className={theme === "hazelnut" ? "signin__theme-card hazelnut selected" : "signin__theme-card hazelnut"}
             onClick={() => setTheme("hazelnut")}
           >
             <div className="signin__theme-card__name">Hazelnut</div>
           </button>
-          <button className={theme === "mud" ? "signin__theme-card mud selected" : "signin__theme-card mud"} onClick={() => setTheme("mud")}>
+          <button type="button" className={theme === "mud" ? "signin__theme-card mud selected" : "signin__theme-card mud"} onClick={() => setTheme("mud")}>
             <div className="signin__theme-card__name">Mud</div>
           </button>
-          <button className={theme === "seigle" ? "signin__theme-card seigle selected" : "signin__theme-card seigle"} onClick={() => setTheme("seigle")}>
+          <button
+            type="button"
+            className={theme === "seigle" ? "signin__theme-card seigle selected" : "signin__theme-card seigle"}
+            onClick={() => setTheme("seigle")}
+          >
             <div className="signin__theme-card__name">Seigle</div>
           </button>
         </div>
 
-        <label htmlFor="profile_picture" className="signin__input signin__file">
-          Photo de profile
+        <label htmlFor="profile_picture" className="signin__input signin__file" onClick={handleLabelClick}>
+          Photo de profile {picturePreview == "" && "(optionnel)"}
           {picturePreview == "" && <i className="fa-solid fa-file-arrow-up" />}
-          {picturePreview != "" && <img className="signin__preview-img" src={picturePreview}></img>}
+          {picturePreview != "" && <img className="signin__preview-img" src={picturePreview} />}
         </label>
-        <input type="file" name="profile_picture" id="profile_picture" autoComplete="confirm-password" onChange={(e) => setPicture(e.target.value)} hidden />
+        <input type="file" name="profile_picture" id="profile_picture" autoComplete="confirm-password" ref={fileInputRef} onChange={handleFileChange} hidden />
       </div>
       <div className="signin__submit-container">
         <input className="signin__input signin__submit" type="submit" value="Finaliser mon inscription" />
@@ -112,7 +180,7 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
           toggleSlide("signin");
         }}
       >
-        <i className="fa-solid fa-xmark"></i> Annuler mon inscription
+        <i className="fa-solid fa-xmark" /> Annuler mon inscription
       </div>
     </form>
   );

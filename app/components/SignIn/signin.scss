@@ -230,19 +230,27 @@
       @apply my-3;
     }
 
+    .signin__theme-card__title {
+      width: 320px;
+      margin: 20px auto 0 !important;
+    }
+    .signin__theme-card__title,
+    .signin__theme-card__container,
+    .signin__input,
+    .signin__switch {
+      @apply max-w-80 mx-auto;
+    }
+
+    .signin__preview-img {
+      max-width: 150px;
+    }
+
     .progress-bar__container {
       @apply max-w-80 m-auto;
     }
 
     .signin__form {
       @apply w-full;
-    }
-
-    .signin__input {
-      @apply max-w-80 mx-auto;
-    }
-    .signin__switch {
-      @apply max-w-80 mx-auto;
     }
   }
 }

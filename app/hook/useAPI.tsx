@@ -1,18 +1,29 @@
-export default async function useAPI<T>(url: string, { json, method }: { json?: Record<string, unknown>; method?: string } = {}): Promise<T> {
+interface requestContent {
+  json?: Record<string, unknown>;
+  method?: string;
+  token?: string;
+}
+
+export default async function useAPI<T>(url: string, { json, method, token }: requestContent = {}): Promise<{ data: T; status: number }> {
   method ??= json ? "POST" : "GET";
   const body = json ? JSON.stringify(json) : undefined;
+  const headers: HeadersInit = {
+    "content-type": "application/json",
+  };
+  token ? (headers["Authorization"] = `Bearer ${token}`) : undefined;
 
   const req = await fetch("http://speak/api" + url, {
     method,
     body,
     credentials: "include",
-    headers: {
-      "content-type": "application/json",
-    },
+    headers,
   });
 
   if (req.ok) {
-    return req.json() as Promise<T>;
+    return {
+      data: (await req.json()) as T,
+      status: req.status,
+    };
   }
 
   throw new ApiError(req.status, await req.json());
@@ -28,12 +39,10 @@ class ApiError extends Error {
 }
 
 export type LoginResponse = {
-  success: boolean;
   message: string;
-  data: {
-    accessToken: string;
-    UID: number;
-  };
+  accessToken: string;
+  UID: number;
+  deleteToken: string;
 };
 
 export type AuthResponse = {};

@@ -21,31 +21,32 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
 
     if (email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/) && password != "") {
       try {
-        const data = await useAPI<LoginResponse>("/login", { json: { email, password } });
+        const res = await useAPI<LoginResponse>("/login", { json: { email, password } });
+        setResponse(res.data);
 
-        setResponse(data);
+        if (res.status === 200) {
+          login(res.data.UID, res.data.accessToken);
+          return navigate("/home/dm-123/abc123");
+        }
 
-        if (data.success) {
-          login(data.data.UID, data.data.accessToken);
-          navigate("/home/dm-123/abc123");
+        if (res.status === 401) {
+          return setError(res.data.message);
         }
       } catch (error: any) {
-        setError(error.message);
+        return setError(error.message);
       }
     }
 
     if (email === "") {
-      setError("Veuillez renseigner votre email");
-      return;
+      return setError("Veuillez renseigner votre email");
     }
+
     if (!email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/)) {
-      setError("L'email renseigné n'est pas au bon format (monemail@exemple.com)");
-      return;
+      return setError("L'email renseigné n'est pas au bon format (monemail@exemple.com)");
     }
 
     if (password === "") {
-      setError("Veuillez renseigner votre mot de passe");
-      return;
+      return setError("Veuillez renseigner votre mot de passe");
     }
   };
 
@@ -89,14 +90,15 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
           {error && !response ? "" + error : ""}
         </p>
       )}
-      <div
+      <button
+        type="button"
         className="login__switch"
         onClick={() => {
           toggleSlide("signin");
         }}
       >
         S'inscrire <i className="fa-solid fa-arrow-right"></i>
-      </div>
+      </button>
     </form>
   );
 };

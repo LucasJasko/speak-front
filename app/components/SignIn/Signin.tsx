@@ -34,13 +34,11 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
 
   const isMailUsed = async (query: string) => {
     try {
-      const response: Array<string> = await useAPI("/search/email", {
+      return await useAPI("/search/email", {
         json: {
           query,
         },
       });
-
-      return response;
     } catch (e: any) {
       return e;
     }
@@ -56,11 +54,10 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
     if (mail.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/) && password.length >= 8 && password === confirmPassword) {
       const isUsed = await isMailUsed(mail);
 
-      if (!isUsed) {
+      if (!isUsed.data) {
         setMail(mail);
         setPassword(password);
-        toggleSlide("inscription");
-        return console.log("good !");
+        return toggleSlide("inscription");
       } else {
         return setError("Cet email est déjà utilisé");
       }
@@ -132,14 +129,15 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
         <input className="signin__input signin__submit" type="submit" value="Créer mon compte" />
         {error && <p className="signin__message">{error}</p>}
       </div>
-      <div
+      <button
+        type="button"
         className="login__switch"
         onClick={() => {
           toggleSlide("login");
         }}
       >
         <i className="fa-solid fa-arrow-left"></i> Se connecter
-      </div>
+      </button>
     </form>
   );
 };
