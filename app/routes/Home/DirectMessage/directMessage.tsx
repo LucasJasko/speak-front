@@ -113,7 +113,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                       id: user.profile_id,
                       surname: user.profile_surname,
                       name: user.profile_name,
-                      profilePicture: user.profile_picture,
+                      pictureName: user.profile_picture,
                     }}
                     status={user.status_id}
                   />
@@ -122,7 +122,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
             </div>
           )}
           <div className="contact-area__list">
-            <UserItem
+            {/* <UserItem
               convID="abc123"
               convName="Utilisateur 1"
               activeConversation={activeConversation}
@@ -160,7 +160,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                 profilePicture: "user2",
               }}
               status={"1"}
-            />
+            /> */}
           </div>
         </div>
       )}

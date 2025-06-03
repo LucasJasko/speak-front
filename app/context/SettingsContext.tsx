@@ -8,7 +8,7 @@ export interface pictureSettings {
   id: any;
   surname: string;
   name: string;
-  profilePicture: string;
+  pictureName: string;
 }
 
 interface SettingsContextType {
@@ -32,7 +32,7 @@ interface SettingsContextType {
   setRole: Dispatch<SetStateAction<string>>;
   setLanguage: Dispatch<SetStateAction<string>>;
   fetchSettings: () => Promise<void>;
-  fetchProfilePicture: ({ id, surname, name, profilePicture }: pictureSettings) => Promise<string | undefined>;
+  fetchProfilePicture: ({ id, surname, name, pictureName }: pictureSettings) => Promise<string | undefined>;
 }
 
 export const useSettingsContext = (): SettingsContextType => {
@@ -94,13 +94,13 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, [theme]);
 
-  const fetchProfilePicture = async ({ id, surname, name, profilePicture }: pictureSettings): Promise<string> => {
+  const fetchProfilePicture = async ({ id, surname, name, pictureName }: pictureSettings): Promise<string> => {
     try {
-      const { data } = await useAPI<{ image: string }>(
-        `/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${profilePicture}`,
+      const { data } = await useAPI<string>(
+        `/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${pictureName}`,
         { token: accessToken }
       );
-      return data.image;
+      return data;
     } catch {
       return "";
     }
@@ -108,14 +108,16 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   useEffect(() => {
     if (surname != "" && name != "" && userData != null) {
-      fetchProfilePicture({
-        id,
-        surname,
-        name,
-        profilePicture: userData.profile_picture,
-      }).then((fetchedPicture) => {
-        setPicture(fetchedPicture);
-      });
+      const applyPicture = async () => {
+        const profilePicture = await fetchProfilePicture({
+          id,
+          surname,
+          name,
+          pictureName: userData.profile_picture,
+        });
+        setPicture(profilePicture);
+      };
+      applyPicture();
     }
   }, [surname, name, userData]);
 
