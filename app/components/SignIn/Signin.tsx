@@ -34,11 +34,7 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
 
   const isMailUsed = async (query: string) => {
     try {
-      return await useAPI("/search/email", {
-        json: {
-          query,
-        },
-      });
+      return await useAPI("/search/email", { json: { query } });
     } catch (e: any) {
       return e;
     }

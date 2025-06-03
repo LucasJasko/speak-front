@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useLayoutEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
-import useAPI from "~/hook/useAPI";
+import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { useAuthContext } from "./AuthContext";
+import useAPI from "~/hook/useAPI";
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
@@ -65,11 +65,11 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      const res: any = await useAPI("/profile/" + id, { json: { accessToken } });
-      setUserData(res);
-      setName(res.profile_name);
-      setSurname(res.profile_surname);
-      setTheme(res.theme_id);
+      const { data } = await useAPI<{ profile_name: string; profile_surname: string; theme_id: string }>("/profile/" + id, { token: accessToken });
+      setUserData(data);
+      setName(data.profile_name);
+      setSurname(data.profile_surname);
+      setTheme(data.theme_id);
     } catch (err: any) {
     } finally {
       setIsLoading(false);
@@ -94,12 +94,13 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, [theme]);
 
-  const fetchProfilePicture = async ({ id, surname, name, profilePicture }: pictureSettings): Promise<string | undefined> => {
+  const fetchProfilePicture = async ({ id, surname, name, profilePicture }: pictureSettings): Promise<string> => {
     try {
-      const res: string = await useAPI(`/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${profilePicture}`, {
-        json: { accessToken: accessToken },
-      });
-      return res;
+      const { data } = await useAPI<{ image: string }>(
+        `/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${profilePicture}`,
+        { token: accessToken }
+      );
+      return data.image;
     } catch {
       return "";
     }

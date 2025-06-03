@@ -5,9 +5,9 @@ import MessageArea from "~/components/MessageArea/MessageArea";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
-import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "~/context/AuthContext";
 import { motion } from "motion/react";
+import useAPI from "~/hook/useAPI";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -52,16 +52,16 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
 
     try {
       // TODO temporiser l'envoie de la requête avec stockage de la query avant envoie pour limiter les requêtes
-      const response: Array<string> = await useAPI("/search/users", {
+      const { data } = await useAPI<Array<string>>("/search/users", {
         json: {
-          accessToken,
           query,
         },
+        token: accessToken,
       });
       if (query == "") {
         setResult([]);
       } else {
-        response.length > 0 ? setResult(response) : setResult([]);
+        data.length > 0 ? setResult(data) : setResult([]);
       }
     } catch (e: any) {
       setResult([]);
@@ -131,7 +131,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                 id: 1,
                 surname: "Jaskowiak",
                 name: "Lucas",
-                profilePicture: "yes",
+                profilePicture: "user1",
               }}
               status={"2"}
             />
@@ -144,7 +144,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                 id: 1,
                 surname: "Jaskowiak",
                 name: "Lucas",
-                profilePicture: "yes",
+                profilePicture: "user2",
               }}
               status={"2"}
             />
@@ -157,7 +157,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                 id: 1,
                 surname: "Jaskowiak",
                 name: "Lucas",
-                profilePicture: "yes",
+                profilePicture: "user2",
               }}
               status={"1"}
             />

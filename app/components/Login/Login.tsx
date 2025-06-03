@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { useMobileContext } from "~/context/MobileContext";
-import useAPI, { type LoginResponse } from "~/hook/useAPI";
+import useAPI from "~/hook/useAPI";
+
+export interface LoginResponse {
+  message: string;
+  accessToken: string;
+  UID: number;
+  deleteToken: string;
+}
 
 const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   let navigate = useNavigate();
@@ -14,23 +21,36 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   const [password, setPassword] = useState<string>("");
 
   const { isMobile } = useMobileContext();
-  const { login } = useAuthContext();
+  const { login, fetchAccessToken, isLoading, setIsLoading } = useAuthContext();
+
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchToken = async () => {
+      const res = await fetchAccessToken();
+      if (res.accessToken) {
+        login(res.UID, res.accessToken);
+        navigate("/home/dm-123/abc123");
+      }
+
+      fetchToken();
+    };
+  }, []);
 
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
 
     if (email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/) && password != "") {
       try {
-        const res = await useAPI<LoginResponse>("/login", { json: { email, password } });
-        setResponse(res.data);
+        const { data, status } = await useAPI<LoginResponse>("/login", { json: { email, password } });
+        setResponse(data);
 
-        if (res.status === 200) {
-          login(res.data.UID, res.data.accessToken);
+        if (status === 200) {
+          login(data.UID, data.accessToken);
           return navigate("/home/dm-123/abc123");
         }
 
-        if (res.status === 401) {
-          return setError(res.data.message);
+        if (status === 401) {
+          return setError(data.message);
         }
       } catch (error: any) {
         return setError(error.message);

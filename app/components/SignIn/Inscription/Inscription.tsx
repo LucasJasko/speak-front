@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
 import useAPI from "~/hook/useAPI";
@@ -11,7 +11,7 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
   const [error, setError] = useState<string | undefined>(undefined);
   const [picturePreview, setPicturePreview] = useState<string>("");
   const pictureContent = useRef<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
       password,
       name,
       surname,
-      picture_name: picture,
+      picture,
       picture_content: pictureContent.current,
       language,
       status,
@@ -69,13 +69,11 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
   const handleLabelClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    if (picture === "") {
-      fileInputRef.current?.click();
-    } else {
+    if (picture !== "") {
       setPicture("");
       setPicturePreview("");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+      if (formRef.current) {
+        formRef.current.value = "";
       }
     }
   };
@@ -95,10 +93,10 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
   };
 
   return (
-    <form className="signin__form" onSubmit={handleSubmit}>
+    <form ref={formRef} className="signin__form" encType="multipart/form-data" onSubmit={handleSubmit}>
       <div className="signin__header-container">
         <div className="signin__header-container-left">
-          <img className="signin-logo" src="../assets/img/Speak_64x64.png" alt="" />
+          <img className="signin-logo" src="../assets/img/Speak_64x64.png" alt="speak-logo-image" />
         </div>
         <div className="signin__header-container-right">
           <h1 className="inscription__h1">Nous y sommes presque !</h1>
@@ -168,7 +166,7 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
           {picturePreview == "" && <i className="fa-solid fa-file-arrow-up" />}
           {picturePreview != "" && <img className="signin__preview-img" src={picturePreview} />}
         </label>
-        <input type="file" name="profile_picture" id="profile_picture" autoComplete="confirm-password" ref={fileInputRef} onChange={handleFileChange} hidden />
+        <input type="file" name="profile_picture" id="profile_picture" autoComplete="confirm-password" onChange={handleFileChange} hidden />
       </div>
       <div className="signin__submit-container">
         <input className="signin__input signin__submit" type="submit" value="Finaliser mon inscription" />

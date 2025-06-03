@@ -1,10 +1,15 @@
 interface requestContent {
   json?: Record<string, unknown>;
   method?: string;
-  token?: string;
+  token?: string | null | undefined;
 }
 
-export default async function useAPI<T>(url: string, { json, method, token }: requestContent = {}): Promise<{ data: T; status: number }> {
+interface responseContent<T> {
+  data: T;
+  status: number;
+}
+
+export default async function useAPI<T>(url: string, { json, method, token }: requestContent = {}): Promise<responseContent<T>> {
   method ??= json ? "POST" : "GET";
   const body = json ? JSON.stringify(json) : undefined;
   const headers: HeadersInit = {
@@ -37,12 +42,3 @@ class ApiError extends Error {
     super();
   }
 }
-
-export type LoginResponse = {
-  message: string;
-  accessToken: string;
-  UID: number;
-  deleteToken: string;
-};
-
-export type AuthResponse = {};
