@@ -32,6 +32,7 @@ interface SettingsContextType {
   status: string;
   role: string;
   language: string;
+  profileGroups: Array<Record<string, any>>;
   error: string | null;
   setName: Dispatch<SetStateAction<string>>;
   setSurname: Dispatch<SetStateAction<string>>;
@@ -66,6 +67,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [status, setStatus] = useState<string>("");
   const [role, setRole] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
+  const [profileGroups, setProfileGroups] = useState<Array<Record<string, any>>>([]);
 
   const [mail, setMail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -102,7 +104,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     if (id != undefined) {
       async function fetchGroups() {
         const groups = await fetchProfileGroups();
-        console.log(groups);
+        setProfileGroups(groups);
       }
       fetchGroups();
     }
@@ -156,6 +158,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   return (
     <SettingsContext
       value={{
+        profileGroups,
         b64Picture,
         name,
         surname,

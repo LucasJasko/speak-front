@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
@@ -6,12 +6,18 @@ import { useSettingsContext } from "~/context/SettingsContext";
 
 const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> = ({ onClick, activeBtn }) => {
   const navigate = useNavigate();
-  const { picture, b64Picture } = useSettingsContext();
+  const { picture, b64Picture, profileGroups } = useSettingsContext();
   const { isMobile } = useMobileContext();
   const [activeArrow, setActiveArrow] = useState(false);
   const handleActiveBtn = (selectedBtn: string) => {
     onClick(selectedBtn);
   };
+
+  useEffect(() => {
+    if (typeof profileGroups == "object") {
+      console.log(profileGroups);
+    }
+  }, [profileGroups]);
 
   const handleActiveArrow = () => {
     activeArrow ? setActiveArrow(false) : setActiveArrow(true);
@@ -34,6 +40,11 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
         >
           <i className="fa-regular fa-comments" />
         </motion.button>
+        {/* TODO parcourir les groupes utilisateur */}
+        {/* {
+    profileGroups && Array.from(profileGroups).map((group) => {});
+  } */}
+
         <motion.button
           whileHover={{
             scale: 1.05,
