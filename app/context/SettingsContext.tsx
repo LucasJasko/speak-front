@@ -8,7 +8,17 @@ export interface pictureSettings {
   id: any;
   surname: string;
   name: string;
-  pictureName: string;
+  picture: string | undefined | Promise<string | undefined>;
+}
+
+interface responseSettings {
+  name: string;
+  surname: string;
+  theme: string;
+  picture: string | undefined | Promise<string | undefined>;
+  status: string;
+  language: string;
+  situations: { élève: string }[];
 }
 
 interface SettingsContextType {
@@ -18,6 +28,7 @@ interface SettingsContextType {
   password: string;
   theme: string;
   picture: string | undefined | Promise<string | undefined>;
+  b64Picture: string;
   status: string;
   role: string;
   language: string;
@@ -32,7 +43,7 @@ interface SettingsContextType {
   setRole: Dispatch<SetStateAction<string>>;
   setLanguage: Dispatch<SetStateAction<string>>;
   fetchSettings: () => Promise<void>;
-  fetchProfilePicture: ({ id, surname, name, pictureName }: pictureSettings) => Promise<string | undefined>;
+  fetchProfilePicture: ({ id, surname, name, picture }: pictureSettings) => Promise<string | undefined>;
 }
 
 export const useSettingsContext = (): SettingsContextType => {
@@ -47,34 +58,55 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const { accessToken, id, isLoading, setIsLoading } = useAuthContext();
 
   const [userData, setUserData] = useState<any>(null);
-
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
-  const [mail, setMail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
   const [theme, setTheme] = useState<string>("");
   const [picture, setPicture] = useState<string | undefined | Promise<string | undefined>>("");
-
+  const [b64Picture, setB64Picture] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [role, setRole] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
+
+  const [mail, setMail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const [error, setError] = useState<string | null>(null);
 
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      const { data } = await useAPI<{ profile_name: string; profile_surname: string; theme_id: string }>("/profile/" + id, { token: accessToken });
+      const { data } = await useAPI<responseSettings>("/profile/" + id, { token: accessToken });
       setUserData(data);
-      setName(data.profile_name);
-      setSurname(data.profile_surname);
-      setTheme(data.theme_id);
+      setName(data.name);
+      setSurname(data.surname);
+      setTheme(data.theme);
+      setPicture(data.picture);
     } catch (err: any) {
     } finally {
       setIsLoading(false);
     }
   };
+
+  const fetchProfileGroups = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await useAPI<any>("/profile-groups/" + id, { token: accessToken });
+      return data;
+    } catch (err: any) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id != undefined) {
+      async function fetchGroups() {
+        const groups = await fetchProfileGroups();
+        console.log(groups);
+      }
+      fetchGroups();
+    }
+  }, [id]);
 
   useEffect(() => {
     if (id != undefined) {
@@ -94,12 +126,11 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, [theme]);
 
-  const fetchProfilePicture = async ({ id, surname, name, pictureName }: pictureSettings): Promise<string> => {
+  const fetchProfilePicture = async ({}: pictureSettings): Promise<string> => {
     try {
-      const { data } = await useAPI<string>(
-        `/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${pictureName}`,
-        { token: accessToken }
-      );
+      const { data } = await useAPI<string>(`/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${picture}`, {
+        token: accessToken,
+      });
       return data;
     } catch {
       return "";
@@ -113,9 +144,10 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
           id,
           surname,
           name,
-          pictureName: userData.profile_picture,
+          picture,
         });
-        setPicture(profilePicture);
+
+        setB64Picture(profilePicture);
       };
       applyPicture();
     }
@@ -124,6 +156,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   return (
     <SettingsContext
       value={{
+        b64Picture,
         name,
         surname,
         mail,

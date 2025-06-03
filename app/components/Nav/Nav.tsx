@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
@@ -6,7 +6,7 @@ import { useSettingsContext } from "~/context/SettingsContext";
 
 const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> = ({ onClick, activeBtn }) => {
   const navigate = useNavigate();
-  const { picture } = useSettingsContext();
+  const { picture, b64Picture } = useSettingsContext();
   const { isMobile } = useMobileContext();
   const [activeArrow, setActiveArrow] = useState(false);
   const handleActiveBtn = (selectedBtn: string) => {
@@ -23,13 +23,13 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
         <motion.button
           whileHover={{
             scale: 1.05,
-            transition: { duration: 0.1 },
+            transition: { duration: 0.001 },
           }}
           whileTap={{ scale: 0.95 }}
           className={`nav__link ${activeBtn == "direct-message" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleActiveBtn("direct-message");
-            navigate("dm-123/abc123");
+            navigate("dm/0");
           }}
         >
           <i className="fa-regular fa-comments" />
@@ -37,7 +37,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
         <motion.button
           whileHover={{
             scale: 1.05,
-            transition: { duration: 0.1 },
+            transition: { duration: 0.001 },
           }}
           whileTap={{ scale: 0.95 }}
           className={`nav__link ${activeBtn == "group" ? "nav__link-active" : ""}`}
@@ -51,7 +51,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
         <motion.button
           whileHover={{
             scale: 1.05,
-            transition: { duration: 0.1 },
+            transition: { duration: 0.001 },
           }}
           whileTap={{ scale: 0.95 }}
           className={`nav__link ${activeBtn == "addGroup" ? "nav__link-active" : ""}`}
@@ -64,7 +64,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
       </section>
 
       {isMobile ? (
-        <div className="mobile-deploy-button" onClick={handleActiveArrow}>
+        <button className="mobile-deploy-button" onClick={handleActiveArrow}>
           <motion.i animate={{ rotate: activeArrow ? 0 : 180 }} transition={{ ease: "easeOut" }} className="fa-solid fa-angle-down" />
           <AnimatePresence>
             {activeArrow ? (
@@ -77,7 +77,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                   transition={{ delay: 0.1 }}
                   whileHover={{
                     scale: 1.05,
-                    transition: { duration: 0.1 },
+                    transition: { duration: 0.001 },
                   }}
                   whileTap={{ scale: 0.95 }}
                   className={`nav__link nav__bottom-mobile__link ${activeBtn == "agenda" ? "nav__link-active" : ""}`}
@@ -95,7 +95,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                   transition={{ delay: 0.2 }}
                   whileHover={{
                     scale: 1.05,
-                    transition: { duration: 0.1 },
+                    transition: { duration: 0.001 },
                   }}
                   whileTap={{ scale: 0.95 }}
                   className={`nav__link nav__bottom-mobile__link ${activeBtn == "profile" ? "nav__link-active" : ""}`}
@@ -103,7 +103,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                     handleActiveBtn("profile");
                   }}
                 >
-                  <i className="fa-solid fa-user" />
+                  {picture ? <img src={`data:image/jpeg;base64,${b64Picture}`} /> : <i className="fa-solid fa-user" />}
                 </motion.button>
                 <motion.button
                   key="mobile"
@@ -113,7 +113,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                   transition={{ delay: 0.3 }}
                   whileHover={{
                     scale: 1.05,
-                    transition: { duration: 0.1 },
+                    transition: { duration: 0.001 },
                   }}
                   whileTap={{ scale: 0.95 }}
                   className={`nav__link nav__bottom-mobile__link ${activeBtn == "settings" ? "nav__link-active" : ""}`}
@@ -128,13 +128,13 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
               ""
             )}
           </AnimatePresence>
-        </div>
+        </button>
       ) : (
         <section className="nav__bottom">
           <motion.button
             whileHover={{
               scale: 1.05,
-              transition: { duration: 0.1 },
+              transition: { duration: 0.001 },
             }}
             whileTap={{ scale: 0.95 }}
             className={`nav__link ${activeBtn == "agenda" ? "nav__link-active" : ""}`}
@@ -147,7 +147,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
           <motion.button
             whileHover={{
               scale: 1.05,
-              transition: { duration: 0.1 },
+              transition: { duration: 0.001 },
             }}
             whileTap={{ scale: 0.95 }}
             className={`nav__link ${activeBtn == "profile" ? "nav__link-active" : ""}`}
@@ -155,12 +155,12 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
               handleActiveBtn("profile");
             }}
           >
-            {picture ? <img src={`data:image/jpeg;base64,${picture}`} /> : <i className="fa-solid fa-user" />}
+            {picture ? <img src={`data:image/jpeg;base64,${b64Picture}`} /> : <i className="fa-solid fa-user" />}
           </motion.button>
           <motion.button
             whileHover={{
               scale: 1.05,
-              transition: { duration: 0.1 },
+              transition: { duration: 0.001 },
             }}
             whileTap={{ scale: 0.95 }}
             className={`nav__link ${activeBtn == "settings" ? "nav__link-active" : ""}`}

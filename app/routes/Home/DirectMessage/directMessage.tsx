@@ -16,13 +16,21 @@ export function meta({}: Route.MetaArgs) {
 const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
   const { accessToken } = useAuthContext();
   const { isMobile } = useMobileContext();
+
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
-
   const [result, setResult] = useState<any>([]);
-
   const [activeConversation, setActiveConversation] = useState("abc123");
   const [activePath, setActivePath] = useState<string>("dm-123/abc123");
+
   const navigate = useNavigate();
+
+  const userResult = document.querySelector(".contact-area__results ul") as HTMLElement;
+
+  // useEffect(() => {
+  //   console.log(userResult);
+  // }, []);
+
+  function addUserToList() {}
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
@@ -52,7 +60,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
 
     try {
       // TODO temporiser l'envoie de la requête avec stockage de la query avant envoie pour limiter les requêtes
-      const { data } = await useAPI<Array<string>>("/search/users", {
+      const { data } = await useAPI<Array<string>>("/search/profiles", {
         json: {
           query,
         },
@@ -103,9 +111,10 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
             <div className="contact-area__results">
               <ul>
                 {result.map((user: any) => (
+                  // TODO à terme cacher les champs de la bdd en modifiant la réponse du endpoint search
                   <UserItem
                     key={user.profile_id}
-                    convID="abc1234"
+                    convID={user.profile_id}
                     convName={user.profile_name + " " + user.profile_surname}
                     activeConversation={activeConversation}
                     setActiveConversation={setActiveConversation}
@@ -113,7 +122,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                       id: user.profile_id,
                       surname: user.profile_surname,
                       name: user.profile_name,
-                      pictureName: user.profile_picture,
+                      picture: user.profile_picture,
                     }}
                     status={user.status_id}
                   />
