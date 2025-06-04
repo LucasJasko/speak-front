@@ -4,14 +4,20 @@ import useAPI from "~/hook/useAPI";
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
-export interface pictureSettings {
+export interface pictureProfileSettings {
   id: any;
   surname: string;
   name: string;
   picture: string | undefined | Promise<string | undefined>;
 }
 
-interface responseSettings {
+export interface pictureGroupSettings {
+  id: any;
+  name: string;
+  picture: string | undefined;
+}
+
+interface profileSettings {
   name: string;
   surname: string;
   theme: string;
@@ -20,6 +26,12 @@ interface responseSettings {
   language: string;
   situations: { élève: string }[];
 }
+
+type ProfileGroup = {
+  id: number;
+  name: string;
+  picture: string;
+};
 
 interface SettingsContextType {
   name: string;
@@ -32,7 +44,7 @@ interface SettingsContextType {
   status: string;
   role: string;
   language: string;
-  profileGroups: Array<Record<string, any>>;
+  profileGroups: ProfileGroup[];
   error: string | null;
   setName: Dispatch<SetStateAction<string>>;
   setSurname: Dispatch<SetStateAction<string>>;
@@ -44,7 +56,8 @@ interface SettingsContextType {
   setRole: Dispatch<SetStateAction<string>>;
   setLanguage: Dispatch<SetStateAction<string>>;
   fetchSettings: () => Promise<void>;
-  fetchProfilePicture: ({ id, surname, name, picture }: pictureSettings) => Promise<string | undefined>;
+  fetchProfilePicture: ({ id, surname, name, picture }: pictureProfileSettings) => Promise<string | undefined>;
+  fetchGroupPicture: ({ id, name, picture }: pictureGroupSettings) => Promise<string | undefined>;
 }
 
 export const useSettingsContext = (): SettingsContextType => {
@@ -67,7 +80,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [status, setStatus] = useState<string>("");
   const [role, setRole] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
-  const [profileGroups, setProfileGroups] = useState<Array<Record<string, any>>>([]);
+  const [profileGroups, setProfileGroups] = useState<ProfileGroup[]>([]);
 
   const [mail, setMail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -77,7 +90,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
-      const { data } = await useAPI<responseSettings>("/profile/" + id, { token: accessToken });
+      const { data } = await useAPI<profileSettings>("/profile/" + id, { token: accessToken });
       setUserData(data);
       setName(data.name);
       setSurname(data.surname);
@@ -128,9 +141,20 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   }, [theme]);
 
-  const fetchProfilePicture = async ({}: pictureSettings): Promise<string> => {
+  const fetchProfilePicture = async ({ id, name, surname, picture }: pictureProfileSettings): Promise<string> => {
     try {
       const { data } = await useAPI<string>(`/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${picture}`, {
+        token: accessToken,
+      });
+      return data;
+    } catch {
+      return "";
+    }
+  };
+
+  const fetchGroupPicture = async ({ id, name, picture }: pictureGroupSettings): Promise<string> => {
+    try {
+      const { data } = await useAPI<string>(`/image/group/${id}-speak-group-${name.toLowerCase()}/profile_picture/${picture}`, {
         token: accessToken,
       });
       return data;
@@ -181,6 +205,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         setLanguage,
         fetchSettings,
         fetchProfilePicture,
+        fetchGroupPicture,
       }}
     >
       {children}

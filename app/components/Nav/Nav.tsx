@@ -6,16 +6,30 @@ import { useSettingsContext } from "~/context/SettingsContext";
 
 const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> = ({ onClick, activeBtn }) => {
   const navigate = useNavigate();
-  const { picture, b64Picture, profileGroups } = useSettingsContext();
+  const { picture, b64Picture, profileGroups, fetchGroupPicture } = useSettingsContext();
   const { isMobile } = useMobileContext();
   const [activeArrow, setActiveArrow] = useState(false);
+  const [groupPictures, setGroupPictures] = useState<Record<string, string>>({});
   const handleActiveBtn = (selectedBtn: string) => {
     onClick(selectedBtn);
   };
 
   useEffect(() => {
-    if (typeof profileGroups == "object") {
+    if (profileGroups.length > 1) {
       console.log(profileGroups);
+      const fetchPictures = () => {
+        profileGroups.map(async (group) => {
+          const b64picture = await fetchGroupPicture({
+            id: group.id,
+            name: group.name,
+            picture: group.picture,
+          });
+          console.log(b64Picture);
+          // setGroupPictures(pictures); // ← Active cette ligne si tu veux stocker les résultats
+        });
+      };
+
+      fetchPictures();
     }
   }, [profileGroups]);
 
@@ -40,25 +54,25 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
         >
           <i className="fa-regular fa-comments" />
         </motion.button>
-        {/* TODO parcourir les groupes utilisateur */}
-        {/* {
-    profileGroups && Array.from(profileGroups).map((group) => {});
-  } */}
+        {profileGroups &&
+          profileGroups.map((group) => (
+            <motion.button
+              key={group.id}
+              whileHover={{
+                scale: 1.05,
+                transition: { duration: 0.001 },
+              }}
+              whileTap={{ scale: 0.95 }}
+              className={`nav__link ${activeBtn == "group" ? "nav__link-active" : ""}`}
+              onClick={() => {
+                handleActiveBtn("group");
+                navigate(`${group.name}/123`);
+              }}
+            >
+              {picture ? <img src={`data:image/jpeg;base64,${b64Picture}`} /> : <i className="fa-solid fa-user-group" />}
+            </motion.button>
+          ))}
 
-        <motion.button
-          whileHover={{
-            scale: 1.05,
-            transition: { duration: 0.001 },
-          }}
-          whileTap={{ scale: 0.95 }}
-          className={`nav__link ${activeBtn == "group" ? "nav__link-active" : ""}`}
-          onClick={() => {
-            handleActiveBtn("group");
-            navigate("group2/123");
-          }}
-        >
-          <i className="fa-solid fa-user-group" />
-        </motion.button>
         <motion.button
           whileHover={{
             scale: 1.05,
