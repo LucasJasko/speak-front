@@ -14,7 +14,7 @@ export interface pictureProfileSettings {
 export interface pictureGroupSettings {
   id: any;
   name: string;
-  picture: string | undefined;
+  picture: string;
 }
 
 interface profileSettings {
@@ -55,6 +55,7 @@ interface SettingsContextType {
   setStatus: Dispatch<SetStateAction<string>>;
   setRole: Dispatch<SetStateAction<string>>;
   setLanguage: Dispatch<SetStateAction<string>>;
+  setProfileGroups: Dispatch<SetStateAction<ProfileGroup[]>>;
   fetchSettings: () => Promise<void>;
   fetchProfilePicture: ({ id, surname, name, picture }: pictureProfileSettings) => Promise<string | undefined>;
   fetchGroupPicture: ({ id, name, picture }: pictureGroupSettings) => Promise<string | undefined>;
@@ -203,6 +204,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         setStatus,
         setRole,
         setLanguage,
+        setProfileGroups,
         fetchSettings,
         fetchProfilePicture,
         fetchGroupPicture,

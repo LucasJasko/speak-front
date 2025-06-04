@@ -6,27 +6,38 @@ import { useSettingsContext } from "~/context/SettingsContext";
 
 const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> = ({ onClick, activeBtn }) => {
   const navigate = useNavigate();
-  const { picture, b64Picture, profileGroups, fetchGroupPicture } = useSettingsContext();
+  const { picture, b64Picture, profileGroups, setProfileGroups, fetchGroupPicture } = useSettingsContext();
   const { isMobile } = useMobileContext();
   const [activeArrow, setActiveArrow] = useState(false);
-  const [groupPictures, setGroupPictures] = useState<Record<string, string>>({});
+  const [groupPictures, setGroupPictures] = useState<any>([]);
+  const [isGroupPictureApplied, setIsGroupPictureApplied] = useState(false);
   const handleActiveBtn = (selectedBtn: string) => {
     onClick(selectedBtn);
   };
 
   useEffect(() => {
-    if (profileGroups.length > 1) {
+    if (!isGroupPictureApplied && profileGroups.length > 0) {
       console.log(profileGroups);
-      const fetchPictures = () => {
-        profileGroups.map(async (group) => {
-          const b64picture = await fetchGroupPicture({
-            id: group.id,
-            name: group.name,
-            picture: group.picture,
-          });
-          console.log(b64Picture);
-          // setGroupPictures(pictures); // ← Active cette ligne si tu veux stocker les résultats
-        });
+      const fetchPictures = async () => {
+        const updatedGroups = await Promise.all(
+          profileGroups.map(async (group) => {
+            const b64groupPicture = await fetchGroupPicture({
+              id: group.id,
+              name: group.picture.replace(".webp", "").replace("speak-group-", ""),
+              picture: group.picture,
+            });
+            if (b64groupPicture) {
+              return {
+                ...group,
+                picture: b64groupPicture,
+              };
+            } else {
+              return group;
+            }
+          })
+        );
+        setProfileGroups(updatedGroups);
+        setIsGroupPictureApplied(true);
       };
 
       fetchPictures();
@@ -66,10 +77,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
               className={`nav__link ${activeBtn == "group" ? "nav__link-active" : ""}`}
               onClick={() => {
                 handleActiveBtn("group");
-                navigate(`${group.name}/123`);
+                navigate(`${group.name}/${group.id}`);
               }}
             >
-              {picture ? <img src={`data:image/jpeg;base64,${b64Picture}`} /> : <i className="fa-solid fa-user-group" />}
+              {group.picture ? <img src={`data:image/jpeg;base64,${group.picture}`} /> : <i className="fa-solid fa-user-group" />}
             </motion.button>
           ))}
 

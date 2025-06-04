@@ -222,7 +222,7 @@
   }
 
   .signin__message {
-    @apply border rounded border-red-600 text-red-600 bg-(--color1=2) p-3 w-100 mt-3;
+    @apply border rounded border-red-600 text-red-600 bg-(--color1=2) p-3 w-100 mt-3 mx-auto;
   }
 
   @media screen and (max-width: 700px) {
@@ -237,7 +237,8 @@
     .signin__theme-card__title,
     .signin__theme-card__container,
     .signin__input,
-    .signin__switch {
+    .signin__switch,
+    .signin__message {
       @apply max-w-80 mx-auto;
     }
 

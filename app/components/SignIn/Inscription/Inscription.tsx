@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
 import useAPI from "~/hook/useAPI";
@@ -9,9 +9,9 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
   let navigate = useNavigate();
 
   const [error, setError] = useState<string | undefined>(undefined);
-  const [picturePreview, setPicturePreview] = useState<string>("");
-  const pictureContent = useRef<File | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [pictureContent, setPictureContent] = useState<string | ArrayBuffer | null>(null);
+  const form = useRef<HTMLFormElement>(null);
+  const inputFile = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
@@ -28,72 +28,32 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
       return setError("Veuillez choisir un thème d'application");
     }
 
-    processInscription();
-  };
-
-  const processInscription = async () => {
-    if (typeof picture == "string") {
-      setPicture(picture);
-    }
-    if (picture === "") {
-      setPicture("default.webp");
-    }
-
+    if (picture === "") setPicture("default.webp");
     setLanguage("1");
     setStatus("1");
     setRole("1");
 
-    const userProfile = {
-      mail,
-      password,
-      name,
-      surname,
-      picture,
-      picture_content: pictureContent.current,
-      language,
-      status,
-      theme,
-      role,
-      secure: "client-speak",
-    };
+    const res = await useAPI("/profile/0", {
+      json: { mail, password, name, surname, picture, pictureContent, language, status, theme, role, secure: "client-speak" },
+    });
 
-    const res = await useAPI("/profile/0", { json: { userProfile } });
-
-    if (res.data === "201") {
+    if (res.data === "Account created !") {
       navigate("/auth");
     } else {
       console.log(res.status);
     }
   };
 
-  const handleLabelClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-
-    if (picture !== "") {
-      setPicture("");
-      setPicturePreview("");
-      if (formRef.current) {
-        formRef.current.value = "";
-      }
-    }
-  };
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
+  const toBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
+    new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setPicture(file.name);
-        setPicturePreview(reader.result as string);
-        // TODO Ici pictureContent ne prends pas la valeur de file, probablement à cause de l'asynchrone entre l'import du fichier et la ligne suivante
-        pictureContent.current = file;
-      };
-      return reader.readAsDataURL(file);
-    }
-  };
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
 
   return (
-    <form ref={formRef} className="signin__form" encType="multipart/form-data" onSubmit={handleSubmit}>
+    <form ref={form} className="signin__form" encType="multipart/form-data" onSubmit={handleSubmit}>
       <div className="signin__header-container">
         <div className="signin__header-container-left">
           <img className="signin-logo" src="../assets/img/Speak_64x64.png" alt="speak-logo-image" />
@@ -104,24 +64,8 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
         </div>
       </div>
       <div className="signin__input-container">
-        <input
-          className="signin__input"
-          type="text"
-          name="profile_name"
-          id="name"
-          placeholder="Prénom"
-          autoComplete="surname"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          className="signin__input"
-          type="text"
-          name="profile_surname"
-          id="surname"
-          placeholder="Nom de famille"
-          autoComplete="surname"
-          onChange={(e) => setSurname(e.target.value)}
-        />
+        <input className="signin__input" type="text" name="profile_name" placeholder="Prénom" onChange={(e) => setName(e.target.value)} />
+        <input className="signin__input" type="text" name="profile_surname" placeholder="Nom de famille" onChange={(e) => setSurname(e.target.value)} />
 
         <p className="signin__theme-card__title">Thème</p>
         <div className="signin__theme-card__container">
@@ -161,13 +105,35 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
           </button>
         </div>
 
-        <label htmlFor="profile_picture" className="signin__input signin__file" onClick={handleLabelClick}>
-          Photo de profile {picturePreview == "" && "(optionnel)"}
-          {picturePreview == "" && <i className="fa-solid fa-file-arrow-up" />}
-          {picturePreview != "" && <img className="signin__preview-img" src={picturePreview} />}
+        <label htmlFor="profile_picture" className="signin__input signin__file">
+          Photo de profile {pictureContent == null && "(optionnel)"}
+          {pictureContent == null && <i className="fa-solid fa-file-arrow-up" />}
+          {typeof pictureContent == "string" && <img className="signin__preview-img" src={pictureContent} />}
         </label>
-        <input type="file" name="profile_picture" id="profile_picture" autoComplete="confirm-password" onChange={handleFileChange} hidden />
+        <input
+          ref={inputFile}
+          type="file"
+          name="profile_picture"
+          id="profile_picture"
+          hidden
+          onChange={async (e) => {
+            const file = e.target.files?.[0];
+            if (file && file.size < 1000000) {
+              // 1 000 000 o = ~ 1 Mo
+              console.log(file);
+
+              const b64 = await toBase64(file);
+              setPictureContent(b64);
+              setPicture(file.name);
+            }
+          }}
+        />
       </div>
+      <input type="hidden" name="profile_email" value={mail} />
+      <input type="hidden" name="profile_password" value={password} />
+      <input type="hidden" name="status_id" value={status} />
+      <input type="hidden" name="theme_id" value={theme} />
+      <input type="hidden" name="role_id" value={role} />
       <div className="signin__submit-container">
         <input className="signin__input signin__submit" type="submit" value="Finaliser mon inscription" />
         {error && <p className="signin__message">{error}</p>}
