@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { motion } from "motion/react";
 import useAPI from "~/hook/useAPI";
+import { v7 as uuidv7 } from "uuid";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -19,8 +20,8 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [result, setResult] = useState<any>([]);
-  const [activeConversation, setActiveConversation] = useState("abc123");
-  const [activePath, setActivePath] = useState<string>("dm-123/abc123");
+  const [activeConversation, setActiveConversation] = useState("0");
+  const [activePath, setActivePath] = useState<string>("dm/0");
 
   const navigate = useNavigate();
 
@@ -114,7 +115,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                   // TODO à terme cacher les champs de la bdd en modifiant la réponse du endpoint search
                   <UserItem
                     key={user.profile_id}
-                    convID={user.profile_id}
+                    convID={uuidv7()}
                     convName={user.profile_name + " " + user.profile_surname}
                     activeConversation={activeConversation}
                     setActiveConversation={setActiveConversation}
