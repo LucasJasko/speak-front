@@ -31,7 +31,7 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
     if (picture === "") setPicture("default.webp");
     setLanguage("1");
     setStatus("1");
-    setRole("1");
+    setRole("2");
 
     const res = await useAPI("/profile/0", {
       json: { mail, password, name, surname, picture, pictureContent, language, status, theme, role, secure: "client-speak" },
