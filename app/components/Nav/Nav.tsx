@@ -17,7 +17,6 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
 
   useEffect(() => {
     if (!isGroupPictureApplied && profileGroups.length > 0) {
-      console.log(profileGroups);
       const fetchPictures = async () => {
         const updatedGroups = await Promise.all(
           profileGroups.map(async (group) => {

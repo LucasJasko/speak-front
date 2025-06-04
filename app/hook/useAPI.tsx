@@ -26,7 +26,7 @@ export default async function useAPI<T>(url: string, { json, method, token }: re
 
   if (req.ok) {
     return {
-      data: (await req.json()) as T,
+      data: req ? ((await req.json()) as T) : ("" as T),
       status: req.status,
     };
   }

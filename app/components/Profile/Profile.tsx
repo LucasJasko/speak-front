@@ -41,8 +41,13 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
     contentRef.current = selectedItem?.element || null;
 
     if (key === "disconnect") {
-      useAPI("/logout/" + id, { token: accessToken });
-      navigate("/auth");
+      const processDisconnect = async () => {
+        await useAPI("/logout/" + id, { token: accessToken });
+
+        // navigate("/auth");
+      };
+      processDisconnect();
+      console.log(id);
     }
   };
 
