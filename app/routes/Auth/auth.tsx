@@ -5,6 +5,7 @@ import Login from "~/components/Login/Login";
 import Signin from "~/components/SignIn/Signin";
 import { useEffect, useState } from "react";
 import Inscription from "~/components/SignIn/Inscription/Inscription";
+import Final from "~/components/SignIn/Final/Final";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Speak - login" }, { name: "description", content: "Votre portail d'accès à Speak" }];
@@ -41,8 +42,18 @@ const auth = () => {
             </motion.div>
           )}
           {activePannel == "inscription" && (
-            <motion.div key="third" initial={{ x: "100%" }} animate={{ x: "0%" }} exit={{ x: "100%" }}>
+            <motion.div
+              key="third"
+              initial={{ x: previousPannel === "signin" ? "100%" : "-100%" }}
+              animate={{ x: "0%" }}
+              exit={{ x: nextPannel === "signin" ? "100%" : "-100%" }}
+            >
               <Inscription toggleSlide={toggleSlide} />
+            </motion.div>
+          )}
+          {activePannel == "final" && (
+            <motion.div key="fourth" initial={{ x: "100%" }} animate={{ x: "0%" }} exit={{ x: "100%" }}>
+              <Final toggleSlide={toggleSlide} />
             </motion.div>
           )}
         </AnimatePresence>

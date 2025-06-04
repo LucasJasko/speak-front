@@ -10,6 +10,7 @@
 @import "./components/Login/login.scss";
 @import "./components/SignIn/signin.scss";
 @import "./components/SignIn/Inscription/inscription.scss";
+@import "./components/SignIn/Final/final.scss";
 @import "./components/Agenda/agenda.scss";
 @import "./components/MessageArea/messageArea.scss";
 @import "./components/MessageArea/Message/message.scss";

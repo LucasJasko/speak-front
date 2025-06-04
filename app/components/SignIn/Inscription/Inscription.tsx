@@ -1,11 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
 import useAPI from "~/hook/useAPI";
 
 const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
-  const { mail, password, surname, setSurname, picture, setPicture, theme, setTheme, name, setName, language, setLanguage, status, setStatus, role, setRole } =
-    useSettingsContext();
+  const {
+    mail,
+    setMail,
+    password,
+    setPassword,
+    surname,
+    setSurname,
+    picture,
+    setPicture,
+    theme,
+    setTheme,
+    name,
+    setName,
+    language,
+    setLanguage,
+    status,
+    setStatus,
+    role,
+    setRole,
+  } = useSettingsContext();
   let navigate = useNavigate();
 
   const [error, setError] = useState<string | undefined>(undefined);
@@ -29,18 +47,29 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
     }
 
     if (picture === "") setPicture("default.webp");
-    setLanguage("1");
-    setStatus("1");
-    setRole("2");
 
     const res = await useAPI("/profile/0", {
-      json: { mail, password, name, surname, picture, pictureContent, language, status, theme, role, secure: "client-speak" },
+      json: {
+        mail,
+        password,
+        name: name.replace(" ", "-"),
+        surname: surname.replace(" ", "-"),
+        picture,
+        pictureContent,
+        language: "1",
+        status: "1",
+        theme,
+        role: "2",
+        secure: "client-speak",
+      },
     });
 
     if (res.data === "Account created !") {
-      navigate("/auth");
+      toggleSlide("final");
+      setMail("");
+      setPassword("");
     } else {
-      console.log(res.status);
+      setError("Une erreur est survenue... veuillez réessayer prochainement.");
     }
   };
 
@@ -120,8 +149,6 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
             const file = e.target.files?.[0];
             if (file && file.size < 1000000) {
               // 1 000 000 o = ~ 1 Mo
-              console.log(file);
-
               const b64 = await toBase64(file);
               setPictureContent(b64);
               setPicture(file.name);
@@ -142,6 +169,8 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
         className="login__switch"
         onClick={() => {
           toggleSlide("signin");
+          setMail("");
+          setPassword("");
         }}
       >
         <i className="fa-solid fa-xmark" /> Annuler mon inscription
