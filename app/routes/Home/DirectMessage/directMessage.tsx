@@ -2,20 +2,21 @@ import UserItem from "~/components/UserItem/UserItem";
 import type { Route } from "../+types/home";
 
 import MessageArea from "~/components/MessageArea/MessageArea";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { motion } from "motion/react";
 import useAPI from "~/hook/useAPI";
-import { v7 as uuidv7 } from "uuid";
+import { useSettingsContext } from "~/context/SettingsContext";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
 }
 
 const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
-  const { accessToken } = useAuthContext();
+  const { accessToken, id } = useAuthContext();
+  const { profileDms } = useSettingsContext();
   const { isMobile } = useMobileContext();
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
@@ -24,14 +25,6 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
   const [activePath, setActivePath] = useState<string>("dm/0");
 
   const navigate = useNavigate();
-
-  const userResult = document.querySelector(".contact-area__results ul") as HTMLElement;
-
-  // useEffect(() => {
-  //   console.log(userResult);
-  // }, []);
-
-  function addUserToList() {}
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
@@ -56,17 +49,18 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
     navigate(activePath);
   }, [activePath]);
 
+  useEffect(() => {
+    if (profileDms.length != 0) {
+      console.log(profileDms);
+    }
+  }, [profileDms]);
+
   async function handleSearch(e: any) {
     const query = e.target.value;
 
     try {
       // TODO temporiser l'envoie de la requête avec stockage de la query avant envoie pour limiter les requêtes
-      const { data } = await useAPI<Array<string>>("/search/profiles", {
-        json: {
-          query,
-        },
-        token: accessToken,
-      });
+      const { data } = await useAPI<Array<string>>("/search/profiles", { json: { query }, token: accessToken });
       if (query == "") {
         setResult([]);
       } else {
@@ -76,6 +70,18 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
       setResult([]);
     }
   }
+
+  const userResult = document.querySelector(".contact-area__results ul") as HTMLElement;
+  const convList = document.querySelector(".contact-area__list") as HTMLElement;
+
+  const handleHandshake = async (target: any) => {
+    const isLinkable = await useAPI("/chat", { json: { target, origin: id }, token: accessToken });
+    if (isLinkable) {
+    }
+
+    console.log(convList);
+    console.log(userResult);
+  };
 
   useEffect(() => {
     if (!isMobile) {
@@ -115,10 +121,12 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                   // TODO à terme cacher les champs de la bdd en modifiant la réponse du endpoint search
                   <UserItem
                     key={user.profile_id}
-                    convID={uuidv7()}
+                    userID={user.profile_id}
+                    convID={"aaa"}
                     convName={user.profile_name + " " + user.profile_surname}
                     activeConversation={activeConversation}
                     setActiveConversation={setActiveConversation}
+                    initConversation={handleHandshake}
                     pictureSetings={{
                       id: user.profile_id,
                       surname: user.profile_surname,
@@ -132,45 +140,11 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
             </div>
           )}
           <div className="contact-area__list">
-            {/* <UserItem
-              convID="abc123"
-              convName="Utilisateur 1"
-              activeConversation={activeConversation}
-              setActiveConversation={setActiveConversation}
-              pictureSetings={{
-                id: 1,
-                surname: "Jaskowiak",
-                name: "Lucas",
-                profilePicture: "user1",
-              }}
-              status={"2"}
-            />
-            <UserItem
-              convID="def456"
-              convName="Utilisateur 2"
-              activeConversation={activeConversation}
-              setActiveConversation={setActiveConversation}
-              pictureSetings={{
-                id: 1,
-                surname: "Jaskowiak",
-                name: "Lucas",
-                profilePicture: "user2",
-              }}
-              status={"2"}
-            />
-            <UserItem
-              convID="ghi789"
-              convName="Utilisateur 3"
-              activeConversation={activeConversation}
-              setActiveConversation={setActiveConversation}
-              pictureSetings={{
-                id: 1,
-                surname: "Jaskowiak",
-                name: "Lucas",
-                profilePicture: "user2",
-              }}
-              status={"1"}
-            /> */}
+            {/* TODO trouver le bon moyen d'afficher le contenu du tableau */}
+            {/* {typeof profileDms &&
+              profileDms.map((profileDm) => {
+                <div>Hello</div>;
+              })} */}
           </div>
         </div>
       )}

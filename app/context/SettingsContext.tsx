@@ -33,6 +33,13 @@ type ProfileGroup = {
   picture: string;
 };
 
+type ProfileDm = {
+  origin: number;
+  target: number;
+  state: number;
+  creation: string;
+};
+
 interface SettingsContextType {
   name: string;
   surname: string;
@@ -46,6 +53,8 @@ interface SettingsContextType {
   language: string;
   profileGroups: ProfileGroup[];
   error: string | null;
+  profileDms: ProfileDm[];
+  setProfileDms: Dispatch<SetStateAction<ProfileDm[]>>;
   setName: Dispatch<SetStateAction<string>>;
   setSurname: Dispatch<SetStateAction<string>>;
   setMail: Dispatch<SetStateAction<string>>;
@@ -82,6 +91,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [role, setRole] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
   const [profileGroups, setProfileGroups] = useState<ProfileGroup[]>([]);
+  const [profileDms, setProfileDms] = useState<ProfileDm[]>([]);
 
   const [mail, setMail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -114,34 +124,6 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   };
 
-  useEffect(() => {
-    if (id != undefined) {
-      async function fetchGroups() {
-        const groups = await fetchProfileGroups();
-        setProfileGroups(groups);
-      }
-      fetchGroups();
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (id != undefined) {
-      fetchSettings();
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (theme != null) {
-      const fetchStyle = async () => {
-        let res = await fetch(`/assets/themes/${theme}.txt`);
-        let data = await res.text();
-        document.body.style = data;
-      };
-
-      fetchStyle();
-    }
-  }, [theme]);
-
   const fetchProfilePicture = async ({ id, name, surname, picture }: pictureProfileSettings): Promise<string> => {
     try {
       const { data } = await useAPI<string>(`/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${picture}`, {
@@ -163,6 +145,48 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
       return "";
     }
   };
+
+  const fetchProfileDms = async (id: any) => {
+    try {
+      const { data } = await useAPI<any>(`/dm/${id}`, { token: accessToken });
+      return data;
+    } catch {
+      return "";
+    }
+  };
+
+  useEffect(() => {
+    if (id != undefined) {
+      async function fetchGroups() {
+        const groups = await fetchProfileGroups();
+        setProfileGroups(groups);
+      }
+      async function fetchDms() {
+        const dms = await fetchProfileDms(id);
+        setProfileDms(dms);
+      }
+      fetchGroups();
+      fetchDms();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id != undefined) {
+      fetchSettings();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (theme != null) {
+      const fetchStyle = async () => {
+        let res = await fetch(`/assets/themes/${theme}.txt`);
+        let data = await res.text();
+        document.body.style = data;
+      };
+
+      fetchStyle();
+    }
+  }, [theme]);
 
   useEffect(() => {
     if (surname != "" && name != "" && userData != null) {
@@ -195,6 +219,8 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         language,
         picture,
         error,
+        profileDms,
+        setProfileDms,
         setName,
         setSurname,
         setMail,

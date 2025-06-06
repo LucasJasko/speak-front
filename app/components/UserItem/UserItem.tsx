@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useSettingsContext, type pictureSettings } from "~/context/SettingsContext";
+import { useSettingsContext, type pictureProfileSettings } from "~/context/SettingsContext";
 
 interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
   convID: string;
   convName: string;
-  pictureSetings: pictureSettings;
+  userID: string;
+  pictureSetings: pictureProfileSettings;
   status: string;
   activeConversation: string;
   setActiveConversation: (convID: string) => void;
+  initConversation: (id: any) => void;
 }
 
-const UserItem: React.FC<UserProps> = ({ convName, pictureSetings, status, activeConversation, convID, setActiveConversation }) => {
+const UserItem: React.FC<UserProps> = ({ userID, convName, pictureSetings, status, activeConversation, convID, setActiveConversation, initConversation }) => {
   const { fetchProfilePicture } = useSettingsContext();
   const [pic, setPic] = useState<string | undefined>("");
   const { isMobile } = useMobileContext();
@@ -27,6 +29,7 @@ const UserItem: React.FC<UserProps> = ({ convName, pictureSetings, status, activ
       className={`user${activeConversation === convID ? " active-user" : ""}`}
       onClick={() => {
         setActiveConversation(convID);
+        initConversation(userID);
       }}
     >
       <div className="user__img-container">
