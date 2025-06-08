@@ -78,9 +78,6 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
     const isLinkable = await useAPI("/chat", { json: { target, origin: id }, token: accessToken });
     if (isLinkable) {
     }
-
-    console.log(convList);
-    console.log(userResult);
   };
 
   useEffect(() => {
@@ -122,7 +119,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                   <UserItem
                     key={user.profile_id}
                     userID={user.profile_id}
-                    convID={"aaa"}
+                    convID={user.profile_id}
                     convName={user.profile_name + " " + user.profile_surname}
                     activeConversation={activeConversation}
                     setActiveConversation={setActiveConversation}
@@ -140,11 +137,25 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
             </div>
           )}
           <div className="contact-area__list">
-            {/* TODO trouver le bon moyen d'afficher le contenu du tableau */}
-            {/* {typeof profileDms &&
-              profileDms.map((profileDm) => {
-                <div>Hello</div>;
-              })} */}
+            {profileDms &&
+              profileDms.map((profileDm) => (
+                <UserItem
+                  key={profileDm.id}
+                  userID={profileDm.id.toString()}
+                  convID={profileDm.id.toString()}
+                  convName={profileDm.name + " " + profileDm.surname}
+                  activeConversation={activeConversation}
+                  setActiveConversation={setActiveConversation}
+                  initConversation={handleHandshake}
+                  pictureSetings={{
+                    id: profileDm.id,
+                    surname: profileDm.surname,
+                    name: profileDm.name,
+                    picture: profileDm.picture,
+                  }}
+                  status={profileDm.status.toString()}
+                />
+              ))}
           </div>
         </div>
       )}

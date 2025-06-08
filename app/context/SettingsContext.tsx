@@ -34,10 +34,13 @@ type ProfileGroup = {
 };
 
 type ProfileDm = {
-  origin: number;
-  target: number;
-  state: number;
   creation: string;
+  id: number;
+  name: string;
+  picture: string;
+  role: number;
+  status: number;
+  surname: string;
 };
 
 interface SettingsContextType {
@@ -73,7 +76,7 @@ interface SettingsContextType {
 export const useSettingsContext = (): SettingsContextType => {
   const context = useContext(SettingsContext);
   if (!context) {
-    throw new Error("useSettingsContext must be used within an AuthProvider");
+    throw new Error("useSettingsContext doit être utilisé à l'intérieur AuthProvider");
   }
   return context;
 };
