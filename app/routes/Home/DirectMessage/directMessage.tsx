@@ -52,7 +52,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
 
   useEffect(() => {
     if (profileDms.length != 0) {
-      console.log(profileDms);
+      // console.log(profileDms);
     }
   }, [profileDms]);
 
@@ -78,8 +78,9 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
   const handleHandshake = async (target: any) => {
     const res = await useAPI<ProfileDm>("/chat", { json: { target, origin: id }, token: accessToken });
     if (res.status != 204) setProfileDms((prev) => [...prev, res.data]);
-    // const inputSearch = document.querySelector(".contact-area__search-input") as HTMLInputElement;
-    // console.log(inputSearch);
+    const inputSearch = document.querySelector(".contact-area__search-input") as HTMLInputElement;
+    inputSearch.value = "";
+    setResult([]);
   };
 
   useEffect(() => {
