@@ -10,7 +10,7 @@ interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
   status: string;
   activeConversation: string;
   setActiveConversation: (convID: string) => void;
-  initConversation: (id: any) => void;
+  initConversation?: (id: any) => void;
 }
 
 const UserItem: React.FC<UserProps> = ({ userID, convName, pictureSetings, status, activeConversation, convID, setActiveConversation, initConversation }) => {
@@ -29,7 +29,9 @@ const UserItem: React.FC<UserProps> = ({ userID, convName, pictureSetings, statu
       className={`user${activeConversation === convID ? " active-user" : ""}`}
       onClick={() => {
         setActiveConversation(convID);
-        initConversation(userID);
+        if (initConversation) {
+          initConversation(userID);
+        }
       }}
     >
       <div className="user__img-container">

@@ -26,7 +26,7 @@ export default async function useAPI<T>(url: string, { json, method, token }: re
 
   if (req.ok) {
     return {
-      data: typeof req != "string" ? ((await req.json()) as T) : ("" as T),
+      data: typeof req != "string" && req.status == 200 ? ((await req.json()) as T) : ("" as T),
       status: req.status,
     };
   }

@@ -9,6 +9,7 @@ import { useAuthContext } from "~/context/AuthContext";
 import { motion } from "motion/react";
 import useAPI from "~/hook/useAPI";
 import { useSettingsContext } from "~/context/SettingsContext";
+import type { ProfileDm } from "../../../context/SettingsContext";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -16,7 +17,7 @@ export function meta({}: Route.MetaArgs) {
 
 const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
   const { accessToken, id } = useAuthContext();
-  const { profileDms } = useSettingsContext();
+  const { profileDms, setProfileDms } = useSettingsContext();
   const { isMobile } = useMobileContext();
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
@@ -75,9 +76,10 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
   const convList = document.querySelector(".contact-area__list") as HTMLElement;
 
   const handleHandshake = async (target: any) => {
-    const isLinkable = await useAPI("/chat", { json: { target, origin: id }, token: accessToken });
-    if (isLinkable) {
-    }
+    const res = await useAPI<ProfileDm>("/chat", { json: { target, origin: id }, token: accessToken });
+    if (res.status != 204) setProfileDms((prev) => [...prev, res.data]);
+    // const inputSearch = document.querySelector(".contact-area__search-input") as HTMLInputElement;
+    // console.log(inputSearch);
   };
 
   useEffect(() => {
@@ -146,7 +148,6 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                   convName={profileDm.name + " " + profileDm.surname}
                   activeConversation={activeConversation}
                   setActiveConversation={setActiveConversation}
-                  initConversation={handleHandshake}
                   pictureSetings={{
                     id: profileDm.id,
                     surname: profileDm.surname,

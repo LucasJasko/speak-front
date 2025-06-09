@@ -33,7 +33,7 @@ type ProfileGroup = {
   picture: string;
 };
 
-type ProfileDm = {
+export type ProfileDm = {
   creation: string;
   id: number;
   name: string;
