@@ -64,7 +64,7 @@ const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void })
       },
     });
 
-    if (res.data === "Account created !") {
+    if (res.status === 201) {
       toggleSlide("final");
       setMail("");
       setPassword("");
