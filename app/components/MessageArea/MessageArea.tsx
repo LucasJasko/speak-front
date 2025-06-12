@@ -3,6 +3,7 @@ import MessageInput from "./MessageInput/MessageInput";
 import Message from "./Message/Message";
 import type { messageContent } from "./Message/Message";
 import { useMobileContext } from "~/context/MobileContext";
+import useSocket from "~/hook/useSocket";
 
 interface MessageAreaProps {
   typeID: string | undefined;
@@ -14,6 +15,12 @@ interface MessageAreaProps {
 
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState, activeConversation, typeID, convID }) => {
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
+
+  useEffect(() => {
+    if (convID != "0") {
+      useSocket();
+    }
+  }, [convID]);
 
   const { isMobile } = useMobileContext();
 
