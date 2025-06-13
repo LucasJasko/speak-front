@@ -1,10 +1,10 @@
 import type React from "react";
 
 export interface messageContent {
-  authorLink: string;
-  authorName: string;
-  messageDate: string;
-  authorImg: string;
+  authorLink?: string;
+  authorName?: string;
+  messageDate?: string;
+  authorImg?: string;
   authorMessage: {
     authorMessageText?: string;
     authorMessageCode?: string;
@@ -21,14 +21,12 @@ const Message: React.FC<messageContent> = ({ authorLink, authorName, messageDate
   return (
     <li className="message">
       <div className="message__author">
-        <a href={authorLink}>
-          <img src={authorImg} alt="User img" />
-        </a>
+        <a href={authorLink}>{authorImg && <img src={authorImg} alt="User img" />}</a>
       </div>
       <div className="message__container">
         <div className="message__header">
-          <h3 className="message__author-name">{authorName}</h3>
-          <span className="message__date">{messageDate}</span>
+          {authorName && <h3 className="message__author-name">{authorName}</h3>}
+          {messageDate && <span className="message__date">{messageDate}</span>}
         </div>
         <div className="message__content">
           {authorMessage.authorMessageText && <p className="message__text">{authorMessage.authorMessageText}</p>}

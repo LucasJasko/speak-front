@@ -1,45 +1,83 @@
-import { createContext, useContext, useEffect, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type Dispatch, type ReactNode, type RefObject, type SetStateAction } from "react";
 import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "./AuthContext";
 import { useParams } from "react-router";
 
-const SocketContext = createContext({});
+const noop = () => {};
+const SocketContext = createContext<SocketContextContent>({
+  openMessage: "",
+  closeMessage: "",
+  errorMessage: "",
+  newMessage: "",
+  setNewMessage: noop,
+  socketRef: null,
+});
+
+interface SocketContextContent {
+  socketRef: RefObject<WebSocket | null> | null;
+  openMessage: string;
+  closeMessage: string;
+  errorMessage: string;
+  newMessage: string;
+  setNewMessage: Dispatch<SetStateAction<string>>;
+}
 
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { typeID, convID } = useParams();
   const { accessToken } = useAuthContext();
-  const context = {};
+
+  const socketRef = useRef<WebSocket | null>(null);
+
+  const [openMessage, setOpenMessage] = useState<string>("");
+  const [closeMessage, setCloseMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [newMessage, setNewMessage] = useState<string>("");
+
+  const context: SocketContextContent = { openMessage, closeMessage, errorMessage, newMessage, setNewMessage, socketRef };
 
   useEffect(() => {
-    if (accessToken) {
-      async function handleConnexion() {
-        const res = await useAPI("/socket", { token: accessToken });
-        console.log(res);
+    if (!accessToken) return;
 
-        if (res) {
-          let socket = new WebSocket("ws://localhost:8060");
+    async function handleConnexion() {
+      const res = await useAPI("/socket", { token: accessToken });
+      console.log(res);
 
-          socket.onopen = (e: Event) => {
-            console.log({
-              type: "join",
-              sender: "Browser",
-              text: "Connected to the chat server",
-            });
-          };
-          socket.onmessage = (e: Event) => {};
-          socket.onclose = (e: Event) => {};
-          socket.onerror = (e: Event) => {
-            console.log({
-              error: "Erreur de connexion",
-            });
-          };
-        }
+      if (res) {
+        let socket = new WebSocket("ws://localhost:8060");
+        socketRef.current = socket;
+
+        socket.onopen = (e: Event) => {
+          setOpenMessage("Connexion établie");
+        };
+        socket.onmessage = (e: MessageEvent) => {
+          setNewMessage(e.data);
+        };
+
+        socket.onclose = (e: CloseEvent) => {
+          console.log("Connexion socket fermée", e);
+          setCloseMessage("Fermeture de la connexion, le serveur est indisponible.");
+        };
+
+        socket.onerror = (e: Event) => {
+          console.error("Erreur WebSocket", e);
+          setErrorMessage("Erreur de communication avec le serveur.");
+        };
       }
-      handleConnexion();
+      const handleBeforeUnload = () => {
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+          socketRef.current.close(1001, "Page rechargée ou fermée");
+        }
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+
+      if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+        socketRef.current.close(1000, "Client déconnecté");
+      }
     }
+    handleConnexion();
   }, [accessToken]);
 
   return <SocketContext value={context}>{children}</SocketContext>;
 };
 
-export const useMobileContext = () => useContext(SocketContext);
+export const useSocketContext = () => useContext(SocketContext);

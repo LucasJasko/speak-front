@@ -4,6 +4,7 @@ import Message from "./Message/Message";
 import type { messageContent } from "./Message/Message";
 import { useMobileContext } from "~/context/MobileContext";
 import { useParams } from "react-router";
+import { useSocketContext } from "~/context/SocketContext";
 
 interface MessageAreaProps {
   MobileSideMenuState: boolean;
@@ -12,31 +13,34 @@ interface MessageAreaProps {
 
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
   const { typeID, convID } = useParams();
+  const { openMessage, errorMessage, closeMessage, newMessage } = useSocketContext();
+  const { isMobile } = useMobileContext();
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
 
-  function parseMessage(message: string) {
-    let msg = { type: "", sender: "", text: "" };
-    try {
-      msg = JSON.parse(message);
-    } catch (e) {
-      return false;
+  useEffect(() => {
+    if (openMessage != "") {
+      setMessageFeed((prev) => [...prev, { authorMessage: { authorMessageText: openMessage } }]);
     }
+  }, [openMessage]);
 
-    return msg;
-  }
-
-  function appendMessage(message: string) {
-    let msgContainer = document.querySelector(".message-area__feed");
-    let parsedMessage;
-
-    if ((parsedMessage = parseMessage(message))) {
-      // Ajouter le message à la discussion
-      console.log("appending message...");
-      console.log(parsedMessage);
+  useEffect(() => {
+    if (newMessage != "") {
+      setMessageFeed((prev) => [...prev, { authorMessage: { authorMessageText: newMessage } }]);
+      console.log(messageFeed);
     }
-  }
+  }, [newMessage]);
 
-  const { isMobile } = useMobileContext();
+  useEffect(() => {
+    if (closeMessage != "") {
+      setMessageFeed((prev) => [...prev, { authorMessage: { authorMessageText: closeMessage } }]);
+    }
+  }, [closeMessage]);
+
+  useEffect(() => {
+    if (errorMessage != "") {
+      setMessageFeed((prev) => [...prev, { authorMessage: { authorMessageText: errorMessage } }]);
+    }
+  }, [errorMessage]);
 
   // useEffect(() => {
   //   const data = async () => {
