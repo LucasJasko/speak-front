@@ -3,24 +3,38 @@ import MessageInput from "./MessageInput/MessageInput";
 import Message from "./Message/Message";
 import type { messageContent } from "./Message/Message";
 import { useMobileContext } from "~/context/MobileContext";
-import useSocket from "~/hook/useSocket";
+import { useParams } from "react-router";
 
 interface MessageAreaProps {
-  typeID: string | undefined;
-  convID: string | undefined;
-  activeConversation: string;
   MobileSideMenuState: boolean;
   setMobileSideMenu: (MobileSideMenuState: boolean) => void;
 }
 
-const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState, activeConversation, typeID, convID }) => {
+const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
+  const { typeID, convID } = useParams();
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
 
-  useEffect(() => {
-    if (convID != "0") {
-      useSocket();
+  function parseMessage(message: string) {
+    let msg = { type: "", sender: "", text: "" };
+    try {
+      msg = JSON.parse(message);
+    } catch (e) {
+      return false;
     }
-  }, [convID]);
+
+    return msg;
+  }
+
+  function appendMessage(message: string) {
+    let msgContainer = document.querySelector(".message-area__feed");
+    let parsedMessage;
+
+    if ((parsedMessage = parseMessage(message))) {
+      // Ajouter le message à la discussion
+      console.log("appending message...");
+      console.log(parsedMessage);
+    }
+  }
 
   const { isMobile } = useMobileContext();
 

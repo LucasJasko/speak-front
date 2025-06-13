@@ -29,7 +29,7 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
       const res = await fetchAccessToken();
       if (res.accessToken) {
         login(res.UID, res.accessToken);
-        navigate("/home/dm-123/abc123");
+        navigate("/home/dm/0");
       }
 
       fetchToken();

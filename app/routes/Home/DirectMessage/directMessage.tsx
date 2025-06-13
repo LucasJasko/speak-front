@@ -4,7 +4,7 @@ import type { Route } from "../+types/home";
 import MessageArea from "~/components/MessageArea/MessageArea";
 import { useEffect, useState, type ReactNode } from "react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { motion } from "motion/react";
 import useAPI from "~/hook/useAPI";
@@ -15,14 +15,14 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
 }
 
-const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
+const DirectMessage = () => {
+  const { typeID, convID } = useParams();
   const { accessToken, id } = useAuthContext();
   const { profileDms, setProfileDms } = useSettingsContext();
   const { isMobile } = useMobileContext();
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [result, setResult] = useState<any>([]);
-  const [activeConversation, setActiveConversation] = useState("0");
   const [activePath, setActivePath] = useState<string>("dm/0");
 
   const navigate = useNavigate();
@@ -41,10 +41,6 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
       contactAreaList.style.height = "calc(100% - 50px)";
     }
   }, [displayMobileSideMenu]);
-
-  useEffect(() => {
-    setActivePath(typeID + "/" + activeConversation);
-  }, [activeConversation]);
 
   useEffect(() => {
     navigate(activePath);
@@ -122,10 +118,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                   <UserItem
                     key={user.profile_id}
                     userID={user.profile_id}
-                    convID={user.profile_id}
                     convName={user.profile_name + " " + user.profile_surname}
-                    activeConversation={activeConversation}
-                    setActiveConversation={setActiveConversation}
                     initConversation={handleHandshake}
                     pictureSetings={{
                       id: user.profile_id,
@@ -145,10 +138,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
                 <UserItem
                   key={profileDm.id}
                   userID={profileDm.id.toString()}
-                  convID={profileDm.id.toString()}
                   convName={profileDm.name + " " + profileDm.surname}
-                  activeConversation={activeConversation}
-                  setActiveConversation={setActiveConversation}
                   pictureSetings={{
                     id: profileDm.id,
                     surname: profileDm.surname,
@@ -161,13 +151,7 @@ const DirectMessage = ({ typeID }: { typeID: string | undefined }) => {
           </div>
         </div>
       )}
-      <MessageArea
-        typeID={typeID}
-        convID={activeConversation}
-        activeConversation={activeConversation}
-        MobileSideMenuState={displayMobileSideMenu}
-        setMobileSideMenu={setDisplayMobileSideMenu}
-      />
+      <MessageArea MobileSideMenuState={displayMobileSideMenu} setMobileSideMenu={setDisplayMobileSideMenu} />
     </div>
   );
 };

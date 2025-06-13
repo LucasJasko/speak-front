@@ -5,8 +5,8 @@ import Group from "./Group/group";
 const TypeRouter = () => {
   const { typeID } = useParams();
 
-  if (typeID?.includes("dm")) return <DirectMessage typeID={typeID} />;
-  else return <Group typeID={typeID} />;
+  if (typeID?.includes("dm")) return <DirectMessage />;
+  else return <Group />;
 };
 
 export default TypeRouter;

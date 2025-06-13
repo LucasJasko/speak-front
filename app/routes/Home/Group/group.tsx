@@ -3,13 +3,14 @@ import type { Route } from "../+types/home";
 import Room from "~/components/Room/Room";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Groupes" }, { name: "description", content: "Ce sont vos groupes" }];
 }
 
-const Group = ({ typeID }: { typeID: string | undefined }) => {
+const Group = () => {
+  const { typeID, convID } = useParams();
   const { isMobile } = useMobileContext();
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [activeRoom, setActiveRoom] = useState("room1");
@@ -79,13 +80,7 @@ const Group = ({ typeID }: { typeID: string | undefined }) => {
           </div>
         </div>
       )}
-      <MessageArea
-        typeID={typeID}
-        convID={activeRoom}
-        activeConversation={activeRoom}
-        MobileSideMenuState={displayMobileSideMenu}
-        setMobileSideMenu={setDisplayMobileSideMenu}
-      />
+      <MessageArea MobileSideMenuState={displayMobileSideMenu} setMobileSideMenu={setDisplayMobileSideMenu} />
     </div>
   );
 };
