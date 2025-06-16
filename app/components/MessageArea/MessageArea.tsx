@@ -5,6 +5,8 @@ import type { messageContent } from "./Message/Message";
 import { useMobileContext } from "~/context/MobileContext";
 import { useParams } from "react-router";
 import { useSocketContext } from "~/context/SocketContext";
+import { useSettingsContext } from "~/context/SettingsContext";
+import { useAuthContext } from "~/context/AuthContext";
 
 interface MessageAreaProps {
   MobileSideMenuState: boolean;
@@ -12,52 +14,36 @@ interface MessageAreaProps {
 }
 
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
+  const { id } = useAuthContext();
   const { typeID, convID } = useParams();
+  const { name, surname } = useSettingsContext();
   const { openMessage, errorMessage, closeMessage, newMessage } = useSocketContext();
   const { isMobile } = useMobileContext();
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
 
   useEffect(() => {
-    if (openMessage != "") {
-      setMessageFeed((prev) => [...prev, { authorMessage: { authorMessageText: openMessage } }]);
+    if (openMessage != null) {
+      setMessageFeed((prev) => [...prev, openMessage]);
     }
   }, [openMessage]);
 
   useEffect(() => {
-    if (newMessage != "") {
-      setMessageFeed((prev) => [...prev, { authorMessage: { authorMessageText: newMessage } }]);
-      console.log(messageFeed);
+    if (newMessage != null) {
+      setMessageFeed((prev) => [...prev, newMessage]);
     }
   }, [newMessage]);
 
   useEffect(() => {
-    if (closeMessage != "") {
-      setMessageFeed((prev) => [...prev, { authorMessage: { authorMessageText: closeMessage } }]);
+    if (closeMessage != null) {
+      setMessageFeed((prev) => [...prev, closeMessage]);
     }
   }, [closeMessage]);
 
   useEffect(() => {
-    if (errorMessage != "") {
-      setMessageFeed((prev) => [...prev, { authorMessage: { authorMessageText: errorMessage } }]);
+    if (errorMessage != null) {
+      setMessageFeed((prev) => [...prev, errorMessage]);
     }
   }, [errorMessage]);
-
-  // useEffect(() => {
-  //   const data = async () => {
-  //     try {
-  //       const response = await fetch("http://alert-mns-back/getConv.php", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ typeID, convID }),
-  //       });
-  //       const data = await response.json();
-  //       setMessageFeed(Array.from(JSON.parse(data)));
-  //     } catch (error) {
-  //       console.error("Erreur lors du chargement du fichier JSON :", error);
-  //     }
-  //   };
-  //   data();
-  // }, [activeConversation]);
 
   const handleMobileSideMenu = (MobileSideMenuState: boolean) => {
     MobileSideMenuState ? setMobileSideMenu(false) : setMobileSideMenu(true);
@@ -77,7 +63,7 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
             key={index}
             authorLink={message.authorLink}
             authorName={message.authorName}
-            messageDate={message.messageDate}
+            messageInfos={message.messageInfos}
             authorImg={message.authorImg}
             authorMessage={message.authorMessage}
           />
