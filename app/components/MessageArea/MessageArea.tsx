@@ -45,6 +45,12 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
     }
   }, [errorMessage]);
 
+  useEffect(() => {
+    const feed = document.querySelector(".message-area__feed") as HTMLElement;
+    const bottom = feed.scrollHeight;
+    feed.scrollTo({ top: bottom });
+  }, [messageFeed]);
+
   const handleMobileSideMenu = (MobileSideMenuState: boolean) => {
     MobileSideMenuState ? setMobileSideMenu(false) : setMobileSideMenu(true);
   };
