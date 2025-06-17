@@ -50,18 +50,22 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         socketRef.current = socket;
 
         socket.onopen = (e: Event) => {
-          setOpenMessage({
+          const message = {
             messageInfos: {
               date: Date.now().toString(),
               type: "join",
-              sender: name + " " + surname,
+              sender: id?.toString(),
             },
             authorName: "Speak",
+            authorSurname: "",
             authorMessage: {
               messageText: "Connexion établie",
             },
-          });
+          };
+          setOpenMessage(message);
+          socketRef.current?.send(JSON.stringify(message));
         };
+
         socket.onmessage = (e: MessageEvent) => {
           console.log("nouveau message");
 

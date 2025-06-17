@@ -11,9 +11,13 @@
 }
 
 .message-area__feed {
-  @apply flex flex-col justify-end px-4 overflow-y-scroll;
+  @apply flex flex-col px-4 overflow-y-scroll;
   height: calc(100vh - 148px);
-  scrollbar-width: none;
+  scrollbar-color: rgba(128, 128, 128, 0.356) transparent;
+
+  & :first-child {
+    margin-top: auto;
+  }
 }
 
 .message-area__input-area {

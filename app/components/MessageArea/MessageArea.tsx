@@ -63,6 +63,7 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
             key={index}
             authorLink={message.authorLink}
             authorName={message.authorName}
+            authorSurname={message.authorSurname}
             messageInfos={message.messageInfos}
             authorImg={message.authorImg}
             authorMessage={message.authorMessage}

@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useSocketContext } from "~/context/SocketContext";
 import type { messageContent } from "../Message/Message";
 import { useSettingsContext } from "~/context/SettingsContext";
 import { useAuthContext } from "~/context/AuthContext";
+import { useParams } from "react-router";
 
 const MessageInput = () => {
   const { id } = useAuthContext();
-  const { name, surname } = useSettingsContext();
+  const { convID } = useParams();
+  const { name, surname, picture } = useSettingsContext();
   const { setNewMessage, socketRef } = useSocketContext();
 
   const [pendingMessage, setPendingMessage] = useState<null | messageContent>(null);
@@ -17,10 +19,12 @@ const MessageInput = () => {
         date: Date.now().toString(),
         type: "message",
         sender: id?.toString(),
+        target: convID,
       },
-      authorName: name + " " + surname,
+      authorName: name,
+      authorSurname: surname,
       authorLink: "",
-      authorImg: "",
+      authorImg: picture as string,
       authorMessage: {
         messageText: message,
         messageCode: "",
@@ -34,27 +38,19 @@ const MessageInput = () => {
     });
   };
 
-  const clearPendingMessage = () => {
-    const input = document.querySelector(".message-container__input") as HTMLInputElement;
-    input.value = "";
-  };
-
-  const sendMessage = () => {
+  const sendMessage = (e: FormEvent) => {
+    e.preventDefault();
     setNewMessage(pendingMessage);
     if (socketRef && socketRef.current) {
       socketRef.current.send(JSON.stringify(pendingMessage));
     }
+
+    const input = document.querySelector(".message-container__input") as HTMLInputElement;
+    input.value = "";
   };
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        sendMessage();
-        clearPendingMessage();
-      }}
-      className="message-container__input-container"
-    >
+    <form onSubmit={sendMessage} className="message-container__input-container">
       <input
         onChange={(e) => {
           setMessage(e.target.value);
