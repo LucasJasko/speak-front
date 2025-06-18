@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/Home";
 
 import Nav from "~/components/Nav/Nav";
 import Header from "~/components/Header/Header";
