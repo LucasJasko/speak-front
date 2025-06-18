@@ -2,7 +2,7 @@ import type { Route } from "./+types/home";
 
 import Nav from "~/components/Nav/Nav";
 import Header from "~/components/Header/Header";
-import { useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import Profile from "~/components/Profile/Profile";
 import Agenda from "~/components/Agenda/Agenda";
 import Settings from "~/components/Settings/Settings";

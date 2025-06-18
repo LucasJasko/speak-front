@@ -8,6 +8,7 @@ export interface messageContent {
     type?: string;
     sender?: string;
     target?: string;
+    room?: string;
   };
   authorName: string;
   authorSurname: string;

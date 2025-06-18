@@ -6,15 +6,32 @@ import Signin from "~/components/SignIn/Signin";
 import { useEffect, useState } from "react";
 import Inscription from "~/components/SignIn/Inscription/Inscription";
 import Final from "~/components/SignIn/Final/Final";
+import { useAuthContext } from "~/context/AuthContext";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Speak - login" }, { name: "description", content: "Votre portail d'accès à Speak" }];
 }
 
 const auth = () => {
+  let navigate = useNavigate();
+  const { accessToken, isLoading, setIsLoading, fetchAccessToken } = useAuthContext();
+
   const [activePannel, setActivePannel] = useState<string>("login");
   const [previousPannel, setPreviousPannel] = useState<string>("login");
   const [nextPannel, setNextPannel] = useState<string>("");
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (accessToken) {
+      navigate("/home");
+    }
+
+    if (accessToken === undefined) {
+      fetchAccessToken();
+    }
+    setIsLoading(false);
+  }, [accessToken]);
 
   const toggleSlide = (pannel: string) => {
     setPreviousPannel(activePannel);

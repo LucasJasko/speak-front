@@ -3,6 +3,7 @@
 @import "./routes/Loader/loader.scss";
 @import "./routes/Home/home.scss";
 @import "./routes/Auth/auth.scss";
+@import "./routes/Page404/page404.scss";
 
 @import "./routes/Home/Group/group.scss";
 @import "./routes/Home/DirectMessage/directMessage.scss";

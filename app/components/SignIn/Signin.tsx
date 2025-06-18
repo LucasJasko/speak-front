@@ -14,14 +14,17 @@ const Signin = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
     if (password.match("") || password.length < 8) {
       progressBar.classList = "progress-bar__value empty";
       progressBarInfo.textContent = "";
+
       if (password.length >= 8) {
         progressBar.classList = "progress-bar__value weak";
         progressBarInfo.textContent = "Sécurité: faible (ajoutez une majuscule et un chiffre)";
         progressBarInfo.style.color = "#fb2c36";
+
         if (password.match(/^(?=.*[A-Z])(?=.*\d).+$/) || password.length >= 20) {
           progressBar.classList = "progress-bar__value good";
           progressBarInfo.textContent = "Sécurité: moyenne (entrez 16 caractères et un spécial)";
           progressBarInfo.style.color = "oklch(70.5% 0.213 47.604)";
+
           if (password.match(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/) && password.length >= 16) {
             progressBar.classList = "progress-bar__value strong";
             progressBarInfo.textContent = "Sécurité: forte";
