@@ -34,6 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const login = (newId: number, newToken: string) => {
     setId(newId);
@@ -68,20 +69,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   useEffect(() => {
+    // TODO voir pourquoi window.crypto retourne undefined et donc impossible de génrer des clés ce chiffrement
     const generate = async () => {
-      const pair = await window.crypto.subtle.generateKey(
-        {
-          name: "RSA-OAEP",
-          modulusLength: 2048,
-          publicExponent: new Uint8Array([1, 0, 1]),
-          hash: "SHA-256",
-        },
-        true,
-        ["encrypt", "decrypt"]
-      );
-
-      console.log(pair);
-      setKeyPair(pair);
+      // const pair = await window.crypto.subtle.generateKey(
+      //   {
+      //     name: "RSA-OAEP",
+      //     modulusLength: 2048,
+      //     publicExponent: new Uint8Array([1, 0, 1]),
+      //     hash: "SHA-256",
+      //   },
+      //   true,
+      //   ["encrypt", "decrypt"]
+      // );
+      // setKeyPair(pair);
+      // console.log(pair);
     };
     generate();
 

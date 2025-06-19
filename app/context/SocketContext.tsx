@@ -71,15 +71,39 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         };
 
         socket.onclose = (e: CloseEvent) => {
+          const message = {
+            messageInfos: {
+              date: Date.now().toString(),
+              type: "close",
+              sender: id?.toString(),
+            },
+            authorName: "Speak",
+            authorSurname: "",
+            authorMessage: {
+              messageText: "Connexion socket fermée",
+            },
+          };
+
           console.log("Connexion socket fermée", e);
-          setCloseMessage(null);
-          // "Fermeture de la connexion."
+          setCloseMessage(message);
         };
 
         socket.onerror = (e: Event) => {
+          const message = {
+            messageInfos: {
+              date: Date.now().toString(),
+              type: "error",
+              sender: id?.toString(),
+            },
+            authorName: "Speak",
+            authorSurname: "",
+            authorMessage: {
+              messageText: "Erreur WebSocket",
+            },
+          };
+
           console.error("Erreur WebSocket", e);
-          setErrorMessage(null);
-          // "Erreur de communication avec le serveur."
+          setErrorMessage(message);
         };
       }
 
