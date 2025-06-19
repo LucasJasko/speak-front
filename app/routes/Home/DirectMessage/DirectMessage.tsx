@@ -10,6 +10,7 @@ import { motion } from "motion/react";
 import useAPI from "~/hook/useAPI";
 import { useSettingsContext } from "~/context/SettingsContext";
 import type { ProfileDm } from "../../../context/SettingsContext";
+import { useSocketContext } from "~/context/SocketContext";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -20,6 +21,7 @@ const DirectMessage = () => {
   const { accessToken, id } = useAuthContext();
   const { profileDms, setProfileDms } = useSettingsContext();
   const { isMobile } = useMobileContext();
+  const { socketRef } = useSocketContext();
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [result, setResult] = useState<any>([]);
@@ -71,13 +73,32 @@ const DirectMessage = () => {
   const userResult = document.querySelector(".contact-area__results ul") as HTMLElement;
   const convList = document.querySelector(".contact-area__list") as HTMLElement;
 
-  const handleHandshake = async (target: any) => {
+  const initConversation = async (target: any) => {
     const res = await useAPI<ProfileDm>("/chat/select", { json: { target, origin: id }, token: accessToken });
     if (res.status != 204) setProfileDms((prev) => [...prev, res.data]);
     const inputSearch = document.querySelector(".contact-area__search-input") as HTMLInputElement;
     inputSearch.value = "";
     setResult([]);
   };
+
+  useEffect(() => {
+    if (socketRef && convID != "0") {
+      const switchConversation = () => {
+        const message = {
+          messageInfos: {
+            date: Date.now().toString(),
+            type: "switch",
+            sender: id?.toString(),
+            target: convID,
+          },
+          authorName: "Speak",
+          authorSurname: "",
+        };
+        socketRef?.current?.send(JSON.stringify(message));
+      };
+      switchConversation();
+    }
+  }, [convID]);
 
   useEffect(() => {
     if (!isMobile) {
@@ -119,7 +140,7 @@ const DirectMessage = () => {
                     key={user.profile_id}
                     userID={user.profile_id}
                     convName={user.profile_name + " " + user.profile_surname}
-                    initConversation={handleHandshake}
+                    initConversation={initConversation}
                     pictureSetings={{
                       id: user.profile_id,
                       surname: user.profile_surname,

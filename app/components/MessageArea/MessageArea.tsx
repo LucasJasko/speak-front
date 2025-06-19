@@ -7,19 +7,82 @@ import { useParams } from "react-router";
 import { useSocketContext } from "~/context/SocketContext";
 import { useSettingsContext } from "~/context/SettingsContext";
 import { useAuthContext } from "~/context/AuthContext";
+import useAPI from "~/hook/useAPI";
 
 interface MessageAreaProps {
   MobileSideMenuState: boolean;
   setMobileSideMenu: (MobileSideMenuState: boolean) => void;
 }
 
+interface rawMessage {
+  content: string;
+  creation_time: string;
+  file: string;
+  id: number;
+  profile_id: number;
+  read_time: null;
+}
+
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
-  const { id } = useAuthContext();
+  const { id, accessToken } = useAuthContext();
   const { typeID, convID } = useParams();
   const { name, surname } = useSettingsContext();
   const { openMessage, errorMessage, closeMessage, newMessage } = useSocketContext();
   const { isMobile } = useMobileContext();
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
+
+  // export interface messageContent {
+  //   messageInfos: {
+  //     date?: string;
+  //     type?: string;
+  //     sender?: string;
+  //     target?: string;
+  //     room?: string;
+  //   };
+  //   authorName: string;
+  //   authorSurname: string;
+  //   authorLink?: string;
+  //   authorImg?: string;
+  //   authorMessage: {
+  //     messageText?: string;
+  //     messageCode?: string;
+  //     messageEvent?: string;
+  //     messageFile?: {
+  //       fileLink: string;
+  //       filePicture: string;
+  //       fileName: string;
+  //     };
+  //   };
+  // }
+
+  useEffect(() => {
+    if (convID != "0") {
+      const fetchFeed = async () => {
+        let displayedFeed: messageContent[] = [];
+        const feed = await useAPI<rawMessage[]>("/chat/messages", { json: { origin: id?.toString(), target: convID }, token: accessToken });
+        const rawMessages = feed.data;
+
+        for (let i = 0; i < rawMessages.length; i++) {
+          const message: messageContent = {
+            messageInfos: {
+              date: rawMessages[i].creation_time,
+              type: "message",
+              sender: rawMessages[i].profile_id.toString(),
+            },
+            authorName: "",
+            authorSurname: "",
+            authorMessage: {
+              messageText: rawMessages[i].content,
+            },
+          };
+          displayedFeed[i] = message;
+        }
+        setMessageFeed(displayedFeed);
+      };
+
+      fetchFeed();
+    }
+  }, [convID]);
 
   useEffect(() => {
     if (openMessage != null) {

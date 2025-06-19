@@ -1,5 +1,5 @@
 .message {
-  @apply flex items-start my-3;
+  @apply flex items-start my-3 w-full;
 }
 
 .message__author {
@@ -12,6 +12,10 @@
 
 .message__container {
   width: calc(100% - 48px);
+}
+
+.message__content {
+  width: 100%;
 }
 
 .message__header {

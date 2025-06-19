@@ -36,8 +36,6 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [errorMessage, setErrorMessage] = useState<null | messageContent>(null);
   const [newMessage, setNewMessage] = useState<null | messageContent>(null);
 
-  const context: SocketContextContent = { openMessage, closeMessage, errorMessage, newMessage, setNewMessage, socketRef };
-
   useEffect(() => {
     if (!accessToken) return;
 
@@ -119,6 +117,8 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }
     handleConnexion();
   }, [accessToken]);
+
+  const context: SocketContextContent = { openMessage, closeMessage, errorMessage, newMessage, setNewMessage, socketRef };
 
   return <SocketContext value={context}>{children}</SocketContext>;
 };
