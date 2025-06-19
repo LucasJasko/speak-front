@@ -28,12 +28,14 @@
   .user {
     @apply mx-1 h-fit;
     width: calc(100% - 8px);
+    min-height: 52px;
+    padding: 4px;
   }
   .user__img-container {
-    @apply w-full m-0 h-fit;
+    @apply w-full m-0 h-full flex justify-center;
   }
   .user__img {
-    @apply w-[30px];
+    @apply w-[38px];
   }
   .connection__dot {
     @apply bottom-[-6px];
