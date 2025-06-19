@@ -138,7 +138,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                     handleActiveBtn("profile");
                   }}
                 >
-                  {picture ? <img src={`data:image/jpeg;base64,${b64Picture}`} /> : <i className="fa-solid fa-user" />}
+                  {picture ? <img src={`data:image/webp;base64,${b64Picture}`} /> : <i className="fa-solid fa-user" />}
                 </motion.button>
                 <motion.button
                   key="mobile"
@@ -190,7 +190,7 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
               handleActiveBtn("profile");
             }}
           >
-            {picture ? <img src={`data:image/jpeg;base64,${b64Picture}`} /> : <i className="fa-solid fa-user" />}
+            {picture ? <img src={`data:image/webp;base64,${b64Picture}`} /> : <i className="fa-solid fa-user" />}
           </motion.button>
           <motion.button
             whileHover={{

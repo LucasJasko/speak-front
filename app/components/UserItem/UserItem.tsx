@@ -35,7 +35,7 @@ const UserItem: React.FC<UserProps> = ({ userID, convName, pictureSetings, statu
       }}
     >
       <div className="user__img-container">
-        <img className="user__img" src={pic == "" ? "/assets/img/Speak_64x64.png" : "data:image/jpeg;base64," + pic} alt="photo utilisateur" />
+        <img className="user__img" src={pic == "" ? "/assets/img/Speak_64x64.png" : "data:image/webp;base64," + pic} alt="photo utilisateur" />
         <span className={`connection__dot ${status == "1" ? "connected" : "disconnected"}`}></span>
       </div>
       {!isMobile && <p className="user__name">{convName}</p>}
