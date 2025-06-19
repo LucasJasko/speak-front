@@ -8,6 +8,7 @@ export default [
   route("Loader", "./routes/Loader/Loader.tsx", { id: "loader" }),
 
   route("home", "./routes/Home/Home.tsx", [route(":typeID/:convID", "routes/Home/TypeRouter.tsx")]),
+  route("home", "./routes/Home/Home.tsx", [route(":typeID/:convID", "routes/Home/TypeRouter.tsx")]),
 
   route("*", "./routes/Page404/Page404.tsx", { id: "default" }),
 ] satisfies RouteConfig;
