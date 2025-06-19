@@ -31,34 +31,11 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
   const { isMobile } = useMobileContext();
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
 
-  // export interface messageContent {
-  //   messageInfos: {
-  //     date?: string;
-  //     type?: string;
-  //     sender?: string;
-  //     target?: string;
-  //     room?: string;
-  //   };
-  //   authorName: string;
-  //   authorSurname: string;
-  //   authorLink?: string;
-  //   authorImg?: string;
-  //   authorMessage: {
-  //     messageText?: string;
-  //     messageCode?: string;
-  //     messageEvent?: string;
-  //     messageFile?: {
-  //       fileLink: string;
-  //       filePicture: string;
-  //       fileName: string;
-  //     };
-  //   };
-  // }
-
   useEffect(() => {
     if (convID != "0") {
       const fetchFeed = async () => {
         let displayedFeed: messageContent[] = [];
+
         const feed = await useAPI<rawMessage[]>("/chat/messages", { json: { origin: id?.toString(), target: convID }, token: accessToken });
         const rawMessages = feed.data;
 
@@ -77,6 +54,7 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
           };
           displayedFeed[i] = message;
         }
+
         setMessageFeed(displayedFeed);
       };
 
