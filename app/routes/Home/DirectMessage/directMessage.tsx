@@ -1,5 +1,5 @@
 import UserItem from "~/components/UserItem/UserItem";
-import type { Route } from "../+types/home";
+import type { Route } from "../+types/Home";
 
 import MessageArea from "~/components/MessageArea/MessageArea";
 import { useEffect, useState, type ReactNode } from "react";

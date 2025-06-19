@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/Home";
 
 import Nav from "~/components/Nav/Nav";
 import Header from "~/components/Header/Header";
@@ -10,7 +10,7 @@ import AddGroup from "~/components/AddGroup/AddGroup";
 import { AnimatePresence } from "motion/react";
 import TypeRouter from "./TypeRouter";
 import { useAuthContext } from "~/context/AuthContext";
-import Loader from "../Loader/loader";
+import Loader from "../Loader/Loader";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "SPEAK - Accueil" }, { name: "description", content: "Bienvenue sur l'accueil de la plateforme de chatting speak !" }];

@@ -67,8 +67,6 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         };
 
         socket.onmessage = (e: MessageEvent) => {
-          console.log("nouveau message");
-
           setNewMessage(JSON.parse(e.data));
         };
 

@@ -4,9 +4,10 @@ import type { messageContent } from "../Message/Message";
 import { useSettingsContext } from "~/context/SettingsContext";
 import { useAuthContext } from "~/context/AuthContext";
 import { useParams } from "react-router";
+import useAPI from "~/hook/useAPI";
 
 const MessageInput = () => {
-  const { id } = useAuthContext();
+  const { accessToken, id } = useAuthContext();
   const { convID } = useParams();
   const { name, surname, picture } = useSettingsContext();
   const { setNewMessage, socketRef } = useSocketContext();
@@ -40,11 +41,23 @@ const MessageInput = () => {
 
   const sendMessage = (e: FormEvent) => {
     e.preventDefault();
+
+    // Refresh client
     setNewMessage(pendingMessage);
+
+    // Send to socket server
     if (socketRef && socketRef.current) {
       socketRef.current.send(JSON.stringify(pendingMessage));
     }
 
+    // Send to http server
+    const sendToHttp = async () => {
+      const res = await useAPI("/chat/message", { json: { pendingMessage }, token: accessToken });
+      console.log(res);
+    };
+    sendToHttp();
+
+    // Empty input
     const input = document.querySelector(".message-container__input") as HTMLInputElement;
     input.value = "";
   };

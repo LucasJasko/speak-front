@@ -34,15 +34,18 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
     onClose(lastActive);
   };
 
-  const handleActiveMenu = (key: string) => {
+  const handleActiveMenu = async (key: string) => {
     setActiveMenu(key);
 
     const selectedItem = menuMap.find((item) => item.key == key);
     contentRef.current = selectedItem?.element || null;
 
     if (key === "disconnect") {
-      useAPI("/logout/" + id, { token: accessToken });
-      navigate("/auth");
+      const res = await useAPI("/logout/" + id, { token: accessToken });
+      if (res.status === 200) {
+        window.location.href = "/loader";
+        navigate("/auth");
+      }
     }
   };
 

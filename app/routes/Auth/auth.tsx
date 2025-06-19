@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 
-import type { Route } from "./+types/auth";
+import type { Route } from "./+types/Auth";
 import Login from "~/components/Login/Login";
 import Signin from "~/components/SignIn/Signin";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Speak - login" }, { name: "description", content: "Votre portail d'accès à Speak" }];
 }
 
-const auth = () => {
+const Auth = () => {
   let navigate = useNavigate();
   const { accessToken, isLoading, setIsLoading, fetchAccessToken } = useAuthContext();
 
@@ -30,6 +30,7 @@ const auth = () => {
     if (accessToken === undefined) {
       fetchAccessToken();
     }
+
     setIsLoading(false);
   }, [accessToken]);
 
@@ -79,4 +80,4 @@ const auth = () => {
   );
 };
 
-export default auth;
+export default Auth;

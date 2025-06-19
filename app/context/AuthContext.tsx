@@ -27,8 +27,11 @@ export const useAuthContext = (): AuthContextType => {
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   let location = useLocation();
   const navigate = useNavigate();
+
   const [accessToken, setAccessToken] = useState<undefined | string | null>(undefined);
   const [id, setId] = useState<undefined | number | null>(undefined);
+  const [keyPair, setKeyPair] = useState<CryptoKeyPair | null>(null);
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -65,6 +68,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   useEffect(() => {
+    const generate = async () => {
+      const pair = await window.crypto.subtle.generateKey(
+        {
+          name: "RSA-OAEP",
+          modulusLength: 2048,
+          publicExponent: new Uint8Array([1, 0, 1]),
+          hash: "SHA-256",
+        },
+        true,
+        ["encrypt", "decrypt"]
+      );
+
+      console.log(pair);
+      setKeyPair(pair);
+    };
+    generate();
+
     if (accessToken === null && !isLoading) {
       navigate("/auth");
     }

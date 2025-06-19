@@ -23,19 +23,6 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   const { isMobile } = useMobileContext();
   const { login, fetchAccessToken, isLoading, setIsLoading } = useAuthContext();
 
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchToken = async () => {
-      const res = await fetchAccessToken();
-      if (res.accessToken) {
-        login(res.UID, res.accessToken);
-        navigate("/home/dm/0");
-      }
-
-      fetchToken();
-    };
-  }, []);
-
   const handleSubmit = async (e?: any) => {
     e.preventDefault();
 
@@ -45,8 +32,10 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
         setResponse(data);
 
         if (status === 200) {
+          // Auth params
           login(data.UID, data.accessToken);
-          return navigate("/home/dm-123/abc123");
+
+          return navigate("/home/dm/0");
         }
 
         if (status === 401) {

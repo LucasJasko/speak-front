@@ -1,5 +1,5 @@
 import MessageArea from "~/components/MessageArea/MessageArea";
-import type { Route } from "../+types/home";
+import type { Route } from "../+types/Home";
 import Room from "~/components/Room/Room";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
