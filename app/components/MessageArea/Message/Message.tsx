@@ -48,7 +48,11 @@ const Message: React.FC<messageContent> = ({ authorLink, authorName, authorSurna
           }}
           href={""}
         >
-          {authorPicture && <img src={"data:image/jpeg;base64," + authorPicture} alt="User profile picture" />}
+          {authorPicture ? (
+            <img src={"data:image/webp;base64," + authorPicture} alt="User profile picture" />
+          ) : (
+            authorImg && <img src={"data:image/webp;base64," + authorImg} alt="User profile picture" />
+          )}
         </a>
       </div>
       <div className="message__container">

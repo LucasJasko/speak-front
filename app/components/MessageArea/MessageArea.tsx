@@ -15,6 +15,9 @@ interface MessageAreaProps {
 }
 
 interface rawMessage {
+  author_name: string;
+  author_surname: string;
+  author_picture: string;
   content: string;
   creation_time: string;
   file: string;
@@ -46,14 +49,16 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
               type: "message",
               sender: rawMessages[i].profile_id.toString(),
             },
-            authorName: "",
-            authorSurname: "",
+            authorImg: rawMessages[i].author_picture,
+            authorName: rawMessages[i].author_name,
+            authorSurname: rawMessages[i].author_surname,
             authorMessage: {
               messageText: rawMessages[i].content,
             },
           };
           displayedFeed[i] = message;
         }
+        console.log(feed);
 
         setMessageFeed(displayedFeed);
       };

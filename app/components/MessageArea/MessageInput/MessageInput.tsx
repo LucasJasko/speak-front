@@ -15,9 +15,15 @@ const MessageInput = () => {
   const [pendingMessage, setPendingMessage] = useState<null | messageContent>(null);
 
   const setMessage = (message: string) => {
+    const date = new Date();
+    const formattedDate = `${date.getFullYear()}-${date.getMonth().toString().padStart(2, "0")}-${date
+      .getDate()
+      .toString()
+      .padStart(2, "0")} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
     setPendingMessage({
       messageInfos: {
-        date: Date.now().toString(),
+        date: formattedDate,
         type: "message",
         sender: id?.toString(),
         target: convID,
