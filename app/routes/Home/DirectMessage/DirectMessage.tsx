@@ -94,7 +94,9 @@ const DirectMessage = () => {
           authorName: "Speak",
           authorSurname: "",
         };
-        socketRef?.current?.send(JSON.stringify(message));
+        if (!socketRef.current?.CONNECTING) {
+          socketRef?.current?.send(JSON.stringify(message));
+        }
       };
       switchConversation();
     }

@@ -59,7 +59,6 @@ const MessageInput = () => {
     // Send to http server
     const sendToHttp = async () => {
       const res = await useAPI("/chat/message", { json: { pendingMessage }, token: accessToken });
-      console.log(res);
     };
     sendToHttp();
 

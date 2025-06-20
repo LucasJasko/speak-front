@@ -58,8 +58,6 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
           };
           displayedFeed[i] = message;
         }
-        console.log(feed);
-
         setMessageFeed(displayedFeed);
       };
 
