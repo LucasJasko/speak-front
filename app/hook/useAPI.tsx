@@ -17,7 +17,7 @@ export default async function useAPI<T>(url: string, { json, method, token }: re
   };
   token ? (headers["Authorization"] = `Bearer ${token}`) : undefined;
 
-  const req = await fetch("http://speak/api" + url, {
+  const req = await fetch("https://speak/api" + url, {
     method,
     body,
     credentials: "include",
