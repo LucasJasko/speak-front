@@ -5,6 +5,16 @@ import { useParams } from "react-router";
 import type { messageContent } from "~/components/MessageArea/Message/Message";
 import { useSettingsContext } from "./SettingsContext";
 
+interface SocketContextContent {
+  socketRef: RefObject<WebSocket | null> | null;
+  openMessage: null | messageContent;
+  closeMessage: null | messageContent;
+  errorMessage: null | messageContent;
+  newMessage: null | messageContent;
+  setNewMessage: Dispatch<SetStateAction<null | messageContent>>;
+  isSocketOpen: boolean;
+}
+
 const noop = () => {};
 const SocketContext = createContext<SocketContextContent>({
   openMessage: null,
@@ -13,16 +23,8 @@ const SocketContext = createContext<SocketContextContent>({
   newMessage: null,
   setNewMessage: noop,
   socketRef: null,
+  isSocketOpen: false,
 });
-
-interface SocketContextContent {
-  socketRef: RefObject<WebSocket | null> | null;
-  openMessage: null | messageContent;
-  closeMessage: null | messageContent;
-  errorMessage: null | messageContent;
-  newMessage: null | messageContent;
-  setNewMessage: Dispatch<SetStateAction<null | messageContent>>;
-}
 
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id } = useAuthContext();
@@ -32,6 +34,8 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [closeMessage, setCloseMessage] = useState<null | messageContent>(null);
   const [errorMessage, setErrorMessage] = useState<null | messageContent>(null);
   const [newMessage, setNewMessage] = useState<null | messageContent>(null);
+
+  const [isSocketOpen, setIsSocketOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -60,6 +64,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           };
           setOpenMessage(message);
           if (socketRef.current?.OPEN) {
+            setIsSocketOpen(true);
             socketRef.current?.send(JSON.stringify(message));
           }
         };
@@ -120,7 +125,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     handleConnexion();
   }, [accessToken]);
 
-  const context: SocketContextContent = { openMessage, closeMessage, errorMessage, newMessage, setNewMessage, socketRef };
+  const context: SocketContextContent = { openMessage, closeMessage, errorMessage, newMessage, setNewMessage, socketRef, isSocketOpen };
 
   return <SocketContext value={context}>{children}</SocketContext>;
 };

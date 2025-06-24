@@ -13,10 +13,12 @@ interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const UserItem: React.FC<UserProps> = ({ userID, convName, pictureSetings, status, initConversation }) => {
   const navigate = useNavigate();
+
   const { typeID, convID } = useParams();
   const { fetchProfilePicture } = useSettingsContext();
-  const [pic, setPic] = useState<string | undefined>("");
   const { isMobile } = useMobileContext();
+
+  const [pic, setPic] = useState<string | undefined>("");
 
   useEffect(() => {
     fetchProfilePicture(pictureSetings).then((picture) => {

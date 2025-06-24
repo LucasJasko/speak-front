@@ -5,11 +5,11 @@ import { useSettingsContext } from "~/context/SettingsContext";
 export interface messageContent {
   messageInfos: {
     isFromSocket: boolean;
+    isForGroup?: false | string;
     date?: string;
     type?: string;
     sender?: string;
     target?: string;
-    room?: string;
   };
   authorName: string;
   authorSurname: string;

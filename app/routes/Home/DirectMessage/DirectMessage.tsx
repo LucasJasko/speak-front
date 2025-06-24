@@ -21,7 +21,7 @@ const DirectMessage = () => {
   const { accessToken, id } = useAuthContext();
   const { profileDms, setProfileDms } = useSettingsContext();
   const { isMobile } = useMobileContext();
-  const { socketRef } = useSocketContext();
+  const { socketRef, isSocketOpen } = useSocketContext();
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [result, setResult] = useState<any>([]);
@@ -77,27 +77,27 @@ const DirectMessage = () => {
   };
 
   useEffect(() => {
-    if (socketRef && convID != "0") {
-      const switchConversation = () => {
-        const message = {
-          messageInfos: {
-            date: Date.now().toString(),
-            type: "switch",
-            sender: id?.toString(),
-            target: convID,
-          },
-          authorName: "Speak",
-          authorSurname: "",
-        };
-        if (!socketRef.current?.OPEN) {
-          socketRef?.current?.send(JSON.stringify(message));
-        }
-        if (isMobile) {
-          setDisplayMobileSideMenu(false);
-        }
+    const switchConversation = () => {
+      const message = {
+        messageInfos: {
+          date: Date.now().toString(),
+          type: "switch",
+          sender: id?.toString(),
+          target: convID,
+        },
+        authorName: "Speak",
+        authorSurname: "",
       };
-      switchConversation();
-    }
+
+      if (isSocketOpen && convID != "0") {
+        socketRef?.current?.send(JSON.stringify(message));
+      }
+
+      if (isMobile) {
+        setDisplayMobileSideMenu(false);
+      }
+    };
+    switchConversation();
   }, [convID]);
 
   useEffect(() => {

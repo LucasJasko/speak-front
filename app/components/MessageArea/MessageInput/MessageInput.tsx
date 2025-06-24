@@ -8,7 +8,7 @@ import useAPI from "~/hook/useAPI";
 
 const MessageInput = () => {
   const { accessToken, id } = useAuthContext();
-  const { convID } = useParams();
+  const { typeID, convID } = useParams();
   const { name, surname, picture } = useSettingsContext();
   const { setNewMessage, socketRef } = useSocketContext();
 
@@ -24,6 +24,7 @@ const MessageInput = () => {
     setPendingMessage({
       messageInfos: {
         isFromSocket: true,
+        isForGroup: typeID == "dm" ? false : typeID,
         date: formattedDate,
         type: "message",
         sender: id?.toString(),
