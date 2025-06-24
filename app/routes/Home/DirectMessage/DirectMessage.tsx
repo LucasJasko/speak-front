@@ -11,6 +11,7 @@ import useAPI from "~/hook/useAPI";
 import { useSettingsContext } from "~/context/SettingsContext";
 import type { ProfileDm } from "../../../context/SettingsContext";
 import { useSocketContext } from "~/context/SocketContext";
+import type { messageContent } from "~/components/MessageArea/Message/Message";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -26,8 +27,6 @@ const DirectMessage = () => {
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [result, setResult] = useState<any>([]);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
     if (displayMobileSideMenu) {
@@ -42,12 +41,6 @@ const DirectMessage = () => {
       contactAreaList.style.height = "calc(100% - 50px)";
     }
   }, [displayMobileSideMenu]);
-
-  useEffect(() => {
-    if (profileDms.length != 0) {
-      // console.log(profileDms);
-    }
-  }, [profileDms]);
 
   async function handleSearch(e: any) {
     const query = e.target.value;
@@ -65,9 +58,6 @@ const DirectMessage = () => {
     }
   }
 
-  const userResult = document.querySelector(".contact-area__results ul") as HTMLElement;
-  const convList = document.querySelector(".contact-area__list") as HTMLElement;
-
   const initConversation = async (target: any) => {
     const res = await useAPI<ProfileDm>("/chat/select", { json: { target, origin: id }, token: accessToken });
     if (res.status != 204) setProfileDms((prev) => [...prev, res.data]);
@@ -77,28 +67,30 @@ const DirectMessage = () => {
   };
 
   useEffect(() => {
-    const switchConversation = () => {
-      const message = {
-        messageInfos: {
-          date: Date.now().toString(),
-          type: "switch",
-          sender: id?.toString(),
-          target: convID,
-        },
-        authorName: "Speak",
-        authorSurname: "",
-      };
+    if (!socketRef?.current || socketRef.current.readyState !== WebSocket.OPEN) return;
 
-      if (isSocketOpen && convID != "0") {
-        socketRef?.current?.send(JSON.stringify(message));
-      }
-
-      if (isMobile) {
-        setDisplayMobileSideMenu(false);
-      }
+    const message: messageContent = {
+      messageInfos: {
+        isFromSocket: true,
+        isForGroup: false,
+        date: Date.now().toString(),
+        type: "switch",
+        sender: id?.toString(),
+        target: convID,
+      },
+      authorName: "Speak",
+      authorSurname: "",
+      authorMessage: {},
     };
-    switchConversation();
-  }, [convID]);
+
+    if (isSocketOpen && convID != "0") {
+      socketRef.current.send(JSON.stringify(message));
+    }
+
+    if (isMobile) {
+      setDisplayMobileSideMenu(false);
+    }
+  }, [convID, isSocketOpen]);
 
   useEffect(() => {
     if (!isMobile) {

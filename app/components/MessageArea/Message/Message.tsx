@@ -29,18 +29,22 @@ export interface messageContent {
 
 const Message: React.FC<messageContent> = ({ authorLink, authorName, authorSurname, messageInfos, authorImg, authorMessage }) => {
   const { fetchProfilePicture } = useSettingsContext();
-  const [authorPicture, setAuthorPicture] = useState<string>();
+  const [authorPicture, setAuthorPicture] = useState<string | undefined>(authorImg);
 
   useEffect(() => {
     if (messageInfos.isFromSocket) {
       const fetchimg = async () => {
         const id = messageInfos.sender;
         const pic = await fetchProfilePicture({ id, name: authorName, surname: authorSurname, picture: authorImg });
-        setAuthorPicture(pic);
+        setAuthorPicture(pic as string);
       };
       fetchimg();
     }
   }, [authorPicture]);
+
+  useEffect(() => {
+    console.log(authorPicture);
+  }, []);
 
   return (
     <li className="message">
@@ -51,11 +55,7 @@ const Message: React.FC<messageContent> = ({ authorLink, authorName, authorSurna
           }}
           href={""}
         >
-          {authorPicture ? (
-            <img src={"data:image/webp;base64," + authorPicture} alt="User profile picture" />
-          ) : (
-            authorImg && <img src={"data:image/webp;base64," + authorImg} alt="User profile picture" />
-          )}
+          <img src={`data:image/webp;base64,${authorPicture}`} alt="User profile picture" />
         </a>
       </div>
       <div className="message__container">

@@ -7,6 +7,8 @@ import { useNavigate, useParams } from "react-router";
 import { useSettingsContext, type ProfileGroup } from "~/context/SettingsContext";
 import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "~/context/AuthContext";
+import { useSocketContext } from "~/context/SocketContext";
+import type { messageContent } from "~/components/MessageArea/Message/Message";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Groupes" }, { name: "description", content: "Ce sont vos groupes" }];
@@ -15,8 +17,10 @@ export function meta({}: Route.MetaArgs) {
 const Group = () => {
   const { typeID, convID } = useParams();
   const { isMobile } = useMobileContext();
-  const { accessToken } = useAuthContext();
+  const { accessToken, id } = useAuthContext();
   const { profileGroups } = useSettingsContext();
+  const { socketRef, isSocketOpen } = useSocketContext();
+
   const [groupParams, setGroupParams] = useState<ProfileGroup | undefined>(undefined);
   const [rooms, setRooms] = useState<RoomProps[]>([]);
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
@@ -38,6 +42,32 @@ const Group = () => {
     }
     fetchRooms();
   }, [groupParams]);
+
+  useEffect(() => {
+    if (!socketRef?.current || socketRef.current.readyState !== WebSocket.OPEN) return;
+
+    const message: messageContent = {
+      messageInfos: {
+        isFromSocket: true,
+        isForGroup: groupParams?.id.toString(),
+        date: Date.now().toString(),
+        type: "switch",
+        sender: id?.toString(),
+        target: convID,
+      },
+      authorName: "Speak",
+      authorSurname: "",
+      authorMessage: {},
+    };
+
+    if (isSocketOpen && convID != "0") {
+      socketRef.current.send(JSON.stringify(message));
+    }
+
+    if (isMobile) {
+      setDisplayMobileSideMenu(false);
+    }
+  }, [convID, isSocketOpen]);
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";

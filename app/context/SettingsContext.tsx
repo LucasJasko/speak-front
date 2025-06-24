@@ -73,7 +73,7 @@ interface SettingsContextType {
   setLanguage: Dispatch<SetStateAction<string>>;
   setProfileGroups: Dispatch<SetStateAction<ProfileGroup[]>>;
   fetchSettings: () => Promise<void>;
-  fetchProfilePicture: ({ id, surname, name, picture }: pictureProfileSettings) => Promise<string | undefined>;
+  fetchProfilePicture: ({ id, name, surname, picture }: pictureProfileSettings) => Promise<string | undefined>;
   fetchGroupPicture: ({ id, name, picture }: pictureGroupSettings) => Promise<string | undefined>;
 }
 
@@ -86,8 +86,7 @@ export const useSettingsContext = (): SettingsContextType => {
 };
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { accessToken, id, isLoading, setIsLoading } = useAuthContext();
-  const { typeID, convID } = useParams();
+  const { accessToken, id, setIsLoading } = useAuthContext();
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState<any>(null);

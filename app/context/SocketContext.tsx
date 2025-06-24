@@ -63,10 +63,8 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             },
           };
           setOpenMessage(message);
-          if (socketRef.current?.OPEN) {
-            setIsSocketOpen(true);
-            socketRef.current?.send(JSON.stringify(message));
-          }
+          setIsSocketOpen(true);
+          socketRef.current?.send(JSON.stringify(message));
         };
 
         socket.onmessage = (e: MessageEvent) => {
@@ -118,9 +116,11 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         }
       });
 
-      if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-        socketRef.current.close(1000, "Client déconnecté");
-      }
+      return () => {
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+          socketRef.current.close(1000, "Client déconnecté");
+        }
+      };
     }
     handleConnexion();
   }, [accessToken]);
