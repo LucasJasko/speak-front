@@ -8,6 +8,7 @@ import Inscription from "~/components/SignIn/Inscription/Inscription";
 import Final from "~/components/SignIn/Final/Final";
 import { useAuthContext } from "~/context/AuthContext";
 import { useNavigate } from "react-router";
+import Loader from "../Loader/Loader";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Speak - login" }, { name: "description", content: "Votre portail d'accès à Speak" }];
@@ -24,14 +25,14 @@ const Auth = () => {
   useEffect(() => {
     setIsLoading(true);
     if (accessToken) {
-      navigate("/home");
+      navigate("/home/dm/0");
+      setIsLoading(false);
     }
 
     if (accessToken === undefined) {
       fetchAccessToken();
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }, [accessToken]);
 
   const toggleSlide = (pannel: string) => {
@@ -40,44 +41,48 @@ const Auth = () => {
     setActivePannel(pannel);
   };
 
-  return (
-    <div className="auth__container">
-      <div className="auth__window">
-        <AnimatePresence mode="wait">
-          {activePannel == "login" && (
-            <motion.div key="first" initial={{ x: "-100%" }} animate={{ x: "0%" }} exit={{ x: "-100%" }}>
-              <Login toggleSlide={toggleSlide} />
-            </motion.div>
-          )}
-          {activePannel == "signin" && (
-            <motion.div
-              key="second"
-              initial={{ x: previousPannel === "login" ? "100%" : "-100%" }}
-              animate={{ x: "0%" }}
-              exit={{ x: nextPannel === "login" ? "100%" : "-100%" }}
-            >
-              <Signin toggleSlide={toggleSlide} />
-            </motion.div>
-          )}
-          {activePannel == "inscription" && (
-            <motion.div
-              key="third"
-              initial={{ x: previousPannel === "signin" ? "100%" : "-100%" }}
-              animate={{ x: "0%" }}
-              exit={{ x: nextPannel === "signin" ? "100%" : "-100%" }}
-            >
-              <Inscription toggleSlide={toggleSlide} />
-            </motion.div>
-          )}
-          {activePannel == "final" && (
-            <motion.div key="fourth" initial={{ x: "100%" }} animate={{ x: "0%" }} exit={{ x: "100%" }}>
-              <Final toggleSlide={toggleSlide} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+  if (isLoading) {
+    return <Loader path="/" />;
+  } else {
+    return (
+      <div className="auth__container">
+        <div className="auth__window">
+          <AnimatePresence mode="wait">
+            {activePannel == "login" && (
+              <motion.div key="first" initial={{ x: "-100%" }} animate={{ x: "0%" }} exit={{ x: "-100%" }}>
+                <Login toggleSlide={toggleSlide} />
+              </motion.div>
+            )}
+            {activePannel == "signin" && (
+              <motion.div
+                key="second"
+                initial={{ x: previousPannel === "login" ? "100%" : "-100%" }}
+                animate={{ x: "0%" }}
+                exit={{ x: nextPannel === "login" ? "100%" : "-100%" }}
+              >
+                <Signin toggleSlide={toggleSlide} />
+              </motion.div>
+            )}
+            {activePannel == "inscription" && (
+              <motion.div
+                key="third"
+                initial={{ x: previousPannel === "signin" ? "100%" : "-100%" }}
+                animate={{ x: "0%" }}
+                exit={{ x: nextPannel === "signin" ? "100%" : "-100%" }}
+              >
+                <Inscription toggleSlide={toggleSlide} />
+              </motion.div>
+            )}
+            {activePannel == "final" && (
+              <motion.div key="fourth" initial={{ x: "100%" }} animate={{ x: "0%" }} exit={{ x: "100%" }}>
+                <Final toggleSlide={toggleSlide} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default Auth;

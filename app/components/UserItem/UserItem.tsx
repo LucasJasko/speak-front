@@ -28,7 +28,7 @@ const UserItem: React.FC<UserProps> = ({ userID, convName, pictureSetings, statu
     <div
       className={`user${userID === convID ? " active-user" : ""}`}
       onClick={() => {
-        navigate(typeID + "/" + userID);
+        navigate(`/home/${typeID}/${userID}`);
         if (initConversation) {
           initConversation(userID);
         }

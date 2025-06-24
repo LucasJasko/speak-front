@@ -9,6 +9,7 @@ import Notifications from "./Notifications/Notifications";
 import { useMobileContext } from "~/context/MobileContext";
 import SettingsList from "./SettingsList/SettingsList";
 import { AnimatePresence, motion } from "motion/react";
+import { useSettingsContext } from "~/context/SettingsContext";
 
 interface MenuMap {
   key: string;
@@ -16,11 +17,14 @@ interface MenuMap {
   element?: JSX.Element;
 }
 
-const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: string }> = ({ onClose, lastActive }) => {
+const Settings = () => {
+  const { lastActive, handleActiveLayout } = useSettingsContext();
+  const { isMobile } = useMobileContext();
+
   const [activeMenu, setActiveMenu] = useState("accessibility");
   const [activeSettingsList, setActiveSettingsList] = useState<boolean>(false);
+
   const contentRef = useRef<JSX.Element | string>(null);
-  const { isMobile } = useMobileContext();
 
   const menuMap: MenuMap[] = [
     { key: "accessibility", name: "Accessibilité", element: <Accessibility /> },
@@ -30,10 +34,6 @@ const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: stri
     { key: "interface", name: "Interface", element: <Interface /> },
     { key: "notifications", name: "Notifications", element: <Notifications /> },
   ];
-
-  const handleClose = (lastActive: string) => {
-    onClose(lastActive);
-  };
 
   const handleActiveMenu = (key: string) => {
     setActiveMenu(key);
@@ -50,7 +50,7 @@ const Settings: React.FC<{ onClose: (selected: string) => void; lastActive: stri
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
       >
-        <button className="settings__manage-button manage__button__close" onClick={() => handleClose(lastActive)}>
+        <button className="settings__manage-button manage__button__close" onClick={() => handleActiveLayout(lastActive)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
         {isMobile ? (

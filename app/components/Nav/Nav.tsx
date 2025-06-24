@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
 
-const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> = ({ onClick, activeBtn }) => {
+const Nav = () => {
   const navigate = useNavigate();
-  const { picture, b64Picture, profileGroups, setProfileGroups, fetchGroupPicture } = useSettingsContext();
+
+  const { picture, b64Picture, profileGroups, activeLayout, handleActiveLayout, setProfileGroups, fetchGroupPicture } = useSettingsContext();
   const { isMobile } = useMobileContext();
+
   const [activeArrow, setActiveArrow] = useState(false);
-  const [groupPictures, setGroupPictures] = useState<any>([]);
   const [isGroupPictureApplied, setIsGroupPictureApplied] = useState(false);
-  const handleActiveBtn = (selectedBtn: string) => {
-    onClick(selectedBtn);
-  };
+
+  const { typeID, convID } = useParams();
 
   useEffect(() => {
     if (!isGroupPictureApplied && profileGroups.length > 0) {
@@ -56,10 +56,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
             transition: { duration: 0.001 },
           }}
           whileTap={{ scale: 0.95 }}
-          className={`nav__link ${activeBtn == "direct-message" ? "nav__link-active" : ""}`}
+          className={`nav__link ${activeLayout == "direct-message" ? "nav__link-active" : ""}`}
           onClick={() => {
-            handleActiveBtn("direct-message");
-            navigate("dm/0");
+            handleActiveLayout("direct-message");
+            navigate("/home/dm/0");
           }}
         >
           <i className="fa-regular fa-comments" />
@@ -73,10 +73,10 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                 transition: { duration: 0.001 },
               }}
               whileTap={{ scale: 0.95 }}
-              className={`nav__link ${activeBtn == "group" ? "nav__link-active" : ""}`}
+              className={`nav__link ${activeLayout == `group-${group.id}` ? "nav__link-active" : ""}`}
               onClick={() => {
-                handleActiveBtn("group");
-                navigate(`${group.name}/${group.id}`);
+                handleActiveLayout(`group-${group.id}`);
+                navigate(`/home/${group.id}/0`);
               }}
             >
               {group.picture ? <img src={`data:image/jpeg;base64,${group.picture}`} /> : <i className="fa-solid fa-user-group" />}
@@ -89,9 +89,9 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
             transition: { duration: 0.001 },
           }}
           whileTap={{ scale: 0.95 }}
-          className={`nav__link ${activeBtn == "addGroup" ? "nav__link-active" : ""}`}
+          className={`nav__link ${activeLayout == "addGroup" ? "nav__link-active" : ""}`}
           onClick={() => {
-            handleActiveBtn("addGroup");
+            handleActiveLayout("addGroup");
           }}
         >
           <i className="fa-solid fa-plus" />
@@ -115,9 +115,9 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                     transition: { duration: 0.001 },
                   }}
                   whileTap={{ scale: 0.95 }}
-                  className={`nav__link nav__bottom-mobile__link ${activeBtn == "agenda" ? "nav__link-active" : ""}`}
+                  className={`nav__link nav__bottom-mobile__link ${activeLayout == "agenda" ? "nav__link-active" : ""}`}
                   onClick={() => {
-                    handleActiveBtn("agenda");
+                    handleActiveLayout("agenda");
                   }}
                 >
                   <i className="fa-regular fa-calendar" />
@@ -133,9 +133,9 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                     transition: { duration: 0.001 },
                   }}
                   whileTap={{ scale: 0.95 }}
-                  className={`nav__link nav__bottom-mobile__link ${activeBtn == "profile" ? "nav__link-active" : ""}`}
+                  className={`nav__link nav__bottom-mobile__link ${activeLayout == "profile" ? "nav__link-active" : ""}`}
                   onClick={() => {
-                    handleActiveBtn("profile");
+                    handleActiveLayout("profile");
                   }}
                 >
                   {picture ? <img src={`data:image/webp;base64,${b64Picture}`} /> : <i className="fa-solid fa-user" />}
@@ -151,9 +151,9 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
                     transition: { duration: 0.001 },
                   }}
                   whileTap={{ scale: 0.95 }}
-                  className={`nav__link nav__bottom-mobile__link ${activeBtn == "settings" ? "nav__link-active" : ""}`}
+                  className={`nav__link nav__bottom-mobile__link ${activeLayout == "settings" ? "nav__link-active" : ""}`}
                   onClick={() => {
-                    handleActiveBtn("settings");
+                    handleActiveLayout("settings");
                   }}
                 >
                   <i className="fa-solid fa-gear" />
@@ -172,9 +172,9 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
               transition: { duration: 0.001 },
             }}
             whileTap={{ scale: 0.95 }}
-            className={`nav__link ${activeBtn == "agenda" ? "nav__link-active" : ""}`}
+            className={`nav__link ${activeLayout == "agenda" ? "nav__link-active" : ""}`}
             onClick={() => {
-              handleActiveBtn("agenda");
+              handleActiveLayout("agenda");
             }}
           >
             <i className="fa-regular fa-calendar" />
@@ -185,9 +185,9 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
               transition: { duration: 0.001 },
             }}
             whileTap={{ scale: 0.95 }}
-            className={`nav__link ${activeBtn == "profile" ? "nav__link-active" : ""}`}
+            className={`nav__link ${activeLayout == "profile" ? "nav__link-active" : ""}`}
             onClick={() => {
-              handleActiveBtn("profile");
+              handleActiveLayout("profile");
             }}
           >
             {picture ? <img src={`data:image/webp;base64,${b64Picture}`} /> : <i className="fa-solid fa-user" />}
@@ -198,9 +198,9 @@ const Nav: React.FC<{ onClick: (selected: string) => void; activeBtn: string }> 
               transition: { duration: 0.001 },
             }}
             whileTap={{ scale: 0.95 }}
-            className={`nav__link ${activeBtn == "settings" ? "nav__link-active" : ""}`}
+            className={`nav__link ${activeLayout == "settings" ? "nav__link-active" : ""}`}
             onClick={() => {
-              handleActiveBtn("settings");
+              handleActiveLayout("settings");
             }}
           >
             <i className="fa-solid fa-gear" />

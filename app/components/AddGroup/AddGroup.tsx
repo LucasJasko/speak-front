@@ -1,16 +1,15 @@
 import { useMobileContext } from "~/context/MobileContext";
 import { motion } from "motion/react";
+import { useSettingsContext } from "~/context/SettingsContext";
 
 interface AddGroupProps {
   onClose: (selected: string) => void;
-  lastActive: string;
 }
 
-const AddGroup: React.FC<AddGroupProps> = ({ onClose, lastActive }) => {
+const AddGroup = () => {
+  const { lastActive, handleActiveLayout } = useSettingsContext();
   const { isMobile } = useMobileContext();
-  const handleClick = (selected: string) => {
-    onClose(selected);
-  };
+
   return (
     <motion.div className="add-group" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
       <motion.div
@@ -22,7 +21,7 @@ const AddGroup: React.FC<AddGroupProps> = ({ onClose, lastActive }) => {
       >
         <div className="add-group__header">
           <h3 className="add-group__title">Ajouter un groupe</h3>
-          <button className="add-group__manage-button manage__button-close" onClick={() => handleClick(lastActive)}>
+          <button className="add-group__manage-button manage__button-close" onClick={() => handleActiveLayout(lastActive)}>
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>

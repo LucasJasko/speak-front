@@ -1,13 +1,12 @@
 import { motion } from "motion/react";
+import { useSettingsContext } from "~/context/SettingsContext";
 interface AgendaProps {
   onClose: (selected: string) => void;
-  lastActive: string;
 }
 
-const Agenda: React.FC<AgendaProps> = ({ onClose, lastActive }) => {
-  const handleClick = (selected: string) => {
-    onClose(selected);
-  };
+const Agenda = () => {
+  const { lastActive, handleActiveLayout } = useSettingsContext();
+
   return (
     <motion.div className="agenda" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
       <motion.div
@@ -41,7 +40,7 @@ const Agenda: React.FC<AgendaProps> = ({ onClose, lastActive }) => {
               <i className="fa-solid fa-angles-right"></i>
             </button>
           </div>
-          <button className="agenda__manage-button manage__button-close" onClick={() => handleClick(lastActive)}>
+          <button className="agenda__manage-button manage__button-close" onClick={() => handleActiveLayout(lastActive)}>
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>

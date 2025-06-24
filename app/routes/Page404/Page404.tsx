@@ -5,11 +5,11 @@ const Page404 = () => {
         <h1 className="page404-title">404</h1>
 
         <p className="page404-text">Oups... Il semblerait que vous vous soyez égaré.</p>
-        <div className="page404-button">
+        <button className="page404-button">
           <a className="page404-link" href="/auth">
             Retour vers l'accueil
           </a>
-        </div>
+        </button>
       </div>
     </div>
   );

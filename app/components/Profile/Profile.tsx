@@ -8,6 +8,7 @@ import Security from "~/components/Profile/Security/Security";
 import { AnimatePresence, motion } from "motion/react";
 import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "~/context/AuthContext";
+import { useSettingsContext } from "~/context/SettingsContext";
 
 interface MenuMap {
   key: string;
@@ -15,13 +16,17 @@ interface MenuMap {
   element?: JSX.Element;
 }
 
-const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: string }> = ({ onClose, lastActive }) => {
+const Profile = () => {
   const navigate = useNavigate();
+
   const { id, accessToken } = useAuthContext();
+  const { isMobile } = useMobileContext();
+  const { lastActive, handleActiveLayout } = useSettingsContext();
+
   const [activeProfileList, setActiveProfileList] = useState<boolean>(false);
   const [activeMenu, setActiveMenu] = useState<any>("personnalisation");
+
   const contentRef = useRef<JSX.Element | string>(null);
-  const { isMobile } = useMobileContext();
 
   const menuMap: MenuMap[] = [
     { key: "personnalisation", name: "Personnalisation", element: <Customisation /> },
@@ -29,10 +34,6 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
     { key: "security", name: "Sécurité", element: <Security /> },
     { key: "disconnect", name: "Déconnexion" },
   ];
-
-  const handleClose = (lastActive: string) => {
-    onClose(lastActive);
-  };
 
   const handleActiveMenu = async (key: string) => {
     setActiveMenu(key);
@@ -58,7 +59,7 @@ const Profile: React.FC<{ onClose: (lastActive: string) => void; lastActive: str
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
       >
-        <button className="profile__manage-button manage__button-close" onClick={() => handleClose(lastActive)}>
+        <button className="profile__manage-button manage__button-close" onClick={() => handleActiveLayout(lastActive)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
         {isMobile ? (

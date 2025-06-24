@@ -25,7 +25,6 @@ const DirectMessage = () => {
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [result, setResult] = useState<any>([]);
-  const [activePath, setActivePath] = useState<string>("dm/0");
 
   const navigate = useNavigate();
 
@@ -43,10 +42,6 @@ const DirectMessage = () => {
       contactAreaList.style.height = "calc(100% - 50px)";
     }
   }, [displayMobileSideMenu]);
-
-  useEffect(() => {
-    navigate(activePath);
-  }, [activePath]);
 
   useEffect(() => {
     if (profileDms.length != 0) {
@@ -94,7 +89,7 @@ const DirectMessage = () => {
           authorName: "Speak",
           authorSurname: "",
         };
-        if (!socketRef.current?.CONNECTING) {
+        if (!socketRef.current?.OPEN) {
           socketRef?.current?.send(JSON.stringify(message));
         }
       };

@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   useEffect(() => {
-    // TODO voir pourquoi window.crypto retourne undefined et donc impossible de génrer des clés ce chiffrement
+    // TODO window.crypto n'est accessible que via https, donc à terme trouver un moyen de mettre en place n certificat de vérification
     const generate = async () => {
       // const pair = await window.crypto.subtle.generateKey(
       //   {

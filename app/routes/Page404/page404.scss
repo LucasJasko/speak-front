@@ -21,11 +21,14 @@
     .page404-button {
       border-radius: 20px;
       display: inline-flex;
-      padding: 10px 30px;
       background-color: var(--color3);
       color: var(--color1);
       transition: 0.2s ease;
       cursor: pointer;
+
+      .page404-link {
+        padding: 10px 30px;
+      }
 
       &:hover {
         background-color: var(--color4);

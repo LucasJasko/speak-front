@@ -25,10 +25,7 @@ interface SocketContextContent {
 }
 
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { typeID, convID } = useParams();
   const { accessToken, id } = useAuthContext();
-  const { name, surname } = useSettingsContext();
-
   const socketRef = useRef<WebSocket | null>(null);
 
   const [openMessage, setOpenMessage] = useState<null | messageContent>(null);
@@ -61,7 +58,9 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             },
           };
           setOpenMessage(message);
-          socketRef.current?.send(JSON.stringify(message));
+          if (socketRef.current?.OPEN) {
+            socketRef.current?.send(JSON.stringify(message));
+          }
         };
 
         socket.onmessage = (e: MessageEvent) => {

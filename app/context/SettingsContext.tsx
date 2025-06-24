@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { useAuthContext } from "./AuthContext";
 import useAPI from "~/hook/useAPI";
+import { useNavigate, useParams } from "react-router";
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
@@ -27,7 +28,7 @@ interface profileSettings {
   situations: { élève: string }[];
 }
 
-type ProfileGroup = {
+export type ProfileGroup = {
   id: number;
   name: string;
   picture: string;
@@ -57,6 +58,9 @@ interface SettingsContextType {
   profileGroups: ProfileGroup[];
   error: string | null;
   profileDms: ProfileDm[];
+  activeLayout: string;
+  lastActive: string;
+  handleActiveLayout: (currentActive: string) => void;
   setProfileDms: Dispatch<SetStateAction<ProfileDm[]>>;
   setName: Dispatch<SetStateAction<string>>;
   setSurname: Dispatch<SetStateAction<string>>;
@@ -83,6 +87,8 @@ export const useSettingsContext = (): SettingsContextType => {
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id, isLoading, setIsLoading } = useAuthContext();
+  const { typeID, convID } = useParams();
+  const navigate = useNavigate();
 
   const [userData, setUserData] = useState<any>(null);
   const [name, setName] = useState<string>("");
@@ -101,6 +107,16 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const [error, setError] = useState<string | null>(null);
 
+  const [activeLayout, setActiveLayout] = useState<string>("direct-message");
+  const [lastActive, setLastActive] = useState("");
+
+  const handleActiveLayout = (currentActive: string) => {
+    setActiveLayout(currentActive);
+    if (activeLayout != "profile" && activeLayout != "agenda" && activeLayout != "settings" && activeLayout != "addGroup") {
+      setLastActive(activeLayout);
+    }
+  };
+
   const fetchSettings = async () => {
     setIsLoading(true);
     try {
@@ -117,13 +133,12 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const fetchProfileGroups = async () => {
-    setIsLoading(true);
     try {
       const { data } = await useAPI<any>("/profile-groups/" + id, { token: accessToken });
+      console.log(data);
       return data;
     } catch (err: any) {
-    } finally {
-      setIsLoading(false);
+      return err;
     }
   };
 
@@ -170,24 +185,19 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
       }
       fetchGroups();
       fetchDms();
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (id != undefined) {
       fetchSettings();
     }
   }, [id]);
 
   useEffect(() => {
     if (theme != null) {
-      const fetchStyle = async () => {
+      const fetchTheme = async () => {
         let res = await fetch(`/assets/themes/${theme}.txt`);
         let data = await res.text();
         document.body.style = data;
       };
 
-      fetchStyle();
+      fetchTheme();
     }
   }, [theme]);
 
@@ -223,6 +233,9 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         picture,
         error,
         profileDms,
+        activeLayout,
+        lastActive,
+        handleActiveLayout,
         setProfileDms,
         setName,
         setSurname,
