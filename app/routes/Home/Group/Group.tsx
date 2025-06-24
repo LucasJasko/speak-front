@@ -1,6 +1,6 @@
 import MessageArea from "~/components/MessageArea/MessageArea";
 import type { Route } from "../+types/Home";
-import Room from "~/components/Room/Room";
+import Room, { type RoomProps } from "~/components/Room/Room";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useNavigate, useParams } from "react-router";
@@ -18,6 +18,8 @@ const Group = () => {
   const { accessToken } = useAuthContext();
   const { profileGroups } = useSettingsContext();
   const [groupParams, setGroupParams] = useState<ProfileGroup | undefined>(undefined);
+  const [rooms, setRooms] = useState<RoomProps[]>([]);
+  const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
 
   useEffect(() => {
     for (let i = 0; i < profileGroups.length; i++) {
@@ -28,16 +30,14 @@ const Group = () => {
   }, [typeID]);
 
   useEffect(() => {
-    if (groupParams != undefined) {
-      async function fetchRooms() {
-        const rooms = await useAPI("/rooms", { json: { group: groupParams?.id }, token: accessToken });
-        console.log(rooms);
+    async function fetchRooms() {
+      if (groupParams != undefined) {
+        const res = await useAPI<RoomProps[]>("/rooms", { json: { group: groupParams.id }, token: accessToken });
+        setRooms(res.data);
       }
-      fetchRooms();
     }
+    fetchRooms();
   }, [groupParams]);
-
-  const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
@@ -56,11 +56,17 @@ const Group = () => {
               {!isMobile && <i className="fa-solid fa-angle-down" />}
             </div>
             <div className="group-area__list">
-              <Room roomID="room1" roomIcon={<i className="fa-solid fa-location-dot" />} roomName="Salon numéro 1" />
-              <Room roomID="room2" roomIcon={<i className="fa-solid fa-magnifying-glass" />} roomName="Salon numéro 2" />
-              <Room roomID="room3" roomIcon={<i className="fa-solid fa-video" />} roomName="Salon numéro 3" />
-              <Room roomID="room4" roomIcon={<i className="fa-solid fa-lock" />} roomName="Salon numéro 4" />
-              <Room roomID="room5" roomIcon={<i className="fa-solid fa-hand" />} roomName="Salon numéro 5" />
+              {rooms &&
+                rooms.map((room) => (
+                  <Room
+                    key={room.id}
+                    id={room.id}
+                    icon={<i className="fa-solid fa-location-dot" />}
+                    name={room.name}
+                    groupID={room.groupID}
+                    onClick={setDisplayMobileSideMenu}
+                  />
+                ))}
             </div>
           </div>
         )}

@@ -23,6 +23,7 @@ const MessageInput = () => {
 
     setPendingMessage({
       messageInfos: {
+        isFromSocket: true,
         date: formattedDate,
         type: "message",
         sender: id?.toString(),
@@ -58,7 +59,7 @@ const MessageInput = () => {
 
     // Send to http server
     const sendToHttp = async () => {
-      const res = await useAPI("/chat/message", { json: { pendingMessage }, token: accessToken });
+      await useAPI("/chat/message", { json: { pendingMessage }, token: accessToken });
     };
     sendToHttp();
 

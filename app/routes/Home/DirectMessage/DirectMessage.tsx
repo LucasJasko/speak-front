@@ -92,6 +92,9 @@ const DirectMessage = () => {
         if (!socketRef.current?.OPEN) {
           socketRef?.current?.send(JSON.stringify(message));
         }
+        if (isMobile) {
+          setDisplayMobileSideMenu(false);
+        }
       };
       switchConversation();
     }

@@ -2,21 +2,31 @@ import type React from "react";
 import { useNavigate, useParams } from "react-router";
 import { useMobileContext } from "~/context/MobileContext";
 
-interface RoomProps {
-  roomID: string;
-  roomName: string;
-  roomIcon: React.ReactElement;
+export interface RoomProps {
+  id: string;
+  name: string;
+  icon: React.ReactElement;
+  groupID: string;
+  onClick: (e: boolean) => void;
 }
 
-const Room: React.FC<RoomProps> = ({ roomID, roomName, roomIcon }) => {
+const Room: React.FC<RoomProps> = ({ id, name, icon, onClick }) => {
   const navigate = useNavigate();
   const { isMobile } = useMobileContext();
-  const { convID } = useParams();
+  const { typeID, convID } = useParams();
 
   return (
-    <div className={`room${convID === roomID ? " active-room" : ""}`} onClick={() => navigate(`${roomID}/${roomID}`)}>
-      {roomIcon}
-      {!isMobile && roomName}
+    <div
+      className={`room${convID === id ? " active-room" : ""}`}
+      onClick={() => {
+        navigate(`/home/${typeID}/${id}`);
+        if (isMobile) {
+          onClick(false);
+        }
+      }}
+    >
+      {icon}
+      {!isMobile && name}
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { useSettingsContext } from "~/context/SettingsContext";
 
 export interface messageContent {
   messageInfos: {
+    isFromSocket: boolean;
     date?: string;
     type?: string;
     sender?: string;
@@ -31,13 +32,15 @@ const Message: React.FC<messageContent> = ({ authorLink, authorName, authorSurna
   const [authorPicture, setAuthorPicture] = useState<string>();
 
   useEffect(() => {
-    const fetchimg = async () => {
-      const id = messageInfos.sender;
-      const pic = await fetchProfilePicture({ id, name: authorName, surname: authorSurname, picture: authorImg });
-      setAuthorPicture(pic);
-    };
-    fetchimg();
-  }, []);
+    if (messageInfos.isFromSocket) {
+      const fetchimg = async () => {
+        const id = messageInfos.sender;
+        const pic = await fetchProfilePicture({ id, name: authorName, surname: authorSurname, picture: authorImg });
+        setAuthorPicture(pic);
+      };
+      fetchimg();
+    }
+  }, [authorPicture]);
 
   return (
     <li className="message">

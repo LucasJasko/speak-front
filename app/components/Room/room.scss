@@ -1,5 +1,5 @@
 .room {
-  @apply h-10 me-center justify-start p-2 rounded-lg mx-auto mb-1 cursor-pointer hover:bg-(--color1) text-base;
+  @apply min-h-10 me-center justify-start p-2 rounded-lg mx-auto mb-1 cursor-pointer hover:bg-(--color1) text-base;
   width: calc(100% - 20px);
   transition: 0.2s ease;
 }

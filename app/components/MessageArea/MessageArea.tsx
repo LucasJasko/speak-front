@@ -45,6 +45,7 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
         for (let i = 0; i < rawMessages.length; i++) {
           const message: messageContent = {
             messageInfos: {
+              isFromSocket: false,
               date: rawMessages[i].creation_time,
               type: "message",
               sender: rawMessages[i].profile_id.toString(),
