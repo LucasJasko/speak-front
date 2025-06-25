@@ -10,7 +10,7 @@ const Message: React.FC<messageContent> = (m) => {
           }}
           href={""}
         >
-          {m.authorImg && <img src={`data:image/webp;base64,${m.authorImg}`} alt="User profile picture" />}
+          <img src={!m.messageInfos.isFromSocket ? `data:image/webp;base64,${m.authorImg}` : "/assets/img/Speak_64x64.png"} alt="User profile picture" />
         </a>
       </div>
       <div className="message__container">

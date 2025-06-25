@@ -3,6 +3,7 @@ import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "./AuthContext";
 import type { messageContent } from "~/interfaces/MessageContent";
 import type { SocketContextContent } from "~/interfaces/SocketContextContent";
+import { useParams } from "react-router";
 
 const SocketContext = createContext<SocketContextContent>({
   openMessage: null,
@@ -15,6 +16,7 @@ const SocketContext = createContext<SocketContextContent>({
 
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id } = useAuthContext();
+  const { convID } = useParams();
   const socketRef = useRef<WebSocket | null>(null);
 
   const [openMessage, setOpenMessage] = useState<null | messageContent>(null);
@@ -39,6 +41,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
               date: Date.now().toString(),
               type: "join",
               sender: id?.toString(),
+              target: convID?.toString(),
             },
             authorName: "Speak",
             authorSurname: "",
