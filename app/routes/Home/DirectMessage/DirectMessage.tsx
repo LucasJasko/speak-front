@@ -4,14 +4,14 @@ import type { Route } from "../+types/Home";
 import MessageArea from "~/components/MessageArea/MessageArea";
 import { useEffect, useState, type ReactNode } from "react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { motion } from "motion/react";
 import useAPI from "~/hook/useAPI";
 import { useSettingsContext } from "~/context/SettingsContext";
-import type { ProfileDm } from "../../../context/SettingsContext";
 import { useSocketContext } from "~/context/SocketContext";
-import type { messageContent } from "~/components/MessageArea/Message/Message";
+import type { messageContent } from "~/interfaces/MessageContent";
+import type { ProfileDm } from "~/interfaces/ProfileDm";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Messages directs" }, { name: "description", content: "Ce sont vos messages directs" }];
@@ -22,7 +22,7 @@ const DirectMessage = () => {
   const { accessToken, id } = useAuthContext();
   const { profileDms, setProfileDms } = useSettingsContext();
   const { isMobile } = useMobileContext();
-  const { socketRef, isSocketOpen } = useSocketContext();
+  const { socketRef } = useSocketContext();
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [result, setResult] = useState<any>([]);
@@ -83,14 +83,14 @@ const DirectMessage = () => {
       authorMessage: {},
     };
 
-    if (isSocketOpen && convID != "0") {
+    if (convID != "0") {
       socketRef.current.send(JSON.stringify(message));
     }
 
     if (isMobile) {
       setDisplayMobileSideMenu(false);
     }
-  }, [convID, isSocketOpen]);
+  }, [convID]);
 
   useEffect(() => {
     if (!isMobile) {
@@ -117,7 +117,6 @@ const DirectMessage = () => {
                 }}
                 whileTap={{ scale: 0.95 }}
                 className="contact-area__search-input contact-area__search-input__button"
-                onClick={() => {}}
               >
                 <i className="fa-solid fa-magnifying-glass"></i>
               </motion.button>

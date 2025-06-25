@@ -2,10 +2,6 @@ import { useMobileContext } from "~/context/MobileContext";
 import { motion } from "motion/react";
 import { useSettingsContext } from "~/context/SettingsContext";
 
-interface AddGroupProps {
-  onClose: (selected: string) => void;
-}
-
 const AddGroup = () => {
   const { lastActive, handleActiveLayout } = useSettingsContext();
   const { isMobile } = useMobileContext();

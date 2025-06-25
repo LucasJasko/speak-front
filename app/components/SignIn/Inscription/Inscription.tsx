@@ -1,30 +1,9 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
 import useAPI from "~/hook/useAPI";
 
 const Inscription = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
-  const {
-    mail,
-    setMail,
-    password,
-    setPassword,
-    surname,
-    setSurname,
-    picture,
-    setPicture,
-    theme,
-    setTheme,
-    name,
-    setName,
-    language,
-    setLanguage,
-    status,
-    setStatus,
-    role,
-    setRole,
-  } = useSettingsContext();
-  let navigate = useNavigate();
+  const { mail, setMail, password, setPassword, surname, setSurname, picture, setPicture, theme, setTheme, name, setName, status, role } = useSettingsContext();
 
   const [error, setError] = useState<string | undefined>(undefined);
   const [pictureContent, setPictureContent] = useState<string | ArrayBuffer | null>(null);

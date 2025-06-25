@@ -1,14 +1,16 @@
 import MessageArea from "~/components/MessageArea/MessageArea";
 import type { Route } from "../+types/Home";
-import Room, { type RoomProps } from "~/components/Room/Room";
+import Room from "~/components/Room/Room";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useNavigate, useParams } from "react-router";
-import { useSettingsContext, type ProfileGroup } from "~/context/SettingsContext";
+import { useParams } from "react-router";
+import { useSettingsContext } from "~/context/SettingsContext";
 import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "~/context/AuthContext";
 import { useSocketContext } from "~/context/SocketContext";
-import type { messageContent } from "~/components/MessageArea/Message/Message";
+import type { ProfileGroup } from "~/interfaces/ProfileGroup";
+import type { RoomProps } from "~/interfaces/RoomProps";
+import type { messageContent } from "~/interfaces/MessageContent";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Groupes" }, { name: "description", content: "Ce sont vos groupes" }];
@@ -19,7 +21,7 @@ const Group = () => {
   const { isMobile } = useMobileContext();
   const { accessToken, id } = useAuthContext();
   const { profileGroups } = useSettingsContext();
-  const { socketRef, isSocketOpen } = useSocketContext();
+  const { socketRef } = useSocketContext();
 
   const [groupParams, setGroupParams] = useState<ProfileGroup | undefined>(undefined);
   const [rooms, setRooms] = useState<RoomProps[]>([]);
@@ -60,14 +62,14 @@ const Group = () => {
       authorMessage: {},
     };
 
-    if (isSocketOpen && convID != "0") {
+    if (convID != "0") {
       socketRef.current.send(JSON.stringify(message));
     }
 
     if (isMobile) {
       setDisplayMobileSideMenu(false);
     }
-  }, [convID, isSocketOpen]);
+  }, [convID]);
 
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";

@@ -1,41 +1,31 @@
 import { useEffect, useState } from "react";
 import MessageInput from "./MessageInput/MessageInput";
 import Message from "./Message/Message";
-import type { messageContent } from "./Message/Message";
 import { useMobileContext } from "~/context/MobileContext";
 import { useParams } from "react-router";
 import { useSocketContext } from "~/context/SocketContext";
 import { useSettingsContext } from "~/context/SettingsContext";
 import { useAuthContext } from "~/context/AuthContext";
 import useAPI from "~/hook/useAPI";
-
-interface MessageAreaProps {
-  MobileSideMenuState: boolean;
-  setMobileSideMenu: (MobileSideMenuState: boolean) => void;
-}
-
-interface rawMessage {
-  author_name: string;
-  author_surname: string;
-  author_picture: string;
-  content: string;
-  creation_time: string;
-  file: string;
-  id: number;
-  profile_id: number;
-  read_time: null;
-}
+import type { messageContent } from "~/interfaces/MessageContent";
+import type { MessageAreaProps } from "~/interfaces/MessageAreaProps";
+import type { rawMessage } from "~/interfaces/RawMessage";
 
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
-  const { id, accessToken } = useAuthContext();
-  const { typeID, convID } = useParams();
-  const { name, surname } = useSettingsContext();
-  const { openMessage, errorMessage, closeMessage, newMessage } = useSocketContext();
+  const { convID } = useParams();
+
   const { isMobile } = useMobileContext();
+  const { id, accessToken } = useAuthContext();
+  const { openMessage, errorMessage, closeMessage, newMessage } = useSocketContext();
+
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
 
   useEffect(() => {
     if (convID != "0") {
+      // const fetchDefaultImg = async () => {
+      //   return await fetch("./assets/img/Speak_64x64.png");
+      // };
+
       const fetchFeed = async () => {
         let displayedFeed: messageContent[] = [];
 

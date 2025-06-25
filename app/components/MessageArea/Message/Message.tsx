@@ -1,51 +1,6 @@
-import type React from "react";
-import { useEffect, useState } from "react";
-import { useSettingsContext } from "~/context/SettingsContext";
+import type { messageContent } from "~/interfaces/MessageContent";
 
-export interface messageContent {
-  messageInfos: {
-    isFromSocket: boolean;
-    isForGroup?: false | string;
-    date?: string;
-    type?: string;
-    sender?: string;
-    target?: string;
-  };
-  authorName: string;
-  authorSurname: string;
-  authorLink?: string;
-  authorImg?: string;
-  authorMessage: {
-    messageText?: string;
-    messageCode?: string;
-    messageEvent?: string;
-    messageFile?: {
-      fileLink: string;
-      filePicture: string;
-      fileName: string;
-    };
-  };
-}
-
-const Message: React.FC<messageContent> = ({ authorLink, authorName, authorSurname, messageInfos, authorImg, authorMessage }) => {
-  const { fetchProfilePicture } = useSettingsContext();
-  const [authorPicture, setAuthorPicture] = useState<string | undefined>(authorImg);
-
-  useEffect(() => {
-    if (messageInfos.isFromSocket) {
-      const fetchimg = async () => {
-        const id = messageInfos.sender;
-        const pic = await fetchProfilePicture({ id, name: authorName, surname: authorSurname, picture: authorImg });
-        setAuthorPicture(pic as string);
-      };
-      fetchimg();
-    }
-  }, [authorPicture]);
-
-  useEffect(() => {
-    console.log(authorPicture);
-  }, []);
-
+const Message: React.FC<messageContent> = (m) => {
   return (
     <li className="message">
       <div className="message__author">
@@ -55,24 +10,24 @@ const Message: React.FC<messageContent> = ({ authorLink, authorName, authorSurna
           }}
           href={""}
         >
-          <img src={`data:image/webp;base64,${authorPicture}`} alt="User profile picture" />
+          {m.authorImg && <img src={`data:image/webp;base64,${m.authorImg}`} alt="User profile picture" />}
         </a>
       </div>
       <div className="message__container">
         <div className="message__header">
-          {authorName && <h3 className="message__author-name">{authorName}</h3>}
-          {messageInfos.date && <span className="message__date">{messageInfos.date}</span>}
+          {m.authorName && <h3 className="message__author-name">{m.authorName}</h3>}
+          {m.messageInfos.date && <span className="message__date">{m.messageInfos.date}</span>}
         </div>
         <div className="message__content">
-          {authorMessage.messageText && <p className="message__text">{authorMessage.messageText}</p>}
-          {authorMessage.messageCode && <pre className="message__code">{authorMessage.messageCode}</pre>}
-          {authorMessage.messageFile && (
-            <a href={authorMessage.messageFile.fileLink} className="message__file">
-              {authorMessage.messageFile.filePicture}
-              {authorMessage.messageFile.fileName}
+          {m.authorMessage.messageText && <p className="message__text">{m.authorMessage.messageText}</p>}
+          {m.authorMessage.messageCode && <pre className="message__code">{m.authorMessage.messageCode}</pre>}
+          {m.authorMessage.messageFile && (
+            <a href={m.authorMessage.messageFile.fileLink} className="message__file">
+              {m.authorMessage.messageFile.filePicture}
+              {m.authorMessage.messageFile.fileName}
             </a>
           )}
-          {authorMessage.messageEvent && <p className="message__event">{authorMessage.messageEvent}</p>}
+          {m.authorMessage.messageEvent && <p className="message__event">{m.authorMessage.messageEvent}</p>}
         </div>
       </div>
     </li>

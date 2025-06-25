@@ -1,15 +1,15 @@
 import { useState, type FormEvent } from "react";
 import { useSocketContext } from "~/context/SocketContext";
-import type { messageContent } from "../Message/Message";
 import { useSettingsContext } from "~/context/SettingsContext";
 import { useAuthContext } from "~/context/AuthContext";
 import { useParams } from "react-router";
 import useAPI from "~/hook/useAPI";
+import type { messageContent } from "~/interfaces/MessageContent";
 
 const MessageInput = () => {
   const { accessToken, id } = useAuthContext();
   const { typeID, convID } = useParams();
-  const { name, surname, picture } = useSettingsContext();
+  const { name, surname, picture, b64Picture } = useSettingsContext();
   const { setNewMessage, socketRef } = useSocketContext();
 
   const [pendingMessage, setPendingMessage] = useState<null | messageContent>(null);

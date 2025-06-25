@@ -1,11 +1,7 @@
-import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import type { MobileContextContent } from "~/interfaces/MobileCOntextCOntent";
 
 const MobileContext = createContext({ isMobile: false });
-
-interface MobileContextContent {
-  isMobile: boolean;
-  setIsMobile: Dispatch<SetStateAction<boolean>>;
-}
 
 export const MobileProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);

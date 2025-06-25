@@ -1,20 +1,10 @@
-import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router";
-import type { LoginResponse } from "~/components/Login/Login";
 import useAPI from "~/hook/useAPI";
+import type { AuthContextType } from "~/interfaces/AuthContextType";
+import type { LoginResponse } from "~/interfaces/LoginResponse";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-interface AuthContextType {
-  accessToken: string | null | undefined;
-  id: number | null | undefined;
-  error: string | null;
-  isLoading: boolean;
-  login: (newId: number, newToken: string) => void;
-  logout: () => void;
-  fetchAccessToken: () => Promise<any>;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-}
 
 export const useAuthContext = (): AuthContextType => {
   const context = useContext(AuthContext);

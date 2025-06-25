@@ -1,29 +1,16 @@
-import { createContext, useContext, useEffect, useRef, useState, type Dispatch, type ReactNode, type RefObject, type SetStateAction } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "./AuthContext";
-import { useParams } from "react-router";
-import type { messageContent } from "~/components/MessageArea/Message/Message";
-import { useSettingsContext } from "./SettingsContext";
+import type { messageContent } from "~/interfaces/MessageContent";
+import type { SocketContextContent } from "~/interfaces/SocketContextContent";
 
-interface SocketContextContent {
-  socketRef: RefObject<WebSocket | null> | null;
-  openMessage: null | messageContent;
-  closeMessage: null | messageContent;
-  errorMessage: null | messageContent;
-  newMessage: null | messageContent;
-  setNewMessage: Dispatch<SetStateAction<null | messageContent>>;
-  isSocketOpen: boolean;
-}
-
-const noop = () => {};
 const SocketContext = createContext<SocketContextContent>({
   openMessage: null,
   closeMessage: null,
   errorMessage: null,
   newMessage: null,
-  setNewMessage: noop,
+  setNewMessage: () => {},
   socketRef: null,
-  isSocketOpen: false,
 });
 
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -35,21 +22,18 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [errorMessage, setErrorMessage] = useState<null | messageContent>(null);
   const [newMessage, setNewMessage] = useState<null | messageContent>(null);
 
-  const [isSocketOpen, setIsSocketOpen] = useState<boolean>(false);
-
   useEffect(() => {
     if (!accessToken) return;
 
     async function handleConnexion() {
       const res = await useAPI("/socket", { token: accessToken });
-      console.log(res);
 
       if (res) {
         let socket = new WebSocket("ws://localhost:8060");
         socketRef.current = socket;
 
         socket.onopen = (e: Event) => {
-          const message = {
+          const message: messageContent = {
             messageInfos: {
               isFromSocket: true,
               date: Date.now().toString(),
@@ -62,8 +46,9 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
               messageText: "Connexion établie",
             },
           };
+
+          console.log("Connexion socket ouverte", e);
           setOpenMessage(message);
-          setIsSocketOpen(true);
           socketRef.current?.send(JSON.stringify(message));
         };
 
@@ -72,7 +57,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         };
 
         socket.onclose = (e: CloseEvent) => {
-          const message = {
+          const message: messageContent = {
             messageInfos: {
               isFromSocket: true,
               date: Date.now().toString(),
@@ -91,7 +76,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         };
 
         socket.onerror = (e: Event) => {
-          const message = {
+          const message: messageContent = {
             messageInfos: {
               isFromSocket: true,
               date: Date.now().toString(),
@@ -122,10 +107,11 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         }
       };
     }
+
     handleConnexion();
   }, [accessToken]);
 
-  const context: SocketContextContent = { openMessage, closeMessage, errorMessage, newMessage, setNewMessage, socketRef, isSocketOpen };
+  const context: SocketContextContent = { openMessage, closeMessage, errorMessage, newMessage, setNewMessage, socketRef };
 
   return <SocketContext value={context}>{children}</SocketContext>;
 };

@@ -10,12 +10,7 @@ import { useMobileContext } from "~/context/MobileContext";
 import SettingsList from "./SettingsList/SettingsList";
 import { AnimatePresence, motion } from "motion/react";
 import { useSettingsContext } from "~/context/SettingsContext";
-
-interface MenuMap {
-  key: string;
-  name: string;
-  element?: JSX.Element;
-}
+import type { profileMenuMap } from "~/interfaces/ProfileMenuMap";
 
 const Settings = () => {
   const { lastActive, handleActiveLayout } = useSettingsContext();
@@ -26,7 +21,7 @@ const Settings = () => {
 
   const contentRef = useRef<JSX.Element | string>(null);
 
-  const menuMap: MenuMap[] = [
+  const menuMap: profileMenuMap[] = [
     { key: "accessibility", name: "Accessibilité", element: <Accessibility /> },
     { key: "appearance", name: "Apparence", element: <Appearance /> },
     { key: "audiovideo", name: "Audio et vidéo", element: <AudioVideo /> },

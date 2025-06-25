@@ -26,13 +26,13 @@ const Auth = () => {
     setIsLoading(true);
     if (accessToken) {
       navigate("/home/dm/0");
-      setIsLoading(false);
     }
 
     if (accessToken === undefined) {
       fetchAccessToken();
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   }, [accessToken]);
 
   const toggleSlide = (pannel: string) => {

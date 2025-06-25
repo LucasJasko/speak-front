@@ -1,8 +1,4 @@
-interface SettingsListProps {
-  menuMap: { key: string; name: string }[];
-  activeMenu: string;
-  onSelect: (key: string) => void;
-}
+import type { SettingsListProps } from "~/interfaces/SettingsListProps";
 
 const SettingsList: React.FC<SettingsListProps> = ({ menuMap, activeMenu, onSelect }) => {
   return (

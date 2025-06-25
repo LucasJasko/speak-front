@@ -1,9 +1,4 @@
-import { AnimatePresence, motion } from "motion/react";
-interface ProfileListProps {
-  menuMap: { key: string; name: string }[];
-  activeMenu: string;
-  onSelect: (key: string) => void;
-}
+import type { ProfileListProps } from "~/interfaces/ProfileListProps";
 
 const ProfileList: React.FC<ProfileListProps> = ({ menuMap, activeMenu, onSelect }) => {
   return (

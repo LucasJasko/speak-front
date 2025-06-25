@@ -9,12 +9,7 @@ import { AnimatePresence, motion } from "motion/react";
 import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "~/context/AuthContext";
 import { useSettingsContext } from "~/context/SettingsContext";
-
-interface MenuMap {
-  key: string;
-  name: string;
-  element?: JSX.Element;
-}
+import type { profileMenuMap } from "~/interfaces/ProfileMenuMap";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -28,7 +23,7 @@ const Profile = () => {
 
   const contentRef = useRef<JSX.Element | string>(null);
 
-  const menuMap: MenuMap[] = [
+  const menuMap: profileMenuMap[] = [
     { key: "personnalisation", name: "Personnalisation", element: <Customisation /> },
     { key: "personnalinfos", name: "Informations personnelles", element: <PersonnalInfos /> },
     { key: "security", name: "Sécurité", element: <Security /> },

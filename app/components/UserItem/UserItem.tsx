@@ -1,17 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useMobileContext } from "~/context/MobileContext";
-import { useSettingsContext, type pictureProfileSettings } from "~/context/SettingsContext";
+import { useSettingsContext } from "~/context/SettingsContext";
+import type { UserProps } from "~/interfaces/UserProps";
 
-interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
-  convName: string;
-  userID: string;
-  pictureSetings: pictureProfileSettings;
-  status: string;
-  initConversation?: (id: any) => void;
-}
-
-const UserItem: React.FC<UserProps> = ({ userID, convName, pictureSetings, status, initConversation }) => {
+const UserItem: React.FC<UserProps> = (up) => {
   const navigate = useNavigate();
 
   const { typeID, convID } = useParams();
@@ -21,26 +14,26 @@ const UserItem: React.FC<UserProps> = ({ userID, convName, pictureSetings, statu
   const [pic, setPic] = useState<string | undefined>("");
 
   useEffect(() => {
-    fetchProfilePicture(pictureSetings).then((picture) => {
+    fetchProfilePicture(up.pictureSetings).then((picture) => {
       setPic(picture);
     });
   }, []);
 
   return (
     <div
-      className={`user${userID === convID ? " active-user" : ""}`}
+      className={`user${up.userID === convID ? " active-user" : ""}`}
       onClick={() => {
-        navigate(`/home/${typeID}/${userID}`);
-        if (initConversation) {
-          initConversation(userID);
+        navigate(`/home/${typeID}/${up.userID}`);
+        if (up.initConversation) {
+          up.initConversation(up.userID);
         }
       }}
     >
       <div className="user__img-container">
         <img className="user__img" src={pic == "" ? "/assets/img/Speak_64x64.png" : "data:image/webp;base64," + pic} alt="photo utilisateur" />
-        <span className={`connection__dot ${status == "1" ? "connected" : "disconnected"}`}></span>
+        <span className={`connection__dot ${up.status == "1" ? "connected" : "disconnected"}`}></span>
       </div>
-      {!isMobile && <p className="user__name">{convName}</p>}
+      {!isMobile && <p className="user__name">{up.convName}</p>}
     </div>
   );
 };

@@ -3,13 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { useMobileContext } from "~/context/MobileContext";
 import useAPI from "~/hook/useAPI";
-
-export interface LoginResponse {
-  message: string;
-  accessToken: string;
-  UID: number;
-  deleteToken: string;
-}
+import type { LoginResponse } from "~/interfaces/LoginResponse";
 
 const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   let navigate = useNavigate();
@@ -21,7 +15,7 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   const [password, setPassword] = useState<string>("");
 
   const { isMobile } = useMobileContext();
-  const { login, fetchAccessToken, isLoading, setIsLoading } = useAuthContext();
+  const { login } = useAuthContext();
 
   const handleSubmit = async (e?: any) => {
     e.preventDefault();

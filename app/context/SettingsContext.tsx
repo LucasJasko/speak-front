@@ -1,81 +1,14 @@
 import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import { useAuthContext } from "./AuthContext";
 import useAPI from "~/hook/useAPI";
-import { useNavigate, useParams } from "react-router";
+import type { pictureProfileSettings } from "~/interfaces/PictureProfileSettings";
+import type { pictureGroupSettings } from "~/interfaces/PictureGroupSettings";
+import type { profileSettings } from "~/interfaces/ProfileSettings";
+import type { ProfileGroup } from "~/interfaces/ProfileGroup";
+import type { ProfileDm } from "~/interfaces/ProfileDm";
+import type { SettingsContextType } from "~/interfaces/SettingsContextType";
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
-
-export interface pictureProfileSettings {
-  id: any;
-  surname: string;
-  name: string;
-  picture: string | undefined | Promise<string | undefined>;
-}
-
-export interface pictureGroupSettings {
-  id: any;
-  name: string;
-  picture: string;
-}
-
-interface profileSettings {
-  name: string;
-  surname: string;
-  theme: string;
-  picture: string | undefined | Promise<string | undefined>;
-  status: string;
-  language: string;
-  situations: { élève: string }[];
-}
-
-export type ProfileGroup = {
-  id: number;
-  name: string;
-  picture: string;
-};
-
-export type ProfileDm = {
-  creation: string;
-  id: number;
-  name: string;
-  picture: string;
-  role: number;
-  status: number;
-  surname: string;
-};
-
-interface SettingsContextType {
-  name: string;
-  surname: string;
-  mail: string;
-  password: string;
-  theme: string;
-  picture: string | undefined | Promise<string | undefined>;
-  b64Picture: string;
-  status: string;
-  role: string;
-  language: string;
-  profileGroups: ProfileGroup[];
-  error: string | null;
-  profileDms: ProfileDm[];
-  activeLayout: string;
-  lastActive: string;
-  handleActiveLayout: (currentActive: string) => void;
-  setProfileDms: Dispatch<SetStateAction<ProfileDm[]>>;
-  setName: Dispatch<SetStateAction<string>>;
-  setSurname: Dispatch<SetStateAction<string>>;
-  setMail: Dispatch<SetStateAction<string>>;
-  setPassword: Dispatch<SetStateAction<string>>;
-  setTheme: Dispatch<SetStateAction<string>>;
-  setPicture: Dispatch<SetStateAction<string | undefined | Promise<string | undefined>>>;
-  setStatus: Dispatch<SetStateAction<string>>;
-  setRole: Dispatch<SetStateAction<string>>;
-  setLanguage: Dispatch<SetStateAction<string>>;
-  setProfileGroups: Dispatch<SetStateAction<ProfileGroup[]>>;
-  fetchSettings: () => Promise<void>;
-  fetchProfilePicture: ({ id, name, surname, picture }: pictureProfileSettings) => Promise<string | undefined>;
-  fetchGroupPicture: ({ id, name, picture }: pictureGroupSettings) => Promise<string | undefined>;
-}
 
 export const useSettingsContext = (): SettingsContextType => {
   const context = useContext(SettingsContext);
@@ -87,7 +20,6 @@ export const useSettingsContext = (): SettingsContextType => {
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id, setIsLoading } = useAuthContext();
-  const navigate = useNavigate();
 
   const [userData, setUserData] = useState<any>(null);
   const [name, setName] = useState<string>("");

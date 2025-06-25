@@ -1,5 +1,3 @@
-import React from "react";
-
 const AudioVideo = () => {
   return (
     <ul className="menu__list">

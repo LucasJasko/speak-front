@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
 
 const Nav = () => {
@@ -12,8 +12,6 @@ const Nav = () => {
 
   const [activeArrow, setActiveArrow] = useState(false);
   const [isGroupPictureApplied, setIsGroupPictureApplied] = useState(false);
-
-  const { typeID, convID } = useParams();
 
   useEffect(() => {
     if (!isGroupPictureApplied && profileGroups.length > 0) {

@@ -1,8 +1,5 @@
 import { motion } from "motion/react";
 import { useSettingsContext } from "~/context/SettingsContext";
-interface AgendaProps {
-  onClose: (selected: string) => void;
-}
 
 const Agenda = () => {
   const { lastActive, handleActiveLayout } = useSettingsContext();
