@@ -7,6 +7,8 @@ import type { profileSettings } from "~/interfaces/ProfileSettings";
 import type { ProfileGroup } from "~/interfaces/ProfileGroup";
 import type { ProfileDm } from "~/interfaces/ProfileDm";
 import type { SettingsContextType } from "~/interfaces/SettingsContextType";
+import type { messageContent } from "~/interfaces/MessageContent";
+import { useParams } from "react-router";
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
@@ -20,6 +22,7 @@ export const useSettingsContext = (): SettingsContextType => {
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id, setIsLoading } = useAuthContext();
+  const { convID } = useParams();
 
   const [userData, setUserData] = useState<any>(null);
   const [name, setName] = useState<string>("");
@@ -40,6 +43,10 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const [activeLayout, setActiveLayout] = useState<string>("direct-message");
   const [lastActive, setLastActive] = useState("");
+
+  const [targetPicture, setTargetPicture] = useState<string | undefined>("");
+  const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
+  const [lastConvId, setLastConvId] = useState<string | undefined>(undefined);
 
   const handleActiveLayout = (currentActive: string) => {
     setActiveLayout(currentActive);
@@ -121,6 +128,14 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   }, [id]);
 
   useEffect(() => {
+    if (convID) {
+      if (lastConvId != convID.toString()) {
+        setLastConvId(convID.toString());
+      }
+    }
+  }, [convID]);
+
+  useEffect(() => {
     if (theme != null) {
       const fetchTheme = async () => {
         let res = await fetch(`/assets/themes/${theme}.txt`);
@@ -166,6 +181,12 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         profileDms,
         activeLayout,
         lastActive,
+        targetPicture,
+        messageFeed,
+        lastConvId,
+        setLastConvId,
+        setMessageFeed,
+        setTargetPicture,
         handleActiveLayout,
         setProfileDms,
         setName,

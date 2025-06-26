@@ -1,4 +1,4 @@
-import type { pictureProfileSettings } from "~/context/SettingsContext";
+import type { pictureProfileSettings } from "./PictureProfileSettings";
 
 export interface UserProps extends React.HTMLAttributes<HTMLDivElement> {
   userID: string;

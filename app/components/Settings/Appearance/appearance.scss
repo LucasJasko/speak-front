@@ -1,0 +1,117 @@
+.signin__theme-card__container {
+  @apply flex flex-wrap justify-between;
+  .signin__theme-card {
+    @apply h-15 mx-1 my-2 rounded cursor-pointer text-white overflow-hidden;
+    width: calc(33% - 16px);
+
+    .signin__theme-card__name {
+      @apply h-full w-full flex justify-center items-center rounded font-bold text-shadow-md;
+      backdrop-filter: brightness(80%);
+      transition: 0.2s ease;
+      &:hover {
+        backdrop-filter: brightness(80%) blur(5px);
+      }
+    }
+  }
+
+  .selected {
+    border: 3px solid var(--color3);
+    border-radius: 8px;
+  }
+
+  .amazon {
+    background: linear-gradient(
+      to right,
+      rgb(242, 241, 235) 0%,
+      rgb(242, 241, 235) 20%,
+      rgb(238, 231, 218) 20%,
+      rgb(238, 231, 218) 40%,
+      rgb(175, 200, 173) 40%,
+      rgb(175, 200, 173) 60%,
+      rgb(136, 171, 142) 60%,
+      rgb(136, 171, 142) 80%,
+      rgb(219, 197, 157) 80%,
+      rgb(219, 197, 157) 100%
+    );
+  }
+
+  .azur {
+    background: linear-gradient(
+      to right,
+      #121212 0%,
+      #121212 20%,
+      #1c1c1c 20%,
+      #1c1c1c 40%,
+      #cce8ff 40%,
+      #cce8ff 60%,
+      #0095f6 60%,
+      #0095f6 80%,
+      #262626 80%,
+      #262626 100%
+    );
+  }
+
+  .grapefruit {
+    background: linear-gradient(
+      to right,
+      rgb(255, 250, 215) 0%,
+      rgb(255, 250, 215) 20%,
+      rgb(252, 221, 176) 20%,
+      rgb(252, 221, 176) 40%,
+      rgb(255, 159, 159) 40%,
+      rgb(255, 159, 159) 60%,
+      rgb(233, 119, 119) 60%,
+      rgb(233, 119, 119) 80%,
+      rgb(219, 197, 157) 80%,
+      rgb(219, 197, 157) 100%
+    );
+  }
+
+  .hazelnut {
+    background: linear-gradient(
+      to right,
+      rgb(231, 232, 216) 0%,
+      rgb(231, 232, 216) 20%,
+      rgb(202, 218, 191) 20%,
+      rgb(202, 218, 191) 40%,
+      rgb(181, 207, 183) 40%,
+      rgb(181, 207, 183) 60%,
+      rgb(188, 159, 139) 60%,
+      rgb(188, 159, 139) 80%,
+      rgb(219, 197, 157) 80%,
+      rgb(219, 197, 157) 100%
+    );
+  }
+
+  .mud {
+    background: linear-gradient(
+      to right,
+      rgb(241, 211, 179) 0%,
+      rgb(241, 211, 179) 20%,
+      rgb(199, 188, 161) 20%,
+      rgb(199, 188, 161) 40%,
+      rgb(139, 126, 116) 40%,
+      rgb(139, 126, 116) 60%,
+      rgb(101, 100, 124) 60%,
+      rgb(101, 100, 124) 80%,
+      rgb(219, 197, 157) 80%,
+      rgb(219, 197, 157) 100%
+    );
+  }
+
+  .seigle {
+    background: linear-gradient(
+      to right,
+      #121212 0%,
+      #121212 20%,
+      #1c1c1c 20%,
+      #1c1c1c 40%,
+      #ffd199 40%,
+      #ffd199 60%,
+      #ff7a00 60%,
+      #ff7a00 80%,
+      #262626 80%,
+      #262626 100%
+    );
+  }
+}

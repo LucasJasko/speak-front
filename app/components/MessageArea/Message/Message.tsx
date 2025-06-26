@@ -1,12 +1,10 @@
-import { useParams } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { useSettingsContext } from "~/context/SettingsContext";
 import type { messageContent } from "~/interfaces/MessageContent";
 
 const Message: React.FC<messageContent> = (m) => {
-  const { convID } = useParams();
   const { id } = useAuthContext();
-  const { b64Picture, profileDms } = useSettingsContext();
+  const { b64Picture, targetPicture } = useSettingsContext();
 
   return (
     <li className="message">
@@ -17,11 +15,14 @@ const Message: React.FC<messageContent> = (m) => {
           }}
           href={""}
         >
-          {m.authorName == "Speak" && <img src="/assets/img/Speak_64x64.png" alt="User profile picture" />}
-          {!m.messageInfos.isFromSocket && <img src={`data:image/webp;base64,${m.authorImg}`} alt="User profile picture" />}
-          {m.messageInfos.isFromSocket &&
-            m.authorName !== "Speak" &&
-            (m.messageInfos.sender === id?.toString() ? <img src={`data:image/webp;base64,${b64Picture}`} alt="User profile picture" /> : "ok")}
+          <img
+            src={
+              m.authorName == "Speak"
+                ? "/assets/img/Speak_64x64.png"
+                : `data:image/webp;base64,${m.messageInfos.sender === id?.toString() ? b64Picture : targetPicture}`
+            }
+            alt="User profile picture"
+          />
         </a>
       </div>
       <div className="message__container">

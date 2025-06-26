@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useMobileContext } from "~/context/MobileContext";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useSettingsContext } from "~/context/SettingsContext";
 
 const Nav = () => {
   const navigate = useNavigate();
 
-  const { picture, b64Picture, profileGroups, activeLayout, handleActiveLayout, setProfileGroups, fetchGroupPicture } = useSettingsContext();
+  const { convID } = useParams();
+  const { picture, b64Picture, profileGroups, activeLayout, handleActiveLayout, setProfileGroups, fetchGroupPicture, setMessageFeed, setLastConvId } =
+    useSettingsContext();
   const { isMobile } = useMobileContext();
 
   const [activeArrow, setActiveArrow] = useState(false);
@@ -57,7 +59,11 @@ const Nav = () => {
           className={`nav__link ${activeLayout == "direct-message" ? "nav__link-active" : ""}`}
           onClick={() => {
             handleActiveLayout("direct-message");
+            setLastConvId(convID);
             navigate("/home/dm/0");
+            if (activeLayout != "direct-message") {
+              setMessageFeed([]);
+            }
           }}
         >
           <i className="fa-regular fa-comments" />
@@ -74,7 +80,9 @@ const Nav = () => {
               className={`nav__link ${activeLayout == `group-${group.id}` ? "nav__link-active" : ""}`}
               onClick={() => {
                 handleActiveLayout(`group-${group.id}`);
+                setLastConvId(convID);
                 navigate(`/home/${group.id}/0`);
+                setMessageFeed([]);
               }}
             >
               {group.picture ? <img src={`data:image/jpeg;base64,${group.picture}`} /> : <i className="fa-solid fa-user-group" />}

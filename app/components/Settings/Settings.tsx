@@ -1,7 +1,6 @@
-import type React from "react";
 import { useRef, useState, type JSX } from "react";
 import Accessibility from "./Accessibility/Accessibility";
-import Appearance from "./Apprearance/Appearance";
+import Appearance from "./Appearance/Appearance";
 import AudioVideo from "./AudioVideo/AudioVideo";
 import BlockedUsers from "./BlockedUsers/BlockedUsers";
 import Interface from "./Interface/Interface";

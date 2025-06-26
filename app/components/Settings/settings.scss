@@ -2,45 +2,45 @@
   @apply absolute h-full w-full flex justify-center items-center;
   background-color: rgb(0, 0, 0, 0.3);
   animation: animate-area 0.3s ease;
-}
 
-.settings__window {
-  @apply relative bg-(--color1) border border-(--grey) max-w-250 w-full max-h-200 h-full rounded-lg shadow-xl flex;
-  animation: animate-window 0.1s ease;
-}
-
-.settings__manage-button {
-  @apply absolute top-5 right-5 text-xl rounded-xl hover:bg-(--color2) p-2 size-10 cursor-pointer flex items-center justify-center;
-}
-
-.settings__list-container {
-  @apply bg-(--color2) rounded-l-lg p-2.5 w-62.5;
-}
-
-.settings__item {
-  @apply cursor-pointer rounded-xl p-2.5 my-1 h-12.5 flex justify-start items-center hover:bg-(--color1);
-}
-
-.settings__item-active {
-  @apply bg-(--color1);
-}
-
-.settings__content {
-  @apply p-10;
-  width: calc(100% - 250px);
-}
-
-@media screen and (max-width: 700px) {
-  .settings {
-    @apply items-start;
-  }
-  .settings__list-container {
-    @apply absolute h-full shadow-2xl;
-  }
-  .settings__content {
-    @apply w-full pt-18;
-  }
   .settings__window {
-    height: calc(100% - 80px);
+    @apply relative bg-(--color1) border border-(--grey) max-w-250 w-full max-h-200 h-full rounded-lg shadow-xl flex;
+    animation: animate-window 0.1s ease;
+
+    .settings__manage-button {
+      @apply absolute top-5 right-5 text-xl rounded-xl hover:bg-(--color2) p-2 size-10 cursor-pointer flex items-center justify-center;
+    }
+
+    .settings__list-container {
+      @apply bg-(--color2) rounded-l-lg p-2.5 w-62.5;
+    }
+
+    .settings__item {
+      @apply cursor-pointer rounded-xl p-2.5 my-1 h-12.5 flex justify-start items-center hover:bg-(--color1);
+    }
+
+    .settings__item-active {
+      @apply bg-(--color1);
+    }
+
+    .settings__content {
+      @apply p-10;
+      width: calc(100% - 250px);
+    }
+
+    @media screen and (max-width: 700px) {
+      .settings {
+        @apply items-start;
+      }
+      .settings__list-container {
+        @apply absolute h-full shadow-2xl;
+      }
+      .settings__content {
+        @apply w-full pt-18;
+      }
+      .settings__window {
+        height: calc(100% - 80px);
+      }
+    }
   }
 }

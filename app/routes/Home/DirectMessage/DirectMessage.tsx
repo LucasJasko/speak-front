@@ -71,7 +71,6 @@ const DirectMessage = () => {
 
     const message: messageContent = {
       messageInfos: {
-        isFromSocket: true,
         isForGroup: false,
         date: Date.now().toString(),
         type: "switch",

@@ -1,6 +1,5 @@
 export interface messageContent {
   messageInfos: {
-    isFromSocket: boolean;
     isForGroup?: false | string;
     date?: string;
     type?: string;

@@ -3,6 +3,7 @@ import type { ProfileDm } from "./ProfileDm";
 import type { ProfileGroup } from "./ProfileGroup";
 import type { pictureProfileSettings } from "./PictureProfileSettings";
 import type { pictureGroupSettings } from "./PictureGroupSettings";
+import type { messageContent } from "./MessageContent";
 
 export interface SettingsContextType {
   name: string;
@@ -20,7 +21,12 @@ export interface SettingsContextType {
   profileDms: ProfileDm[];
   activeLayout: string;
   lastActive: string;
-  handleActiveLayout: (currentActive: string) => void;
+  targetPicture: string | undefined;
+  messageFeed: messageContent[];
+  lastConvId: string | undefined;
+  setLastConvId: Dispatch<SetStateAction<string | undefined>>;
+  setMessageFeed: Dispatch<SetStateAction<messageContent[]>>;
+  setTargetPicture: Dispatch<SetStateAction<string | undefined>>;
   setProfileDms: Dispatch<SetStateAction<ProfileDm[]>>;
   setName: Dispatch<SetStateAction<string>>;
   setSurname: Dispatch<SetStateAction<string>>;
@@ -33,6 +39,7 @@ export interface SettingsContextType {
   setLanguage: Dispatch<SetStateAction<string>>;
   setProfileGroups: Dispatch<SetStateAction<ProfileGroup[]>>;
   fetchSettings: () => Promise<void>;
+  handleActiveLayout: (currentActive: string) => void;
   fetchProfilePicture: ({ id, name, surname, picture }: pictureProfileSettings) => Promise<string | undefined>;
   fetchGroupPicture: ({ id, name, picture }: pictureGroupSettings) => Promise<string | undefined>;
 }

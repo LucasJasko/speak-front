@@ -8,29 +8,33 @@ const UserItem: React.FC<UserProps> = (up) => {
   const navigate = useNavigate();
 
   const { typeID, convID } = useParams();
-  const { fetchProfilePicture } = useSettingsContext();
+  const { fetchProfilePicture, setTargetPicture, setMessageFeed, lastConvId, setLastConvId } = useSettingsContext();
   const { isMobile } = useMobileContext();
 
-  const [pic, setPic] = useState<string | undefined>("");
+  const [userPicture, setUserPicture] = useState<string | undefined>("");
 
   useEffect(() => {
     fetchProfilePicture(up.pictureSetings).then((picture) => {
-      setPic(picture);
+      setUserPicture(picture);
     });
   }, []);
 
+  function processNavigation() {
+    navigate(`/home/${typeID}/${up.userID}`);
+    if (up.initConversation) {
+      up.initConversation(convID);
+    }
+    setTargetPicture(userPicture);
+
+    if (convID && lastConvId != convID.toString()) {
+      setMessageFeed([]);
+    }
+  }
+
   return (
-    <div
-      className={`user${up.userID === convID ? " active-user" : ""}`}
-      onClick={() => {
-        navigate(`/home/${typeID}/${up.userID}`);
-        if (up.initConversation) {
-          up.initConversation(up.userID);
-        }
-      }}
-    >
+    <div className={`user${up.userID === convID ? " active-user" : ""}`} onClick={processNavigation}>
       <div className="user__img-container">
-        <img className="user__img" src={pic == "" ? "/assets/img/Speak_64x64.png" : "data:image/webp;base64," + pic} alt="photo utilisateur" />
+        <img className="user__img" src={userPicture == "" ? "/assets/img/Speak_64x64.png" : "data:image/webp;base64," + userPicture} alt="photo utilisateur" />
         <span className={`connection__dot ${up.status == "1" ? "connected" : "disconnected"}`}></span>
       </div>
       {!isMobile && <p className="user__name">{up.convName}</p>}

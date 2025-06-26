@@ -17,6 +17,7 @@
 @import "./components/MessageArea/Message/message.scss";
 @import "./components/MessageArea/MessageInput/messageInput.scss";
 @import "./components/Settings/settings.scss";
+@import "./components/Settings/Appearance/appearance.scss";
 @import "./components/Profile/profile.scss";
 @import "./components/Profile/menu.scss";
 @import "./components/AddGroup/addGroup.scss";
