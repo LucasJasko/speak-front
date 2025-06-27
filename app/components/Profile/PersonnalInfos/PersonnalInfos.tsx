@@ -1,10 +1,14 @@
+import { useAuthContext } from "~/context/AuthContext";
+
 const PersonnalInfos = () => {
+  const { id } = useAuthContext();
+
   return (
     <ul className="menu__list">
       <li className="menu__item">
         <h3 className="menu__title">Identifiant de profil</h3>
         <p className="menu__text">C'est votre identifiant à partager aux autres utilisateurs pour vous retrouver: </p>
-        <input className="menu__input menu__input-half" type="text" name="" id="userid" value="Un super ID" readOnly />
+        <input className="menu__input menu__input-half" type="text" name="" id="userid" value={id?.toString()} readOnly />
       </li>
       <li className="menu__item">
         <h3 className="menu__title">Email</h3>
