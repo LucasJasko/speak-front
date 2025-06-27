@@ -27,19 +27,18 @@
       @apply p-10;
       width: calc(100% - 250px);
     }
+  }
 
-    @media screen and (max-width: 700px) {
-      .settings {
-        @apply items-start;
-      }
-      .settings__list-container {
-        @apply absolute h-full shadow-2xl;
-      }
+  @media screen and (max-width: 700px) {
+    @apply items-start;
+    .settings__window {
+      max-height: calc(100vh - 80px);
+      border: none;
       .settings__content {
         @apply w-full pt-18;
       }
-      .settings__window {
-        height: calc(100% - 80px);
+      .settings__list-container {
+        @apply absolute h-full shadow-2xl z-1;
       }
     }
   }

@@ -54,6 +54,7 @@
     @apply w-full pt-18;
   }
   .profile__window {
-    height: calc(100% - 80px);
+    max-height: calc(100vh - 80px);
+    border: none;
   }
 }

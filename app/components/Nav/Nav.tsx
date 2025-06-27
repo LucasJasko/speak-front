@@ -115,7 +115,7 @@ const Nav = () => {
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 10, opacity: 0 }}
-                  transition={{ delay: 0.1 }}
+                  transition={{ delay: 0.05 }}
                   whileHover={{
                     scale: 1.05,
                     transition: { duration: 0.001 },
@@ -133,7 +133,7 @@ const Nav = () => {
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 10, opacity: 0 }}
-                  transition={{ delay: 0.2 }}
+                  transition={{ delay: 0.1 }}
                   whileHover={{
                     scale: 1.05,
                     transition: { duration: 0.001 },
@@ -151,7 +151,7 @@ const Nav = () => {
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 10, opacity: 0 }}
-                  transition={{ delay: 0.3 }}
+                  transition={{ delay: 0.15 }}
                   whileHover={{
                     scale: 1.05,
                     transition: { duration: 0.001 },
