@@ -64,6 +64,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
       setSurname(data.surname);
       setTheme(data.theme);
       setPicture(data.picture);
+      setMail(data.mail);
     } catch (err: any) {
     } finally {
       setIsLoading(false);

@@ -37,7 +37,6 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         socket.onopen = (e: Event) => {
           const message: messageContent = {
             messageInfos: {
-              isFromSocket: true,
               date: Date.now().toString(),
               type: "join",
               sender: id?.toString(),
@@ -62,7 +61,6 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         socket.onclose = (e: CloseEvent) => {
           const message: messageContent = {
             messageInfos: {
-              isFromSocket: true,
               date: Date.now().toString(),
               type: "close",
               sender: id?.toString(),
@@ -81,7 +79,6 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         socket.onerror = (e: Event) => {
           const message: messageContent = {
             messageInfos: {
-              isFromSocket: true,
               date: Date.now().toString(),
               type: "error",
               sender: id?.toString(),

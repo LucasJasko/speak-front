@@ -6,6 +6,7 @@ const ProfileList: React.FC<ProfileListProps> = ({ menuMap, activeMenu, onSelect
       <ul className="profile__list">
         {menuMap.map(({ key, name }) => (
           <li
+            tabIndex={-1}
             key={key}
             className={`profile__item ${activeMenu == `${key}` ? "profile__item-active" : ""} ${key == "disconnect" ? "profile__item-disconnect" : ""} `}
             onClick={() => {

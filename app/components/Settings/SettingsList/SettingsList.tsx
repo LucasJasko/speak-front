@@ -6,6 +6,7 @@ const SettingsList: React.FC<SettingsListProps> = ({ menuMap, activeMenu, onSele
       <ul className="settings__list">
         {menuMap.map(({ key, name }) => (
           <li
+            tabIndex={-1}
             key={key}
             className={`settings__item ${activeMenu == `${key}` ? "settings__item-active" : ""}`}
             onClick={() => {
