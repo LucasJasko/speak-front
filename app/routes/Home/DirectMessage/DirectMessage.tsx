@@ -70,16 +70,14 @@ const DirectMessage = () => {
     if (!socketRef?.current || socketRef.current.readyState !== WebSocket.OPEN) return;
 
     const message: messageContent = {
-      messageInfos: {
+      messageHeaders: {
         isForGroup: false,
         date: Date.now().toString(),
         type: "switch",
         sender: id?.toString(),
         target: convID,
       },
-      authorName: "Speak",
-      authorSurname: "",
-      authorMessage: {},
+      messageBody: {},
     };
 
     if (convID != "0") {

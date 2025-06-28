@@ -19,7 +19,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const navigate = useNavigate();
 
   const [accessToken, setAccessToken] = useState<undefined | string | null>(undefined);
-  const [id, setId] = useState<undefined | number | null>(undefined);
+  const [id, setId] = useState<number>(0);
   const [keyPair, setKeyPair] = useState<CryptoKeyPair | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = () => {
     setAccessToken(null);
-    setId(null);
+    setId(0);
   };
 
   const fetchAccessToken = async () => {
@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   useEffect(() => {
-    // TODO window.crypto n'est accessible que via https, donc à terme trouver un moyen de mettre en place n certificat de vérification
+    // TODO window.crypto n'est accessible que via https, donc à terme trouver un moyen de mettre en place d'encoder les messages coté client
     const generate = async () => {
       // const pair = await window.crypto.subtle.generateKey(
       //   {

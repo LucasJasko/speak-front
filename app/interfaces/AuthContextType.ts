@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from "react";
 
 export interface AuthContextType {
   accessToken: string | null | undefined;
-  id: number | null | undefined;
+  id: number;
   error: string | null;
   isLoading: boolean;
   login: (newId: number, newToken: string) => void;

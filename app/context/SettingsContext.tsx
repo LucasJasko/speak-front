@@ -74,7 +74,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const fetchProfileGroups = async () => {
     try {
       const { data } = await useAPI<any>("/profile-groups/" + id, { token: accessToken });
-      return data;
+      return setProfileGroups(data);
     } catch (err: any) {
       return err;
     }
@@ -105,7 +105,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const fetchProfileDms = async (id: any) => {
     try {
       const { data } = await useAPI<any>(`/dm/${id}`, { token: accessToken });
-      return data;
+      return setProfileDms(data);
     } catch {
       return "";
     }
@@ -113,17 +113,8 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   useEffect(() => {
     if (id != undefined) {
-      async function fetchGroups() {
-        const groups = await fetchProfileGroups();
-        setProfileGroups(groups);
-      }
-      async function fetchDms() {
-        const dms = await fetchProfileDms(id);
-        setProfileDms(dms);
-        console.log(dms);
-      }
-      fetchGroups();
-      fetchDms();
+      fetchProfileGroups();
+      fetchProfileDms(id);
       fetchSettings();
     }
   }, [id]);
@@ -182,12 +173,10 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         profileDms,
         activeLayout,
         lastActive,
-        targetPicture,
         messageFeed,
         lastConvId,
         setLastConvId,
         setMessageFeed,
-        setTargetPicture,
         handleActiveLayout,
         setProfileDms,
         setName,

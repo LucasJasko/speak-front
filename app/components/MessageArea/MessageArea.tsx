@@ -8,7 +8,6 @@ import { useAuthContext } from "~/context/AuthContext";
 import useAPI from "~/hook/useAPI";
 import type { messageContent } from "~/interfaces/MessageContent";
 import type { MessageAreaProps } from "~/interfaces/MessageAreaProps";
-import type { rawMessage } from "~/interfaces/RawMessage";
 import { useSettingsContext } from "~/context/SettingsContext";
 
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
@@ -22,25 +21,8 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
   useEffect(() => {
     if (convID != "0") {
       const fetchFeed = async () => {
-        let displayedFeed: messageContent[] = [];
-
-        const feed = await useAPI<rawMessage[]>("/chat/messages", { json: { origin: id?.toString(), target: convID }, token: accessToken });
-        const rawMessages = feed.data;
-
-        for (let i = 0; i < rawMessages.length; i++) {
-          const message: messageContent = {
-            messageHeaders: {
-              date: rawMessages[i].creation_time,
-              type: "message",
-              sender: rawMessages[i].profile_id.toString(),
-            },
-            messageBody: {
-              text: rawMessages[i].content,
-            },
-          };
-          displayedFeed[i] = message;
-        }
-        setMessageFeed(displayedFeed);
+        const { data } = await useAPI<messageContent[]>("/chat/messages", { json: { origin: id?.toString(), target: convID }, token: accessToken });
+        setMessageFeed(data);
       };
       fetchFeed();
     }
@@ -74,6 +56,7 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
     const feed = document.querySelector(".message-area__feed") as HTMLElement;
     const bottom = feed.scrollHeight;
     feed.scrollTo({ top: bottom });
+    console.log(messageFeed);
   }, [messageFeed]);
 
   const handleMobileSideMenu = (MobileSideMenuState: boolean) => {

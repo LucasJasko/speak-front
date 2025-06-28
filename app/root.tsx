@@ -6,6 +6,7 @@ import { MobileProvider } from "./context/MobileContext";
 import { AuthProvider } from "./context/AuthContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { SocketProvider } from "./context/SocketContext";
+import { ConvProvider } from "./context/ConvContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,7 +43,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <AuthProvider>
           <SettingsProvider>
             <SocketProvider>
-              <MobileProvider>{children}</MobileProvider>
+              <ConvProvider>
+                <MobileProvider>{children}</MobileProvider>
+              </ConvProvider>
             </SocketProvider>
           </SettingsProvider>
         </AuthProvider>

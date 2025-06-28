@@ -1,11 +1,10 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { MobileContextContent } from "~/interfaces/MobileCOntextCOntent";
+import type { MobileContextContent } from "~/interfaces/MobileContextContent";
 
 const MobileContext = createContext({ isMobile: false });
 
 export const MobileProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const context: MobileContextContent = { isMobile, setIsMobile };
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,6 +20,7 @@ export const MobileProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     };
   }, []);
 
+  const context: MobileContextContent = { isMobile, setIsMobile };
   return <MobileContext value={context}>{children}</MobileContext>;
 };
 

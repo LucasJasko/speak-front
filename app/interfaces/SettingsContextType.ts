@@ -21,12 +21,10 @@ export interface SettingsContextType {
   profileDms: ProfileDm[];
   activeLayout: string;
   lastActive: string;
-  targetPicture: string | undefined;
   messageFeed: messageContent[];
   lastConvId: string | undefined;
   setLastConvId: Dispatch<SetStateAction<string | undefined>>;
   setMessageFeed: Dispatch<SetStateAction<messageContent[]>>;
-  setTargetPicture: Dispatch<SetStateAction<string | undefined>>;
   setProfileDms: Dispatch<SetStateAction<ProfileDm[]>>;
   setName: Dispatch<SetStateAction<string>>;
   setSurname: Dispatch<SetStateAction<string>>;
@@ -40,6 +38,6 @@ export interface SettingsContextType {
   setProfileGroups: Dispatch<SetStateAction<ProfileGroup[]>>;
   fetchSettings: () => Promise<void>;
   handleActiveLayout: (currentActive: string) => void;
-  fetchProfilePicture: ({ id, name, surname, picture }: pictureProfileSettings) => Promise<string | undefined>;
+  fetchProfilePicture: ({ id, name, surname, picture }: pictureProfileSettings) => Promise<string>;
   fetchGroupPicture: ({ id, name, picture }: pictureGroupSettings) => Promise<string | undefined>;
 }
