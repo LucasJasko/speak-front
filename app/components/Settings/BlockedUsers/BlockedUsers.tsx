@@ -6,16 +6,7 @@ const BlockedUsers = () => {
         <p className="menu__text">Voici la liste des utilisateurs que vous avez bloqué: </p>
         <ul className="blocked-user__list">
           <li className="blocked-user__item">
-            <p>User 1</p> <i className="fa-solid fa-xmark"></i>
-          </li>
-          <li className="blocked-user__item">
-            <p>User 2</p> <i className="fa-solid fa-xmark"></i>
-          </li>
-          <li className="blocked-user__item">
-            <p>User 3</p> <i className="fa-solid fa-xmark"></i>
-          </li>
-          <li className="blocked-user__item">
-            <p>User 4</p> <i className="fa-solid fa-xmark"></i>
+            <p>Cette fonctionnalité n'est pas encore disponible</p> <i className="fa-solid fa-xmark"></i>
           </li>
         </ul>
       </li>

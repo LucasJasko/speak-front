@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { useMobileContext } from "~/context/MobileContext";
@@ -8,8 +8,8 @@ import type { LoginResponse } from "~/interfaces/LoginResponse";
 const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   let navigate = useNavigate();
 
-  const [response, setResponse]: any = useState(null);
-  const [error, setError]: any = useState(null);
+  const [response, setResponse] = useState<LoginResponse | undefined>(undefined);
+  const [error, setError] = useState<string>("");
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -17,28 +17,8 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   const { isMobile } = useMobileContext();
   const { login } = useAuthContext();
 
-  const handleSubmit = async (e?: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    if (email.match(/^[^@]+@[^@.]+\.[a-z]{1,63}$/) && password != "") {
-      try {
-        const { data, status } = await useAPI<LoginResponse>("/login", { json: { email, password } });
-        setResponse(data);
-
-        if (status === 200) {
-          // Auth params
-          login(data.UID, data.accessToken);
-
-          return navigate("/home/dm/0");
-        }
-
-        if (status === 401) {
-          return setError(data.message);
-        }
-      } catch (error: any) {
-        return setError(error.message);
-      }
-    }
 
     if (email === "") {
       return setError("Veuillez renseigner votre email");
@@ -51,8 +31,21 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
     if (password === "") {
       return setError("Veuillez renseigner votre mot de passe");
     }
-  };
 
+    setError("");
+
+    try {
+      const { data, status } = await useAPI<LoginResponse>("/login", { json: { email, password } });
+      setResponse(data);
+
+      if (status == 200) {
+        login(data.UID, data.accessToken);
+        return navigate("/home/dm/0");
+      }
+    } catch {
+      return setError("email ou mot de passe incorrect");
+    }
+  };
   return (
     <form className="login__form" onSubmit={handleSubmit}>
       <div className="login__header-container">
@@ -87,12 +80,7 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
       <div className="login__submit-container">
         <input className="login__input login__submit" type="submit" value="Se connecter" />
       </div>
-      {(response || error) && (
-        <p className={!isMobile ? "login__message" : "login__message login__message-mobile"}>
-          {response ? response.message : ""}
-          {error && !response ? "" + error : ""}
-        </p>
-      )}
+      {(response || error) && <p className={!isMobile ? "login__message" : "login__message login__message-mobile"}>{error && !response ? "" + error : ""}</p>}
       <button
         type="button"
         className="login__switch"
