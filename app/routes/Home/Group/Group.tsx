@@ -49,17 +49,14 @@ const Group = () => {
     if (!socketRef?.current || socketRef.current.readyState !== WebSocket.OPEN) return;
 
     const message: messageContent = {
-      messageInfos: {
-        isFromSocket: true,
-        isForGroup: groupParams?.id.toString(),
+      messageHeaders: {
+        isForGroup: true,
         date: Date.now().toString(),
         type: "switch",
         sender: id?.toString(),
         target: convID,
       },
-      authorName: "Speak",
-      authorSurname: "",
-      authorMessage: {},
+      messageBody: {},
     };
 
     if (convID != "0") {

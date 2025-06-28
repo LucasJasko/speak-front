@@ -2,7 +2,7 @@ import { useAuthContext } from "~/context/AuthContext";
 import { useSettingsContext } from "~/context/SettingsContext";
 import type { messageContent } from "~/interfaces/MessageContent";
 
-const Message: React.FC<messageContent> = (m) => {
+const Message: React.FC<messageContent> = ({ messageHeaders, messageBody }) => {
   const { id } = useAuthContext();
   const { b64Picture, targetPicture } = useSettingsContext();
 
@@ -12,14 +12,14 @@ const Message: React.FC<messageContent> = (m) => {
         <a
           onClick={(e) => {
             e.preventDefault();
+            console.log("Profile");
           }}
-          href={""}
         >
           <img
             src={
-              m.authorName == "Speak"
+              messageHeaders.sender == "Speak"
                 ? "/assets/img/Speak_64x64.png"
-                : `data:image/webp;base64,${m.messageInfos.sender === id?.toString() ? b64Picture : targetPicture}`
+                : `data:image/webp;base64,${messageHeaders.sender === id?.toString() ? b64Picture : targetPicture}`
             }
             alt="User profile picture"
           />
@@ -27,19 +27,19 @@ const Message: React.FC<messageContent> = (m) => {
       </div>
       <div className="message__container">
         <div className="message__header">
-          {m.authorName && <h3 className="message__author-name">{m.authorName}</h3>}
-          {m.messageInfos.date && <span className="message__date">{m.messageInfos.date}</span>}
+          <h3 className="message__author-name">{"nom"}</h3>
+          {messageHeaders.date && <span className="message__date">{messageHeaders.date}</span>}
         </div>
         <div className="message__content">
-          {m.authorMessage.messageText && <p className="message__text">{m.authorMessage.messageText}</p>}
-          {m.authorMessage.messageCode && <pre className="message__code">{m.authorMessage.messageCode}</pre>}
-          {m.authorMessage.messageFile && (
-            <a href={m.authorMessage.messageFile.fileLink} className="message__file">
-              {m.authorMessage.messageFile.filePicture}
-              {m.authorMessage.messageFile.fileName}
+          {messageBody.text && <p className="message__text">{messageBody.text}</p>}
+          {messageBody.code && <pre className="message__code">{messageBody.code}</pre>}
+          {messageBody.file && (
+            <a href={messageBody.file.link} className="message__file">
+              {messageBody.file.picture}
+              {messageBody.file.name}
             </a>
           )}
-          {m.authorMessage.messageEvent && <p className="message__event">{m.authorMessage.messageEvent}</p>}
+          {messageBody.event && <p className="message__event">{messageBody.event}</p>}
         </div>
       </div>
     </li>

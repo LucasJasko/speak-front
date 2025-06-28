@@ -29,16 +29,13 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
 
         for (let i = 0; i < rawMessages.length; i++) {
           const message: messageContent = {
-            messageInfos: {
+            messageHeaders: {
               date: rawMessages[i].creation_time,
               type: "message",
               sender: rawMessages[i].profile_id.toString(),
             },
-            authorImg: rawMessages[i].author_picture,
-            authorName: rawMessages[i].author_name,
-            authorSurname: rawMessages[i].author_surname,
-            authorMessage: {
-              messageText: rawMessages[i].content,
+            messageBody: {
+              text: rawMessages[i].content,
             },
           };
           displayedFeed[i] = message;
@@ -93,15 +90,7 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
       )}
       <ul className="message-area__feed">
         {messageFeed.map((message, index) => (
-          <Message
-            key={index}
-            authorLink={message.authorLink}
-            authorName={message.authorName}
-            authorSurname={message.authorSurname}
-            messageInfos={message.messageInfos}
-            authorImg={message.authorImg}
-            authorMessage={message.authorMessage}
-          />
+          <Message key={index} messageHeaders={message.messageHeaders} messageBody={message.messageBody} />
         ))}
       </ul>
       <div className="message-area__input-area">

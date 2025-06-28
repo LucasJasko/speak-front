@@ -16,7 +16,7 @@ const SocketContext = createContext<SocketContextContent>({
 
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id } = useAuthContext();
-  const { convID } = useParams();
+  const { typeID, convID } = useParams();
   const socketRef = useRef<WebSocket | null>(null);
 
   const [openMessage, setOpenMessage] = useState<null | messageContent>(null);
@@ -36,16 +36,15 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
         socket.onopen = (e: Event) => {
           const message: messageContent = {
-            messageInfos: {
+            messageHeaders: {
               date: Date.now().toString(),
               type: "join",
               sender: id?.toString(),
+              isForGroup: typeID == "dm" ? false : true,
               target: convID?.toString(),
             },
-            authorName: "Speak",
-            authorSurname: "",
-            authorMessage: {
-              messageText: "Connexion établie",
+            messageBody: {
+              text: "Connexion établie",
             },
           };
 
@@ -60,15 +59,13 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
         socket.onclose = (e: CloseEvent) => {
           const message: messageContent = {
-            messageInfos: {
+            messageHeaders: {
               date: Date.now().toString(),
               type: "close",
               sender: id?.toString(),
             },
-            authorName: "Speak",
-            authorSurname: "",
-            authorMessage: {
-              messageText: "Connexion socket fermée",
+            messageBody: {
+              text: "Connexion socket fermée",
             },
           };
 
@@ -78,15 +75,13 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
         socket.onerror = (e: Event) => {
           const message: messageContent = {
-            messageInfos: {
+            messageHeaders: {
               date: Date.now().toString(),
               type: "error",
               sender: id?.toString(),
             },
-            authorName: "Speak",
-            authorSurname: "",
-            authorMessage: {
-              messageText: "Erreur WebSocket",
+            messageBody: {
+              text: "Erreur WebSocket",
             },
           };
 

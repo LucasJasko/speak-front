@@ -85,7 +85,11 @@ const Nav = () => {
                 setMessageFeed([]);
               }}
             >
-              {group.picture ? <img src={`data:image/jpeg;base64,${group.picture}`} /> : <i className="fa-solid fa-user-group" />}
+              {group.picture ? (
+                <img src={group.picture.endsWith(".webp") ? "./assets/img/Speak_64x64.png" : `data:image/jpeg;base64,${group.picture}`} />
+              ) : (
+                <i className="fa-solid fa-user-group" />
+              )}
             </motion.button>
           ))}
 
