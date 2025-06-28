@@ -31,7 +31,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       const res = await useAPI("/socket", { token: accessToken });
 
       if (res) {
-        let socket = new WebSocket("ws://localhost:8060");
+        let socket = new WebSocket("ws://localhost:8080");
         socketRef.current = socket;
 
         socket.onopen = (e: Event) => {

@@ -1,14 +1,3 @@
-interface requestContent {
-  json?: Record<string, unknown>;
-  method?: string;
-  token?: string | null | undefined;
-}
-
-interface responseContent<T> {
-  data: T;
-  status: number;
-}
-
 export default async function useAPI<T>(url: string, { json, method, token }: requestContent = {}): Promise<responseContent<T>> {
   method ??= json ? "POST" : "GET";
   const body = json ? JSON.stringify(json) : undefined;
@@ -37,9 +26,7 @@ export default async function useAPI<T>(url: string, { json, method, token }: re
 
 class ApiError extends Error {
   constructor(public status: number, public data: Record<string, unknown>) {
-    if (status === 401) {
-      window.location.reload();
-    }
     super();
+    this.name = "ApiError";
   }
 }

@@ -22,6 +22,10 @@
   }
 }
 
+.menu__message {
+  @apply block h-5;
+}
+
 .reveal-mail {
   @apply cursor-pointer ml-2;
   &:hover {
