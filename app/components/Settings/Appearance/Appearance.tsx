@@ -20,6 +20,7 @@ const Appearance = () => {
       <li className="menu__item">
         <h3 className="menu__title">Thème d'interface</h3>
         <p className="menu__text">Choisissez le thème à afficher pour Alert MNS: </p>
+
         <div className="signin__theme-card__container">
           <button
             type="button"
@@ -63,12 +64,18 @@ const Appearance = () => {
       </li>
       <li className="menu__item">
         <h3 className="menu__title">Mode claire / sombre</h3>
-        <p className="menu__text">Choisissez le mode à appliquer pour Alert MNS: </p>
-        <select name="" id="">
-          <option value="">Mode de l'OS</option>
-          <option value="">Claire</option>
-          <option value="">Sombre</option>
-        </select>
+        <div className="menu__body">
+          <div className="menu__body__left">
+            <p className="menu__text">Choisissez le mode à appliquer pour votre application: </p>
+          </div>
+          <div className="menu__body__right">
+            <select className="menu__select" name="mode" disabled>
+              <option>---</option>
+              <option value="1">Claire</option>
+              <option value="2">Sombre</option>
+            </select>
+          </div>
+        </div>
       </li>
     </ul>
   );

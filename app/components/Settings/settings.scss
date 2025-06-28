@@ -24,7 +24,7 @@
     }
 
     .settings__content {
-      @apply p-10;
+      @apply p-10 pt-15;
       width: calc(100% - 250px);
     }
   }

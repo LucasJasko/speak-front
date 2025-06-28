@@ -1,0 +1,14 @@
+.zoom-line {
+  @apply border border-(--grey) w-fit rounded mt-3;
+
+  .zoom-lvl {
+    @apply p-5 text-center cursor-pointer w-fit border-r border-(--grey);
+
+    &:hover {
+      @apply bg-(--color5);
+    }
+  }
+  & :last-child {
+    @apply border-0;
+  }
+}

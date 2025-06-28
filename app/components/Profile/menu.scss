@@ -2,8 +2,22 @@
   @apply mb-6 text-sm;
 }
 
+.menu__body {
+  @apply flex justify-between;
+  .menu__body__left {
+    @apply inline;
+  }
+  .menu__body__right {
+    @apply inline;
+  }
+}
+
 .menu__title {
   @apply font-bold text-base;
+}
+
+.menu__select {
+  @apply block p-2 min-w-40 mb-3;
 }
 
 .menu__text {
