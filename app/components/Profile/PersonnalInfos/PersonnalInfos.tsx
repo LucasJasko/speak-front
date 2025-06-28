@@ -8,6 +8,7 @@ const PersonnalInfos = () => {
   const { mail, setMail } = useSettingsContext();
 
   const [isMailVisible, setIsMailVisible] = useState<boolean>(false);
+  const [isPwdVisible, setIsPwdVisible] = useState<boolean>(false);
 
   const [newMail, setNewMail] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -55,10 +56,19 @@ const PersonnalInfos = () => {
       <li className="menu__item">
         <h3 className="menu__title">Email</h3>
         <p className="menu__text">C'est l'email dont vous vous servez pour vous connecter. Pour le modifier, merci de confirmer votre mot de passe: </p>
-        <input className="menu__input menu__input-half" type="text" name="" value={isMailVisible ? mail : "*****"} placeholder="Nouvel email" readOnly />
-        <span className="reveal-mail" onClick={() => setIsMailVisible(!isMailVisible)}>
-          Afficher
-        </span>
+        <div className="menu__input-container">
+          <input
+            className="menu__input menu__input-half"
+            type={isMailVisible ? "text" : "password"}
+            name="new-mail"
+            value={mail}
+            placeholder="Nouvel email"
+            readOnly
+          />
+          <span className="menu__reveal-button personnalInfos-reveal-button" onClick={() => setIsMailVisible(!isMailVisible)}>
+            {isMailVisible ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+          </span>
+        </div>
 
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
@@ -69,16 +79,21 @@ const PersonnalInfos = () => {
             placeholder="Nouvel email"
             onChange={(e) => setNewMail(e.target.value)}
           />
-          <input
-            className="menu__input menu__input-half"
-            type="password"
-            name=""
-            id="userpwd"
-            placeholder="Votre mot de passe"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+          <div className="menu__input-container">
+            <input
+              className="menu__input menu__input-half"
+              type={isPwdVisible ? "text" : "password"}
+              name="userpwd"
+              id="userpwd"
+              placeholder="Votre mot de passe"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <span className="menu__reveal-button personnalInfos-reveal-button" onClick={() => setIsPwdVisible(!isPwdVisible)}>
+              {isPwdVisible ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+            </span>
+          </div>
+          <span className="menu__message">{message}</span>
           <input type="submit" className="menu__button" value="Modifier" />
-          {message != "" && <span>{message}</span>}
         </form>
       </li>
       {/* <li className="menu__item">

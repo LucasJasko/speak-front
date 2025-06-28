@@ -11,6 +11,10 @@ const Security = () => {
 
   const [message, setMessage] = useState<string>("Votre nouveau mot de passe doit faire au moins 8 caractères");
 
+  const [isOldPwdVisible, setIsOldPwdVisible] = useState<boolean>(false);
+  const [isNewPwdVisible, setIsNewPwdVisible] = useState<boolean>(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
+
   function refreshMessage(value: string) {
     if (value.match(/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/) && value.length >= 16) {
       setMessage("Sécurité: forte");
@@ -60,34 +64,49 @@ const Security = () => {
       <li className="menu__item">
         <h3 className="menu__title">Mot de passe</h3>
         <p className="menu__text">Vous pouvez modifier votre mot de passe ici:</p>
-        <input
-          className="menu__input menu__input-password"
-          type="password"
-          name=""
-          id="oldpwd"
-          placeholder="Ancien mot de passe"
-          onChange={(e) => setOldPwd(e.target.value)}
-        />
+        <div className="menu__input-container">
+          <input
+            className="menu__input menu__input-password"
+            type={isOldPwdVisible ? "text" : "password"}
+            name=""
+            id="oldpwd"
+            placeholder="Ancien mot de passe"
+            onChange={(e) => setOldPwd(e.target.value)}
+          />
+          <span className="menu__reveal-button" onClick={() => setIsOldPwdVisible(!isOldPwdVisible)}>
+            {isOldPwdVisible ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+          </span>
+        </div>
         <form onSubmit={handleSubmit}>
-          <input
-            className="menu__input menu__input-password"
-            type="password"
-            name=""
-            id="newpwd"
-            placeholder="Nouveau mot de passe"
-            onChange={(e) => {
-              setNewPwd(e.target.value);
-              refreshMessage(e.target.value);
-            }}
-          />
-          <input
-            className="menu__input menu__input-password"
-            type="password"
-            name=""
-            id="confirmpwd"
-            placeholder="Confirmer votre nouveau mot de passe"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+          <div className="menu__input-container">
+            <input
+              className="menu__input menu__input-password"
+              type={isNewPwdVisible ? "text" : "password"}
+              name=""
+              id="newpwd"
+              placeholder="Nouveau mot de passe"
+              onChange={(e) => {
+                setNewPwd(e.target.value);
+                refreshMessage(e.target.value);
+              }}
+            />
+            <span className="menu__reveal-button" onClick={() => setIsNewPwdVisible(!isNewPwdVisible)}>
+              {isNewPwdVisible ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+            </span>
+          </div>
+          <div className="menu__input-container">
+            <input
+              className="menu__input menu__input-password"
+              type={isConfirmPasswordVisible ? "text" : "password"}
+              name=""
+              id="confirmpwd"
+              placeholder="Confirmer votre nouveau mot de passe"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <span className="menu__reveal-button" onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}>
+              {isConfirmPasswordVisible ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-solid fa-eye"></i>}
+            </span>
+          </div>
           <span className="menu__message">{message}</span>
           <input type="submit" className="menu__button" value="Modifier" />
         </form>

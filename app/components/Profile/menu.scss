@@ -40,11 +40,21 @@
   @apply block h-5;
 }
 
-.reveal-mail {
-  @apply cursor-pointer ml-2;
-  &:hover {
-    text-decoration: underline;
+.menu__input-container {
+  @apply relative h-fit w-1/2;
+
+  input {
+    @apply w-full;
   }
+
+  .menu__reveal-button {
+    @apply cursor-pointer absolute right-0 top-[50%] flex justify-center items-center w-10 h-[38px];
+    transform: translateY(-50%);
+  }
+}
+
+.personnalInfos-reveal-button {
+  @apply mt-1;
 }
 
 input[readOnly] {
