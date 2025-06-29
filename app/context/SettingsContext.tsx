@@ -44,7 +44,6 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [activeLayout, setActiveLayout] = useState<string>("direct-message");
   const [lastActive, setLastActive] = useState("");
 
-  const [targetPicture, setTargetPicture] = useState<string | undefined>("");
   const [messageFeed, setMessageFeed] = useState<messageContent[]>([]);
   const [lastConvId, setLastConvId] = useState<string | undefined>(undefined);
 
@@ -112,7 +111,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   useEffect(() => {
-    if (id != undefined) {
+    if (id != 0) {
       fetchProfileGroups();
       fetchProfileDms(id);
       fetchSettings();
@@ -187,6 +186,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         setPicture,
         setStatus,
         setRole,
+        setB64Picture,
         setLanguage,
         setProfileGroups,
         fetchSettings,

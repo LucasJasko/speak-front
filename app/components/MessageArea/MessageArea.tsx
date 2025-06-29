@@ -9,6 +9,7 @@ import useAPI from "~/hook/useAPI";
 import type { messageContent } from "~/interfaces/MessageContent";
 import type { MessageAreaProps } from "~/interfaces/MessageAreaProps";
 import { useSettingsContext } from "~/context/SettingsContext";
+import { useConvContext } from "~/context/ConvContext";
 
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
   const { convID } = useParams();
@@ -19,14 +20,14 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
   const { openMessage, errorMessage, closeMessage, newMessage } = useSocketContext();
 
   useEffect(() => {
-    if (convID != "0") {
+    if (convID != "0" && id != undefined) {
       const fetchFeed = async () => {
-        const { data } = await useAPI<messageContent[]>("/chat/messages", { json: { origin: id?.toString(), target: convID }, token: accessToken });
+        const { data } = await useAPI<messageContent[]>("/chat/messages", { json: { origin: id.toString(), target: convID }, token: accessToken });
         setMessageFeed(data);
       };
       fetchFeed();
     }
-  }, [convID]);
+  }, [convID, id]);
 
   useEffect(() => {
     if (openMessage != null) {
@@ -56,7 +57,6 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
     const feed = document.querySelector(".message-area__feed") as HTMLElement;
     const bottom = feed.scrollHeight;
     feed.scrollTo({ top: bottom });
-    console.log(messageFeed);
   }, [messageFeed]);
 
   const handleMobileSideMenu = (MobileSideMenuState: boolean) => {

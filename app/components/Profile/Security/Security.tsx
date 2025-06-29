@@ -100,7 +100,7 @@ const Security = () => {
               type={isConfirmPasswordVisible ? "text" : "password"}
               name=""
               id="confirmpwd"
-              placeholder="Confirmer votre nouveau mot de passe"
+              placeholder="Confirmez votre nouveau mot de passe"
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <span className="menu__reveal-button" onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}>

@@ -23,6 +23,7 @@ export interface SettingsContextType {
   lastActive: string;
   messageFeed: messageContent[];
   lastConvId: string | undefined;
+  setB64Picture: Dispatch<SetStateAction<string>>;
   setLastConvId: Dispatch<SetStateAction<string | undefined>>;
   setMessageFeed: Dispatch<SetStateAction<messageContent[]>>;
   setProfileDms: Dispatch<SetStateAction<ProfileDm[]>>;
