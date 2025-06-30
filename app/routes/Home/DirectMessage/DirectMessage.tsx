@@ -71,11 +71,11 @@ const DirectMessage = () => {
 
     const message: messageContent = {
       messageHeaders: {
-        isForGroup: false,
+        isForGroup: typeID == "dm" ? false : true,
         date: Date.now().toString(),
         type: "switch",
-        sender: id?.toString(),
-        target: convID,
+        sender: id,
+        target: convID ? parseInt(convID, 10) : undefined,
       },
       messageBody: {},
     };

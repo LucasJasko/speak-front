@@ -11,7 +11,7 @@ import type { MessageAreaProps } from "~/interfaces/MessageAreaProps";
 import { useSettingsContext } from "~/context/SettingsContext";
 
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
-  const { convID } = useParams();
+  const { typeID, convID } = useParams();
 
   const { isMobile } = useMobileContext();
   const { id, accessToken } = useAuthContext();
@@ -21,7 +21,10 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
   useEffect(() => {
     if (convID != "0" && id != undefined) {
       const fetchFeed = async () => {
-        const { data } = await useAPI<messageContent[]>("/chat/messages", { json: { origin: id.toString(), target: convID }, token: accessToken });
+        const { data } = await useAPI<messageContent[]>("/chat/messages", {
+          json: { origin: id.toString(), target: convID, isForGroup: typeID === "dm" ? false : true },
+          token: accessToken,
+        });
         setMessageFeed(data);
       };
       fetchFeed();

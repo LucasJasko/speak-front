@@ -14,6 +14,7 @@ const Message: React.FC<messageContent> = ({ messageHeaders, messageBody }) => {
     // console.log(messageHeaders);
     // console.log(messageBody);
     // console.log(convPicture);
+    // console.log(convParams);
     // console.log(b64Picture);
     // console.log(messageHeaders.sender);
     // console.log(id.toString());

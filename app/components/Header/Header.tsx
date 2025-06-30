@@ -3,7 +3,7 @@ const Header = () => {
     <header className="header">
       <div className="search__area">
         <form className="search__container" action="">
-          <input className="main__search" type="search" name="search" id="search" placeholder="Rechercher un élément..." />
+          <input className="main__search" type="search" name="search" id="search" placeholder="Rechercher un élément... (à venir)" disabled />
         </form>
       </div>
       <div className="header__manage-window">

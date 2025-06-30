@@ -4,46 +4,23 @@ import Room from "~/components/Room/Room";
 import { useEffect, useState } from "react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useParams } from "react-router";
-import { useSettingsContext } from "~/context/SettingsContext";
-import useAPI from "~/hook/useAPI";
 import { useAuthContext } from "~/context/AuthContext";
 import { useSocketContext } from "~/context/SocketContext";
-import type { ProfileGroup } from "~/interfaces/ProfileGroup";
-import type { RoomProps } from "~/interfaces/RoomProps";
 import type { messageContent } from "~/interfaces/MessageContent";
+import { useConvContext } from "~/context/ConvContext";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "ALERT MNS - Groupes" }, { name: "description", content: "Ce sont vos groupes" }];
 }
 
 const Group = () => {
-  const { typeID, convID } = useParams();
+  const { convID } = useParams();
   const { isMobile } = useMobileContext();
-  const { accessToken, id } = useAuthContext();
-  const { profileGroups } = useSettingsContext();
+  const { id } = useAuthContext();
   const { socketRef } = useSocketContext();
+  const { convParams, groupParams, rooms } = useConvContext();
 
-  const [groupParams, setGroupParams] = useState<ProfileGroup | undefined>(undefined);
-  const [rooms, setRooms] = useState<RoomProps[]>([]);
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
-
-  useEffect(() => {
-    for (let i = 0; i < profileGroups.length; i++) {
-      if (profileGroups[i].id == Number(typeID)) {
-        setGroupParams(profileGroups[i]);
-      }
-    }
-  }, [typeID]);
-
-  useEffect(() => {
-    async function fetchRooms() {
-      if (groupParams != undefined) {
-        const res = await useAPI<RoomProps[]>("/rooms", { json: { group: groupParams.id }, token: accessToken });
-        setRooms(res.data);
-      }
-    }
-    fetchRooms();
-  }, [groupParams]);
 
   useEffect(() => {
     if (!socketRef?.current || socketRef.current.readyState !== WebSocket.OPEN) return;
@@ -53,8 +30,8 @@ const Group = () => {
         isForGroup: true,
         date: Date.now().toString(),
         type: "switch",
-        sender: id?.toString(),
-        target: convID,
+        sender: id,
+        target: convID ? parseInt(convID, 10) : undefined,
       },
       messageBody: {},
     };
@@ -71,6 +48,12 @@ const Group = () => {
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
   }, [isMobile]);
+
+  useEffect(() => {
+    if (groupParams != undefined) {
+      console.log(groupParams);
+    }
+  }, [groupParams]);
 
   if (groupParams != undefined) {
     return (
