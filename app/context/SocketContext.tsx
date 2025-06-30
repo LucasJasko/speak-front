@@ -31,7 +31,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       const res = await useAPI("/socket", { token: accessToken });
 
       if (res) {
-        let socket = new WebSocket("ws://localhost:8080");
+        let socket = new WebSocket("ws://localhost:8061");
         socketRef.current = socket;
 
         socket.onopen = (e: Event) => {
@@ -39,9 +39,9 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             messageHeaders: {
               date: Date.now().toString(),
               type: "join",
-              sender: id?.toString(),
+              sender: id,
               isForGroup: typeID == "dm" ? false : true,
-              target: convID?.toString(),
+              target: convID ? parseInt(convID, 10) : undefined,
             },
             messageBody: {
               text: "Connexion établie",
@@ -62,7 +62,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             messageHeaders: {
               date: Date.now().toString(),
               type: "close",
-              sender: id?.toString(),
+              sender: id,
             },
             messageBody: {
               text: "Connexion socket fermée",
@@ -78,7 +78,7 @@ export const SocketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             messageHeaders: {
               date: Date.now().toString(),
               type: "error",
-              sender: id?.toString(),
+              sender: id,
             },
             messageBody: {
               text: "Erreur WebSocket",

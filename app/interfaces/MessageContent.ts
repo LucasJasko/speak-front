@@ -3,8 +3,8 @@ export interface messageContent {
     isForGroup?: boolean;
     date?: string;
     type?: string;
-    sender?: string;
-    target?: string;
+    sender?: number;
+    target?: number;
   };
   messageBody: {
     text?: string;

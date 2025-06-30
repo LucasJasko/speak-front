@@ -20,11 +20,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const [accessToken, setAccessToken] = useState<undefined | string | null>(undefined);
   const [id, setId] = useState<number>(0);
-  const [keyPair, setKeyPair] = useState<CryptoKeyPair | null>(null);
+  // const [keyPair, setKeyPair] = useState<CryptoKeyPair | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [hasMounted, setHasMounted] = useState(false);
 
   const login = (newId: number, newToken: string) => {
     setId(newId);

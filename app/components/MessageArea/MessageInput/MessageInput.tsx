@@ -22,27 +22,15 @@ const MessageInput = () => {
       .padStart(2, "0")} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
     setPendingMessage({
-      messageInfos: {
-        isFromSocket: true,
-        isForGroup: typeID == "dm" ? false : typeID,
+      messageHeaders: {
+        isForGroup: typeID == "dm" ? false : true,
         date: formattedDate,
         type: "message",
-        sender: id?.toString(),
-        target: convID,
+        sender: id,
+        target: convID ? parseInt(convID, 10) : undefined,
       },
-      authorName: name,
-      authorSurname: surname,
-      authorLink: "",
-      authorImg: picture as string,
-      authorMessage: {
-        messageText: message,
-        messageCode: "",
-        messageEvent: "",
-        messageFile: {
-          fileLink: "",
-          filePicture: "",
-          fileName: "",
-        },
+      messageBody: {
+        text: message,
       },
     });
   };

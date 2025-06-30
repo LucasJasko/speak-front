@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import type { ConvContextContent } from "~/interfaces/ConvContextContent";
 import { useSettingsContext } from "./SettingsContext";
 import type { ProfileDm } from "~/interfaces/ProfileDm";
+import { useAuthContext } from "./AuthContext";
 
 const ConvContext = createContext<ConvContextContent | undefined>(undefined);
 
@@ -15,7 +16,7 @@ export const useConvContext = (): ConvContextContent => {
 };
 
 export const ConvProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { id } = useParams();
+  const { id } = useAuthContext();
   const { convID } = useParams();
   const { profileDms, fetchProfilePicture } = useSettingsContext();
 
@@ -46,8 +47,10 @@ export const ConvProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [convID, id, profileDms]);
 
   useEffect(() => {
-    console.log("conv picture: " + convPicture);
-    console.log("conv params: " + convParams);
+    // console.log("conv picture: " + convPicture);
+    // console.log(convParams);
+    // console.log("conv id: " + convID);
+    // console.log("id: " + id);
   }, [convPicture, convParams]);
 
   return <ConvContext value={{ convParams, convPicture, setConvParams, setConvPicture }}>{children}</ConvContext>;

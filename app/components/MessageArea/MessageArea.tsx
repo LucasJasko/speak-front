@@ -9,7 +9,6 @@ import useAPI from "~/hook/useAPI";
 import type { messageContent } from "~/interfaces/MessageContent";
 import type { MessageAreaProps } from "~/interfaces/MessageAreaProps";
 import { useSettingsContext } from "~/context/SettingsContext";
-import { useConvContext } from "~/context/ConvContext";
 
 const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSideMenuState }) => {
   const { convID } = useParams();
@@ -57,6 +56,7 @@ const MessageArea: React.FC<MessageAreaProps> = ({ setMobileSideMenu, MobileSide
     const feed = document.querySelector(".message-area__feed") as HTMLElement;
     const bottom = feed.scrollHeight;
     feed.scrollTo({ top: bottom });
+    console.log(messageFeed);
   }, [messageFeed]);
 
   const handleMobileSideMenu = (MobileSideMenuState: boolean) => {

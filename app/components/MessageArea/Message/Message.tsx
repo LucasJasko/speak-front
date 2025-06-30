@@ -1,16 +1,24 @@
 import { useEffect } from "react";
-import { useParams } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { useConvContext } from "~/context/ConvContext";
 import { useSettingsContext } from "~/context/SettingsContext";
 import type { messageContent } from "~/interfaces/MessageContent";
 
 const Message: React.FC<messageContent> = ({ messageHeaders, messageBody }) => {
-  const { convID } = useParams();
   const { b64Picture, setB64Picture } = useSettingsContext();
+  const { id } = useAuthContext();
+  const { name } = useSettingsContext();
   const { convPicture, convParams } = useConvContext();
 
-  // TODO voir pourquoi les var conv ne prennet pas de valeurs
+  useEffect(() => {
+    // console.log(messageHeaders);
+    // console.log(messageBody);
+    // console.log(convPicture);
+    // console.log(b64Picture);
+    // console.log(messageHeaders.sender);
+    // console.log(id.toString());
+  }, []);
+
   if (convParams && convPicture) {
     return (
       <li className="message">
@@ -21,12 +29,19 @@ const Message: React.FC<messageContent> = ({ messageHeaders, messageBody }) => {
               console.log("Profile");
             }}
           >
-            <img src={messageHeaders.sender == "Speak" ? "/assets/img/Speak_64x64.png" : `data:image/webp;base64,${b64Picture}`} alt="User profile picture" />
+            <img
+              src={
+                messageHeaders.type != "message"
+                  ? "/assets/img/Speak_64x64.png"
+                  : `data:image/webp;base64,${messageHeaders.sender === id ? b64Picture : convPicture}`
+              }
+              alt="User profile picture"
+            />
           </a>
         </div>
         <div className="message__container">
           <div className="message__header">
-            <h3 className="message__author-name">{convParams.name}</h3>
+            <h3 className="message__author-name">{messageHeaders.type != "message" ? "Speak" : messageHeaders.sender === id ? name : convParams.name}</h3>
             {messageHeaders.date && <span className="message__date">{messageHeaders.date}</span>}
           </div>
           <div className="message__content">
