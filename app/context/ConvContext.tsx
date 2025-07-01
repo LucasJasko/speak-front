@@ -7,6 +7,7 @@ import { useAuthContext } from "./AuthContext";
 import type { ProfileGroup } from "~/interfaces/ProfileGroup";
 import type { RoomProps } from "~/interfaces/RoomProps";
 import useAPI from "~/hook/useAPI";
+import type { profileSettings } from "~/interfaces/ProfileSettings";
 
 const ConvContext = createContext<ConvContextContent | undefined>(undefined);
 
@@ -27,6 +28,7 @@ export const ConvProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [convPicture, setConvPicture] = useState<string | null>(null);
 
   const [groupParams, setGroupParams] = useState<ProfileGroup | undefined>(undefined);
+  const [groupProfiles, setGroupProfiles] = useState<profileSettings[]>([]);
   const [rooms, setRooms] = useState<RoomProps[]>([]);
 
   async function getDmParams() {
@@ -58,39 +60,46 @@ export const ConvProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   async function fetchRooms() {
     if (groupParams != undefined) {
-      const res = await useAPI<RoomProps[]>("/rooms", { json: { group: groupParams.id }, token: accessToken });
-      setRooms(res.data);
+      const response = await useAPI<RoomProps[]>("/rooms", { json: { group: groupParams.id }, token: accessToken });
+      setRooms(response.data);
+
+      for (let i = 0; i < rooms.length; i++) {
+        if (rooms[i].id == convID) {
+          setConvParams(rooms[i]);
+        }
+      }
+
+      const profiles = await useAPI<profileSettings[]>("/group-profiles", { json: { group: groupParams.id }, token: accessToken });
+      setGroupProfiles(profiles.data);
     }
   }
 
   useEffect(() => {
-    fetchRooms();
-  }, [groupParams]);
+    console.log(profileGroups);
 
-  useEffect(() => {
     if (convID != "0" && id != undefined) {
+      console.log(profileGroups);
       if (typeID === "dm") {
         getDmParams();
       } else {
-        for (let i = 0; i < rooms.length; i++) {
-          if (rooms[i].id == convID) {
-            setConvParams(rooms[i]);
-          }
-        }
+        getGroupParams();
+        fetchRooms();
       }
     }
-  }, [convID, id]);
-
-  useEffect(() => {
-    getGroupParams();
-  }, [typeID]);
+  }, [typeID, convID]);
 
   useEffect(() => {
     // console.log("conv picture: " + convPicture);
-    console.log(convParams);
+    // console.log(convParams);
     // console.log("conv id: " + convID);
     // console.log("id: " + id);
   }, [convPicture, convParams]);
 
-  return <ConvContext value={{ convParams, groupParams, setGroupParams, rooms, setRooms, convPicture, setConvParams, setConvPicture }}>{children}</ConvContext>;
+  return (
+    <ConvContext
+      value={{ groupProfiles, setGroupProfiles, convParams, groupParams, setGroupParams, rooms, setRooms, convPicture, setConvParams, setConvPicture }}
+    >
+      {children}
+    </ConvContext>
+  );
 };

@@ -18,9 +18,14 @@ const Group = () => {
   const { isMobile } = useMobileContext();
   const { id } = useAuthContext();
   const { socketRef } = useSocketContext();
-  const { convParams, groupParams, rooms } = useConvContext();
+  const { groupParams, rooms } = useConvContext();
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
+
+  useEffect(() => {
+    console.log(groupParams);
+    console.log(rooms);
+  }, [groupParams, rooms]);
 
   useEffect(() => {
     if (!socketRef?.current || socketRef.current.readyState !== WebSocket.OPEN) return;
@@ -49,43 +54,35 @@ const Group = () => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
   }, [isMobile]);
 
-  useEffect(() => {
-    if (groupParams != undefined) {
-      console.log(groupParams);
-    }
-  }, [groupParams]);
-
-  if (groupParams != undefined) {
-    return (
-      <div className="group" style={isMobile ? { animation: `${displayMobileSideMenu ? "openMobileSideBar" : "closeMobileSideBar"} 0.2s ease forwards` } : {}}>
-        {displayMobileSideMenu && (
-          <div className="group-area">
-            <div className="group-area__title-container">
-              <div className="group__title-area">
-                <i className="fa-solid fa-house" />
-                {!isMobile && <p className="group__title-area__text">{groupParams.name}</p>}
-              </div>
-              {!isMobile && <i className="fa-solid fa-angle-down" />}
+  return (
+    <div className="group" style={isMobile ? { animation: `${displayMobileSideMenu ? "openMobileSideBar" : "closeMobileSideBar"} 0.2s ease forwards` } : {}}>
+      {displayMobileSideMenu && (
+        <div className="group-area">
+          <div className="group-area__title-container">
+            <div className="group__title-area">
+              <i className="fa-solid fa-house" />
+              {!isMobile && <p className="group__title-area__text">{groupParams && groupParams.name}</p>}
             </div>
-            <div className="group-area__list">
-              {rooms &&
-                rooms.map((room) => (
-                  <Room
-                    key={room.id}
-                    id={room.id}
-                    icon={<i className="fa-solid fa-location-dot" />}
-                    name={room.name}
-                    groupID={room.groupID}
-                    onClick={setDisplayMobileSideMenu}
-                  />
-                ))}
-            </div>
+            {!isMobile && <i className="fa-solid fa-angle-down" />}
           </div>
-        )}
-        <MessageArea MobileSideMenuState={displayMobileSideMenu} setMobileSideMenu={setDisplayMobileSideMenu} />
-      </div>
-    );
-  }
+          <div className="group-area__list">
+            {rooms &&
+              rooms.map((room) => (
+                <Room
+                  key={room.id}
+                  id={room.id}
+                  icon={<i className="fa-solid fa-location-dot" />}
+                  name={room.name}
+                  groupID={room.groupID}
+                  onClick={setDisplayMobileSideMenu}
+                />
+              ))}
+          </div>
+        </div>
+      )}
+      <MessageArea MobileSideMenuState={displayMobileSideMenu} setMobileSideMenu={setDisplayMobileSideMenu} />
+    </div>
+  );
 };
 
 export default Group;

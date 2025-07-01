@@ -22,7 +22,7 @@ export const useSettingsContext = (): SettingsContextType => {
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { accessToken, id, setIsLoading } = useAuthContext();
-  const { convID } = useParams();
+  const { typeID, convID } = useParams();
 
   const [userData, setUserData] = useState<any>(null);
   const [name, setName] = useState<string>("");
@@ -61,9 +61,13 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
       setUserData(data);
       setName(data.name);
       setSurname(data.surname);
-      setTheme(data.theme);
+      if (data.theme) {
+        setTheme(data.theme);
+      }
       setPicture(data.picture);
-      setMail(data.mail);
+      if (data.mail) {
+        setMail(data.mail);
+      }
     } catch (err: any) {
     } finally {
       setIsLoading(false);
@@ -73,7 +77,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const fetchProfileGroups = async () => {
     try {
       const { data } = await useAPI<any>("/profile-groups/" + id, { token: accessToken });
-      return setProfileGroups(data);
+      setProfileGroups(data);
     } catch (err: any) {
       return err;
     }
@@ -104,11 +108,20 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const fetchProfileDms = async (id: any) => {
     try {
       const { data } = await useAPI<any>(`/dm/${id}`, { token: accessToken });
-      return setProfileDms(data);
+      setProfileDms(data);
     } catch {
       return "";
     }
   };
+
+  useEffect(() => {
+    if (typeID == "dm") {
+      handleActiveLayout("direct-message");
+    } else {
+      handleActiveLayout(`group-${convID}`);
+    }
+    console.log(activeLayout);
+  }, [typeID, convID]);
 
   useEffect(() => {
     if (id != 0) {

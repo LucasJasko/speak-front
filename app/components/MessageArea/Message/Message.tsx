@@ -1,24 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
 import { useConvContext } from "~/context/ConvContext";
 import { useSettingsContext } from "~/context/SettingsContext";
 import type { messageContent } from "~/interfaces/MessageContent";
+import type { profileSettings } from "~/interfaces/ProfileSettings";
 
 const Message: React.FC<messageContent> = ({ messageHeaders, messageBody }) => {
+  const { typeID } = useParams();
   const { b64Picture, setB64Picture } = useSettingsContext();
   const { id } = useAuthContext();
   const { name } = useSettingsContext();
-  const { convPicture, convParams } = useConvContext();
+  const { convPicture, convParams, groupProfiles } = useConvContext();
+
+  const [authorParams, setAuthorParams] = useState<profileSettings | undefined>(undefined);
 
   useEffect(() => {
-    // console.log(messageHeaders);
-    // console.log(messageBody);
-    // console.log(convPicture);
-    // console.log(convParams);
-    // console.log(b64Picture);
-    // console.log(messageHeaders.sender);
-    // console.log(id.toString());
-  }, []);
+    for (let i = 0; i < groupProfiles.length; i++) {
+      if (groupProfiles[i].id == messageHeaders.sender) {
+        setAuthorParams(groupProfiles[i]);
+      }
+    }
+  }, [groupProfiles]);
 
   if (convParams && convPicture) {
     return (
@@ -34,7 +37,7 @@ const Message: React.FC<messageContent> = ({ messageHeaders, messageBody }) => {
               src={
                 messageHeaders.type != "message"
                   ? "/assets/img/Speak_64x64.png"
-                  : `data:image/webp;base64,${messageHeaders.sender === id ? b64Picture : convPicture}`
+                  : `data:image/webp;base64,${messageHeaders.sender === id ? b64Picture : authorParams != undefined ? authorParams.picture : convPicture}`
               }
               alt="User profile picture"
             />

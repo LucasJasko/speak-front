@@ -7,7 +7,7 @@ import { useSettingsContext } from "~/context/SettingsContext";
 const Nav = () => {
   const navigate = useNavigate();
 
-  const { convID } = useParams();
+  const { typeID, convID } = useParams();
   const { picture, b64Picture, profileGroups, activeLayout, handleActiveLayout, setProfileGroups, fetchGroupPicture, setMessageFeed, setLastConvId } =
     useSettingsContext();
   const { isMobile } = useMobileContext();
