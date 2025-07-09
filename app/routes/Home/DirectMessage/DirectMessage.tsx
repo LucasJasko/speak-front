@@ -2,7 +2,7 @@ import UserItem from "~/components/UserItem/UserItem";
 import type { Route } from "../+types/Home";
 
 import MessageArea from "~/components/MessageArea/MessageArea";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useMobileContext } from "~/context/MobileContext";
 import { useParams } from "react-router";
 import { useAuthContext } from "~/context/AuthContext";
@@ -27,6 +27,8 @@ const DirectMessage = () => {
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
   const [result, setResult] = useState<any>([]);
 
+  const timeoutRef = useRef<any>(null);
+
   useEffect(() => {
     !isMobile ? setDisplayMobileSideMenu(true) : "";
     if (displayMobileSideMenu) {
@@ -45,17 +47,21 @@ const DirectMessage = () => {
   async function handleSearch(e: any) {
     const query = e.target.value;
 
-    try {
-      // TODO temporiser l'envoie de la requête avec stockage de la query avant envoie pour limiter les requêtes
-      const { data } = await useAPI<Array<string>>("/search/profiles", { json: { query }, token: accessToken });
-      if (query == "") {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    timeoutRef.current = setTimeout(async () => {
+      try {
+        // TODO temporiser l'envoie de la requête avec stockage de la query avant envoie pour limiter les requêtes
+        const { data } = await useAPI<Array<string>>("/search/profiles", { json: { query }, token: accessToken });
+        if (query == "") {
+          setResult([]);
+        } else {
+          data.length > 0 ? setResult(data) : setResult([]);
+        }
+      } catch (e: any) {
         setResult([]);
-      } else {
-        data.length > 0 ? setResult(data) : setResult([]);
       }
-    } catch (e: any) {
-      setResult([]);
-    }
+    }, 500);
   }
 
   const initConversation = async (target: any) => {
@@ -88,6 +94,12 @@ const DirectMessage = () => {
       setDisplayMobileSideMenu(false);
     }
   }, [convID]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isMobile) {
