@@ -1,12 +1,47 @@
+import { useRef, useState } from "react";
+import { useSettingsContext } from "~/context/SettingsContext";
+
 const Customisation = () => {
+  const { mail, setMail, password, setPassword, surname, setSurname, picture, setPicture, theme, setTheme, name, setName, status, role } = useSettingsContext();
+  const [pictureContent, setPictureContent] = useState<string | ArrayBuffer | null>(null);
+  const inputFile = useRef<HTMLInputElement>(null);
+
+  const toBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
   return (
     <ul className="menu__list">
       <li className="menu__item">
         <h3 className="menu__title">Photo de profil</h3>
-        <div>
-          <p className="menu__text">Modifiez votre photo de profil:</p>
-          <input className="menu__input input-file" type="file" name="" id="" />
-        </div>
+        <form>
+          <label htmlFor="profile_picture" className="menu__input-file">
+            Photo de profil {pictureContent == null && "(optionnel)"}
+            {pictureContent == null && <i className="fa-solid fa-file-arrow-up" />}
+            {typeof pictureContent == "string" && <img className="signin__preview-img" src={pictureContent} />}
+          </label>
+          <input
+            ref={inputFile}
+            type="file"
+            name="profile_picture"
+            id="profile_picture"
+            hidden
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (file && file.size < 1000000) {
+                // 1 000 000 o = ~ 1 Mo
+                const b64 = await toBase64(file);
+                setPictureContent(b64);
+                setPicture(file.name);
+              }
+            }}
+          />
+          {inputFile.current?.value != "" && <input type="submit" value="modifier" />}
+        </form>
       </li>
       <li className="menu__item">
         <h3 className="menu__title">Statut d'activité</h3>

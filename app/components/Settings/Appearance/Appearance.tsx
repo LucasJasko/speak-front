@@ -8,11 +8,10 @@ const Appearance = () => {
 
   async function modifyTheme(theme: string) {
     setTheme(theme);
-    const res = await useAPI("/theme", {
+    await useAPI("/theme", {
       json: { id, theme },
       token: accessToken,
     });
-    console.log(res);
   }
 
   return (
