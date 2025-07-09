@@ -1,11 +1,11 @@
 .home {
-  @apply h-full w-screen flex;
+  @apply h-[100vh] w-screen flex;
 }
 
 .main {
   @apply bg-(--color2) h-full rounded-tl-lg;
   box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.25);
-  width: calc(100% - 80px);
+  width: calc(100vw - 80px);
 }
 
 .animation-wrapper {

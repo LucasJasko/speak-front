@@ -20,6 +20,8 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    console.log(email);
+
     if (email === "") {
       return setError("Veuillez renseigner votre email");
     }
@@ -46,6 +48,7 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
       return setError("email ou mot de passe incorrect");
     }
   };
+
   return (
     <form className="login__form" onSubmit={handleSubmit}>
       <div className="login__header-container">

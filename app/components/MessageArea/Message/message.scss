@@ -1,31 +1,34 @@
 .message {
   @apply flex items-start my-3 w-full;
-}
+  max-width: calc(100vw - 127px);
 
-.message__author {
-  @apply size-12 rounded-full m-2;
-}
+  .message__author {
+    @apply size-12 rounded-full m-2;
+    img {
+      @apply rounded-full;
+    }
+  }
 
-.message__author img {
-  @apply rounded-full;
-}
+  .message__container {
+    width: calc(100% - 64px);
 
-.message__container {
-  width: calc(100% - 48px);
-}
+    .message__header {
+      @apply flex items-end;
+      .message__author-name {
+        @apply font-bold text-base h-5;
+      }
+      .message__date {
+        @apply text-(--grey) text-xs ml-2;
+      }
+    }
 
-.message__content {
-  width: 100%;
-}
+    .message__content {
+      width: 100%;
 
-.message__header {
-  @apply flex items-end;
-}
-
-.message__author-name {
-  @apply font-bold text-base h-5;
-}
-
-.message__date {
-  @apply text-(--grey) text-xs ml-2;
+      .message__text {
+        max-width: 100%;
+        word-break: break-word;
+      }
+    }
+  }
 }

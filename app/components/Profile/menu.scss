@@ -105,3 +105,22 @@ select {
 .notif-mute-checkbox {
   @apply m-0 ml-2;
 }
+
+.menu__input-file {
+  @apply border rounded border-(--grey) bg-(--color5) p-3 my-5 mt-5 mb-0 w-100 mx-0 cursor-pointer relative flex justify-between;
+
+  transition: 0.2s ease;
+
+  &:hover {
+    @apply bg-(--grey);
+  }
+
+  & option {
+    @apply bg-(--color2);
+  }
+
+  & i {
+    @apply absolute top-[50%] right-[15px] text-2xl;
+    transform: translateY(-50%);
+  }
+}

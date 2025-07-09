@@ -3,6 +3,7 @@
   grid-template-columns: 230px 1fr;
   grid-template-areas: "a b";
   height: calc(100vh - 48px);
+  width: 100%;
 }
 
 .contact-area {
@@ -54,6 +55,7 @@
 @media screen and (max-width: 700px) {
   .direct-message {
     grid-template-columns: 60px 1fr;
+    width: 100%;
   }
   .contact-area {
     @apply w-[60px];
