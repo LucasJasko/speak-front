@@ -4,6 +4,7 @@ import type { ProfileGroup } from "./ProfileGroup";
 import type { pictureProfileSettings } from "./PictureProfileSettings";
 import type { pictureGroupSettings } from "./PictureGroupSettings";
 import type { messageContent } from "./MessageContent";
+import type { StatusType } from "./StatusType";
 
 export interface SettingsContextType {
   name: string;
@@ -40,5 +41,6 @@ export interface SettingsContextType {
   fetchSettings: () => Promise<void>;
   handleActiveLayout: (currentActive: string) => void;
   fetchProfilePicture: ({ id, name, surname, picture }: pictureProfileSettings) => Promise<string>;
+  fetchStatus: () => Promise<StatusType[]>;
   fetchGroupPicture: ({ id, name, picture }: pictureGroupSettings) => Promise<string | undefined>;
 }

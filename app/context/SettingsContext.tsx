@@ -9,6 +9,7 @@ import type { ProfileDm } from "~/interfaces/ProfileDm";
 import type { SettingsContextType } from "~/interfaces/SettingsContextType";
 import type { messageContent } from "~/interfaces/MessageContent";
 import { useParams } from "react-router";
+import type { StatusType } from "~/interfaces/StatusType";
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
@@ -83,9 +84,9 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   };
 
-  const fetchProfilePicture = async ({ id, name, surname, picture }: pictureProfileSettings): Promise<string> => {
+  const fetchProfilePicture = async ({ id, picture }: pictureProfileSettings): Promise<string> => {
     try {
-      const { data } = await useAPI<string>(`/image/profile/${id}-speak-profile-${surname.toLowerCase()}-${name.toLowerCase()}/profile_picture/${picture}`, {
+      const { data } = await useAPI<string>(`/image/profile/${id}-speak-profile/profile_picture/${picture}`, {
         token: accessToken,
       });
       return data;
@@ -94,9 +95,20 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     }
   };
 
+  const fetchStatus = async (): Promise<StatusType[]> => {
+    try {
+      const { data } = await useAPI<StatusType[]>("/status", {
+        token: accessToken,
+      });
+      return data;
+    } catch {
+      return [];
+    }
+  };
+
   const fetchGroupPicture = async ({ id, name, picture }: pictureGroupSettings): Promise<string> => {
     try {
-      const { data } = await useAPI<string>(`/image/group/${id}-speak-group-${name.toLowerCase()}/profile_picture/${picture}`, {
+      const { data } = await useAPI<string>(`/image/group/${id}-speak-group/profile_picture/${picture}`, {
         token: accessToken,
       });
       return data;
@@ -203,6 +215,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         setLanguage,
         setProfileGroups,
         fetchSettings,
+        fetchStatus,
         fetchProfilePicture,
         fetchGroupPicture,
       }}

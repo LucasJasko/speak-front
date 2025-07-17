@@ -1,9 +1,15 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAuthContext } from "~/context/AuthContext";
 import { useSettingsContext } from "~/context/SettingsContext";
+import useAPI from "~/hook/useAPI";
+import type { StatusType } from "~/interfaces/StatusType";
 
 const Customisation = () => {
-  const { mail, setMail, password, setPassword, surname, setSurname, picture, setPicture, theme, setTheme, name, setName, status, role } = useSettingsContext();
+  const { id, accessToken } = useAuthContext();
+  const { mail, setMail, password, setPassword, surname, setSurname, picture, setPicture, theme, setTheme, name, setName, status, role, fetchStatus } =
+    useSettingsContext();
   const [pictureContent, setPictureContent] = useState<string | ArrayBuffer | null>(null);
+  const [statusList, setStatusList] = useState<StatusType[]>([]);
   const inputFile = useRef<HTMLInputElement>(null);
 
   const toBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
@@ -13,6 +19,24 @@ const Customisation = () => {
       reader.onload = () => resolve(reader.result);
       reader.onerror = reject;
     });
+
+  const fetchStatusList = async () => {
+    const list = await fetchStatus();
+    console.log(list);
+
+    setStatusList(list);
+  };
+
+  useEffect(() => {
+    fetchStatusList();
+  }, []);
+
+  async function saveStatus(e: any) {
+    const { data } = await useAPI("/edit-status", { json: { statusId: e.target.value, id }, token: accessToken });
+    console.log(data);
+
+    console.log(e.target.value);
+  }
 
   return (
     <ul className="menu__list">
@@ -46,11 +70,12 @@ const Customisation = () => {
       <li className="menu__item">
         <h3 className="menu__title">Statut d'activité</h3>
         <p className="menu__text">Choisissez votre statut actuel:</p>
-        <select className="menu__input" name="" id="">
-          <option value="">En ligne</option>
-          <option value="">Absent</option>
-          <option value="">Occupé</option>
-          <option value="">Invisible</option>
+        <select className="menu__input" name="status" id="status" onChange={saveStatus}>
+          {statusList.map((status) => (
+            <option key={status.status_id} value={status.status_id}>
+              {status.status_name}
+            </option>
+          ))}
         </select>
       </li>
       <li className="menu__item">
