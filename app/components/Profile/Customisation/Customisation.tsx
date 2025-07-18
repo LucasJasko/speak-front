@@ -6,8 +6,24 @@ import type { StatusType } from "~/interfaces/StatusType";
 
 const Customisation = () => {
   const { id, accessToken } = useAuthContext();
-  const { mail, setMail, password, setPassword, surname, setSurname, picture, setPicture, theme, setTheme, name, setName, status, role, fetchStatus } =
-    useSettingsContext();
+  const {
+    mail,
+    setMail,
+    password,
+    setPassword,
+    surname,
+    setSurname,
+    picture,
+    setPicture,
+    theme,
+    setTheme,
+    name,
+    setName,
+    status,
+    setStatus,
+    role,
+    fetchStatus,
+  } = useSettingsContext();
   const [pictureContent, setPictureContent] = useState<string | ArrayBuffer | null>(null);
   const [statusList, setStatusList] = useState<StatusType[]>([]);
   const inputFile = useRef<HTMLInputElement>(null);
@@ -33,9 +49,7 @@ const Customisation = () => {
 
   async function saveStatus(e: any) {
     const { data } = await useAPI("/edit-status", { json: { statusId: e.target.value, id }, token: accessToken });
-    console.log(data);
-
-    console.log(e.target.value);
+    setStatus(e.target.value);
   }
 
   return (
