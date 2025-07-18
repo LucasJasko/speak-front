@@ -82,20 +82,32 @@ const Customisation = () => {
         </form>
       </li>
       <li className="menu__item">
-        <h3 className="menu__title">Statut d'activité</h3>
-        <p className="menu__text">Choisissez votre statut actuel:</p>
-        <select className="menu__input" name="status" id="status" onChange={saveStatus}>
-          {statusList.map((status) => (
-            <option key={status.status_id} value={status.status_id}>
-              {status.status_name}
-            </option>
-          ))}
-        </select>
+        <div className="menu__body">
+          <div className="menu__body__left">
+            <h3 className="menu__title">Statut d'activité</h3>
+            <p className="menu__text">Choisissez votre statut actuel:</p>
+          </div>
+          <div className="menu__body__right">
+            <select className="menu__input" name="status" id="status" onChange={saveStatus}>
+              {statusList.map((item) => (
+                <option key={item.status_id} value={item.status_id}>
+                  {item.status_name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </li>
       <li className="menu__item">
-        <h3 className="menu__title">Nom d'utilisateur</h3>
-        <p className="menu__text">Votre nom d'utilisateur (pseudo) qui sera visible par les autres utilisateurs:</p>
-        <input className="menu__input" type="text" name="" id="" placeholder="Votre nom d'utilisateur" />
+        <div className="menu__body">
+          <div className="menu__body__left">
+            <h3 className="menu__title">Nom d'utilisateur</h3>
+            <p className="menu__text">Votre pseudo qui sera visible par les autres utilisateurs:</p>
+          </div>
+          <div className="menu__body__right">
+            <input className="menu__input" type="text" name="" id="" placeholder="Votre nom d'utilisateur" />
+          </div>
+        </div>
       </li>
       <li className="menu__item">
         <h3 className="menu__title">Biographie</h3>
