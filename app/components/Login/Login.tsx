@@ -20,8 +20,6 @@ const Login = ({ toggleSlide }: { toggleSlide: (pannel: string) => void }) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    console.log(email);
-
     if (email === "") {
       return setError("Veuillez renseigner votre email");
     }

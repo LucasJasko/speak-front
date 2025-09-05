@@ -14,7 +14,7 @@
 }
 
 .profile__list-container {
-  @apply bg-(--color2) rounded-l-lg p-2.5 w-62.5;
+  @apply bg-(--color2) rounded-l-lg p-2.5 w-62.5 z-1;
 }
 
 .profile__list {

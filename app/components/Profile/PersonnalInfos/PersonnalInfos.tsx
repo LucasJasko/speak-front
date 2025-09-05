@@ -58,7 +58,7 @@ const PersonnalInfos = () => {
         <p className="menu__text">C'est l'email dont vous vous servez pour vous connecter. Pour le modifier, merci de confirmer votre mot de passe: </p>
         <div className="menu__input-container">
           <input
-            className="menu__input menu__input-half"
+            className="menu__input menu__input-container"
             type={isMailVisible ? "text" : "password"}
             name="new-mail"
             value={mail}
@@ -72,7 +72,7 @@ const PersonnalInfos = () => {
 
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
-            className="menu__input menu__input-half"
+            className="menu__input menu__input-container"
             type="text"
             name=""
             id="useremail"
