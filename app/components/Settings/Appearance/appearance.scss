@@ -1,5 +1,6 @@
 .signin__theme-card__container {
   @apply flex flex-wrap justify-between;
+
   .signin__theme-card {
     @apply h-15 mx-1 my-2 rounded cursor-pointer text-white overflow-hidden;
     width: calc(33% - 16px);

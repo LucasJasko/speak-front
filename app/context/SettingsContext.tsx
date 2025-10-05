@@ -77,10 +77,25 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const fetchProfileGroups = async () => {
     try {
-      const { data } = await useAPI<any>("/profile-groups/" + id, { token: accessToken });
-      setProfileGroups(data);
+      const { data: groups } = await useAPI<ProfileGroup[]>("/profile-groups/" + id, { token: accessToken });
+
+      const groupsWithPictures = await Promise.all(
+        groups.map(async (group) => {
+          const b64groupPicture = await fetchGroupPicture({
+            id: group.id,
+            name: group.picture.replace(".webp", "").replace("speak-group-", ""),
+            picture: group.picture,
+          });
+          return {
+            ...group,
+            picture: b64groupPicture,
+          };
+        })
+      );
+
+      setProfileGroups(groupsWithPictures);
     } catch (err: any) {
-      return err;
+      console.error("Failed to fetch profile groups:", err);
     }
   };
 
@@ -130,9 +145,8 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     if (typeID == "dm") {
       handleActiveLayout("direct-message");
     } else {
-      handleActiveLayout(`group-${convID}`);
+      handleActiveLayout(`group-${typeID}`);
     }
-    console.log(activeLayout);
   }, [typeID, convID]);
 
   useEffect(() => {
@@ -172,7 +186,6 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
           name,
           picture,
         });
-
         setB64Picture(profilePicture);
       };
       applyPicture();

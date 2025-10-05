@@ -75,25 +75,16 @@ export const ConvProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }
 
   useEffect(() => {
-    console.log(profileGroups);
-
-    if (convID != "0" && id != undefined) {
-      console.log(profileGroups);
+    if (id != undefined) {
       if (typeID === "dm") {
         getDmParams();
       } else {
         getGroupParams();
+        console.log(groupParams);
         fetchRooms();
       }
     }
   }, [typeID, convID]);
-
-  useEffect(() => {
-    // console.log("conv picture: " + convPicture);
-    // console.log(convParams);
-    // console.log("conv id: " + convID);
-    // console.log("id: " + id);
-  }, [convPicture, convParams]);
 
   return (
     <ConvContext

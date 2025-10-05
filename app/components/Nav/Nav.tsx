@@ -16,30 +16,8 @@ const Nav = () => {
   const [isGroupPictureApplied, setIsGroupPictureApplied] = useState(false);
 
   useEffect(() => {
-    if (!isGroupPictureApplied && profileGroups.length > 0) {
-      const fetchPictures = async () => {
-        const updatedGroups = await Promise.all(
-          profileGroups.map(async (group) => {
-            const b64groupPicture = await fetchGroupPicture({
-              id: group.id,
-              name: group.picture.replace(".webp", "").replace("speak-group-", ""),
-              picture: group.picture,
-            });
-            if (b64groupPicture) {
-              return {
-                ...group,
-                picture: b64groupPicture,
-              };
-            } else {
-              return group;
-            }
-          })
-        );
-        setProfileGroups(updatedGroups);
-        setIsGroupPictureApplied(true);
-      };
-
-      fetchPictures();
+    if (profileGroups.length != 0) {
+      console.log(profileGroups);
     }
   }, [profileGroups]);
 
@@ -85,11 +63,7 @@ const Nav = () => {
                 setMessageFeed([]);
               }}
             >
-              {group.picture ? (
-                <img src={group.picture.endsWith(".webp") ? "./assets/img/Speak_64x64.png" : `data:image/jpeg;base64,${group.picture}`} />
-              ) : (
-                <i className="fa-solid fa-user-group" />
-              )}
+              {group.picture ? <img src={group.picture ? `data:image/jpeg;base64,${group.picture}` : ""} /> : <i className="fa-solid fa-user-group" />}
             </motion.button>
           ))}
 

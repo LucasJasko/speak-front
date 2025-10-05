@@ -14,18 +14,13 @@ export function meta({}: Route.MetaArgs) {
 }
 
 const Group = () => {
-  const { convID } = useParams();
+  const { typeID, convID } = useParams();
   const { isMobile } = useMobileContext();
   const { id } = useAuthContext();
   const { socketRef } = useSocketContext();
   const { groupParams, rooms } = useConvContext();
 
   const [displayMobileSideMenu, setDisplayMobileSideMenu] = useState(true);
-
-  useEffect(() => {
-    console.log(groupParams);
-    console.log(rooms);
-  }, [groupParams, rooms]);
 
   useEffect(() => {
     if (!socketRef?.current || socketRef.current.readyState !== WebSocket.OPEN) return;
